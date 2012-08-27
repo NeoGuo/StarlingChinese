@@ -1,4 +1,4 @@
-Simplified BSD License
+Simplified BSD License(采用BSD开源协议)
 ======================
 
 Copyright 2012 Gamua. All rights reserved.
