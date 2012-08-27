@@ -1,4 +1,4 @@
-Starling: Changelog
+Starling: 更新日志
 ===================
 
 version 1.2 - 2012-08-15
