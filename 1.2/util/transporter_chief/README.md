@@ -1,7 +1,7 @@
-Transporter Chief
+﻿部署小工具
 =================
 
-*Notice: This tool works on OS X only.*
+*注意: 这个工具只能工作在 OS X上.*
 
 The "Transporter Chief" can deploy iOS apps directly to the iPhone or iPad via the command line. 
 Find out all about the chief in [this article][1] on the Gamua blog.
