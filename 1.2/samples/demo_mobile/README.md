@@ -1,12 +1,12 @@
-How to build this Sample
+如何编译这个例子
 ========================
 
-This folder contains additional source code and assets that allow you to deploy the standard demo project on the iPhone.
+这个目录包含了一些源码和素材，来允许您将上一个标准项目部署到iPhone上面。
 
-In Flash Builder, create a new "ActionScript Mobile" project, and add the following source paths:
+在Flash Builder中，创建一个"ActionScript移动项目"，然后添加下面的源码路径：
 
-* the "src" directory of the standard demo project and
-* the "media" directory of the iOS demo project.
+* 上一个项目的src目录
+* iOS实例项目中的media目录。
 
 Then exchange the source files that were created by the Flash Builder project wizard with the source files in the "src" folder of the iOS demo project. Use "Startup_iOS" as the startup class.
 
