@@ -13,14 +13,9 @@ package starling.animation
     import starling.events.Event;
     import starling.events.EventDispatcher;
 
-    /** A DelayedCall allows you to execute a method after a certain time has passed. Since it 
-     *  implements the IAnimatable interface, it can be added to a juggler. In most cases, you 
-     *  do not have to use this class directly; the juggler class contains a method to delay
-     *  calls directly. 
-     * 
-     *  <p>DelayedCall dispatches an Event of type 'Event.REMOVE_FROM_JUGGLER' when it is finished,
-     *  so that the juggler automatically removes it when its no longer needed.</p>
-     * 
+    /** DelayedCall类允许您在一定的时间间隔之后去执行某个方法(和setTimeout有些类似)。由于这个类实现了IAnimatable接口，您可以把一个DelayedCall实例添加到juggler中。
+	 *  在大部分情况下，您不需要直接使用这个类；Juggler类包含了一个方法来直接实现延迟调用这个功能。
+	 *  <p>当方法调用完毕之后，DelayedCall对象会派发一个类型是“Event.REMOVE_FROM_JUGGLER”的事件，然后如果不再需要它了，Juggler会自动将它删除。</p>
      *  @see Juggler
      */ 
     public class DelayedCall extends EventDispatcher implements IAnimatable
@@ -31,7 +26,11 @@ package starling.animation
         private var mArgs:Array;
         private var mRepeatCount:int = 1;
         
-        /** Creates a delayed call. */
+        /** 创建一个延迟调用对象(DelayedCall的实例)
+		 * @param call 需要延迟调用的方法
+		 * @param delay 延迟时间(秒为单位)
+		 * @param args 传递给call这个方法的参数
+		 **/
         public function DelayedCall(call:Function, delay:Number, args:Array=null)
         {
             mCall = call;
