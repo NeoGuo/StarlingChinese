@@ -10,12 +10,10 @@
 
 package starling.events
 {
-    /** An EnterFrameEvent is triggered once per frame and is dispatched to all objects in the
-     *  display tree.
-     *
-     *  It contains information about the time that has passed since the last frame. That way, you 
-     *  can easily make animations that are independent of the frame rate, taking the passed time
-     *  into account.
+    /** 
+     *  处于显示列表树中的所有显示对象，在每一帧都会派发一个EnterFrameEvent事件。 
+     *  
+     *  它包含了从上一帧到现在所经过的时间的信息。这样，您就可以轻松的通过帧频创建动画，传递经过的时间给它。
      */ 
     public class EnterFrameEvent extends Event
     {
