@@ -17,16 +17,16 @@ package starling.events
      */ 
     public class EnterFrameEvent extends Event
     {
-        /** Event type for a display object that is entering a new frame. */
+        /** 一个显示对象进入了新的一帧。 */
         public static const ENTER_FRAME:String = "enterFrame";
         
-        /** Creates an enter frame event with the passed time. */
+        /** 创建一个EnterFrameEvent实例 */
         public function EnterFrameEvent(type:String, passedTime:Number, bubbles:Boolean=false)
         {
             super(type, bubbles, passedTime);
         }
         
-        /** The time that has passed since the last frame (in seconds). */
+        /** 从上一帧到现在所经过的时间。（以秒为单位） */
         public function get passedTime():Number { return data as Number; }
     }
 }
