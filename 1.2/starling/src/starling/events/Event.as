@@ -17,21 +17,18 @@ package starling.events
     
     use namespace starling_internal;
 
-    /** Event objects are passed as parameters to event listeners when an event occurs.  
-     *  This is Starling's version of the Flash Event class. 
+    /** 当事件派发时，事件对象会作为参数传递给事件侦听器。这是Flash Event类的Starling版本。
      *
-     *  <p>EventDispatchers create instances of this class and send them to registered listeners. 
-     *  An event object contains information that characterizes an event, most importantly the 
-     *  event type and if the event bubbles. The target of an event is the object that 
-     *  dispatched it.</p>
+     *  <p>EventDispatcher对象会创建这个类的实例并将它派发到一个已注册的事件侦听器。 
+     *  一个事件对象包含了作为这个事件特征的信息，其中非常重要的是事件类型，如果事件冒泡的话。
+     *  事件的目标(target)是派发这个事件的对象。</p>
      * 
-     *  <p>For some event types, this information is sufficient; other events may need additional 
-     *  information to be carried to the listener. In that case, you can subclass "Event" and add 
-     *  properties with all the information you require. The "EnterFrameEvent" is an example for 
-     *  this practice; it adds a property about the time that has passed since the last frame.</p>
+     *  <p>对于某些类型的事件，这些信息就足够了，其他事件可能需要更多的信息来传递给侦听器。 
+     *  在这种情况下，您可以创建“事件”的子类，并添加您所需要的所有信息作为事件的属性。 
+     *  “EnterFrameEvent”是这种做法的一个例子，它增加了一个属性用来表示已经执行的时间值。</p>
      * 
-     *  <p>Furthermore, the event class contains methods that can stop the event from being 
-     *  processed by other listeners - either completely or at the next bubble stage.</p>
+     *  <p>此外，事件类包含的方法可以中断事件的派发，阻止事件被其它的侦听器接受。（ 包括完全阻止
+     *  或只是阻止进入下一个冒泡阶段）</p>
      * 
      *  @see EventDispatcher
      */
