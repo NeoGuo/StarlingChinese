@@ -69,7 +69,7 @@ package starling.events
         private var mStopsImmediatePropagation:Boolean;
         private var mData:Object;
         
-        /** Creates an event object that can be passed to listeners. */
+        /** 创建一个作为参数传递给事件侦听器的 Event 对象。 */
         public function Event(type:String, bubbles:Boolean=false, data:Object=null)
         {
             mType = type;
@@ -77,35 +77,35 @@ package starling.events
             mData = data;
         }
         
-        /** Prevents listeners at the next bubble stage from receiving the event. */
+        /** 阻止事件进入下一个冒泡阶段，从而阻止它被下一个对象接收。 */
         public function stopPropagation():void
         {
             mStopsPropagation = true;            
         }
         
-        /** Prevents any other listeners from receiving the event. */
+        /** 阻止其他任何侦听器接收事件。 */
         public function stopImmediatePropagation():void
         {
             mStopsPropagation = mStopsImmediatePropagation = true;
         }
         
-        /** Returns a description of the event, containing type and bubble information. */
+        /** 返回事件的描述，包括类型及是否冒泡。 */
         public function toString():String
         {
             return formatString("[{0} type=\"{1}\" bubbles={2}]", 
                 getQualifiedClassName(this).split("::").pop(), mType, mBubbles);
         }
         
-        /** Indicates if event will bubble. */
+        /** 表示事件是否冒泡 */
         public function get bubbles():Boolean { return mBubbles; }
         
-        /** The object that dispatched the event. */
+        /** 派发这个事件的对象。 */
         public function get target():EventDispatcher { return mTarget; }
         
-        /** The object the event is currently bubbling at. */
+        /** 当前事件已经冒泡到的对象。 */
         public function get currentTarget():EventDispatcher { return mCurrentTarget; }
         
-        /** A string that identifies the event. */
+        /** 这个事件的字符串类型。 */
         public function get type():String { return mType; }
         
         /** Arbitrary data that is attached to the event. */
