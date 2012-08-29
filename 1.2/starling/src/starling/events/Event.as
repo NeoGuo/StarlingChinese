@@ -108,7 +108,8 @@ package starling.events
         /** 这个事件的字符串类型。 */
         public function get type():String { return mType; }
         
-        /** Arbitrary data that is attached to the event. */
+        /** 被添加到事件上的任意数据对象 
+         *  @version 1.2 */
         public function get data():Object { return mData; }
         
         // properties for internal use
