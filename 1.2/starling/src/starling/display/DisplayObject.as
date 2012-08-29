@@ -27,24 +27,23 @@ package starling.display
     import starling.filters.FragmentFilter;
     import starling.utils.MatrixUtil;
     
-    /** Dispatched when an object is added to a parent. */
+    /** 将显示对象添加到显示列表中时分派。 */
     [Event(name="added", type="starling.events.Event")]
-    /** Dispatched when an object is connected to the stage (directly or indirectly). */
+    /** 在将显示对象直接添加到舞台显示列表或将包含显示对象的子树添加至舞台显示列表中时分派。 */
     [Event(name="addedToStage", type="starling.events.Event")]
-    /** Dispatched when an object is removed from its parent. */
+    /** 将要从显示列表中删除显示对象时分派。 */
     [Event(name="removed", type="starling.events.Event")]
-    /** Dispatched when an object is removed from the stage and won't be rendered any longer. */ 
+    /** 在从显示列表中直接删除显示对象或删除包含显示对象的子树时分派, 删除后不再渲染此显示对象。 */ 
     [Event(name="removedFromStage", type="starling.events.Event")]
-    /** Dispatched once every frame on every object that is connected to the stage. */ 
+    /** 在每一个新帧分派给舞台显示列表中的所有显示对象。 */ 
     [Event(name="enterFrame", type="starling.events.EnterFrameEvent")]
-    /** Dispatched when an object is touched. Bubbles. */
+    /** 当显示对象被触摸时分派。 */
     [Event(name="touch", type="starling.events.TouchEvent")]
     
     /**
-     *  The DisplayObject class is the base class for all objects that are rendered on the 
-     *  screen.
+     *  DisplayObject 类是可放在显示列表中的所有对象的基类。
      *  
-     *  <p><strong>The Display Tree</strong></p> 
+     *  <p><strong>显示树</strong></p> 
      *  
      *  <p>In Starling, all displayable objects are organized in a display tree. Only objects that
      *  are part of the display tree will be displayed (rendered).</p> 
@@ -99,7 +98,8 @@ package starling.display
      *  <a href="http://wiki.starling-framework.org/manual/custom_display_objects">article</a>
      *  in the Starling Wiki.</p> 
      * 
-     *  <p>When you override the render method, it is important that you call the method
+     *  <p>当你重载render方法时，请注意调用渲染支持对象(一个RenderSupport对象)的'finishQuadBatch'方法。
+	 * When you override the render method, it is important that you call the method
      *  'finishQuadBatch' of the support object. This forces Starling to render all quads that 
      *  were accumulated before by different render methods (for performance reasons). Otherwise, 
      *  the z-ordering will be incorrect.</p> 
@@ -156,15 +156,21 @@ package starling.display
             mOrientationChanged = mUseHandCursor = false;
         }
         
-        /** Disposes all resources of the display object. 
-          * GPU buffers are released, event listeners are removed, filters are disposed. */
+        /**
+         * 清除掉该对象的所有资源。 
+		 * 释放GPU缓存，移除监听的事件，清除添加的滤镜。
+         */
         public function dispose():void
         {
             if (mFilter) mFilter.dispose();
             removeEventListeners();
         }
         
-        /** Removes the object from its parent, if it has one. */
+ 
+        /**
+         * 如果对象已经添加进显示列表，则从父容器中删除此对象。
+         * @param dispose 值为true时清除掉此对象的所有资源，值为false时不清除。
+         */
         public function removeFromParent(dispose:Boolean=false):void
         {
             if (mParent) mParent.removeChild(this, dispose);
@@ -615,7 +621,9 @@ package starling.display
         /** The display object container that contains this display object. */
         public function get parent():DisplayObjectContainer { return mParent; }
         
-        /** The topmost object in the display tree the object is part of. */
+        /**
+         *  包含该显示对象的显示列表树结构部分中的最顶级显示对象。
+         */
         public function get base():DisplayObject
         {
             var currentObject:DisplayObject = this;
@@ -623,10 +631,11 @@ package starling.display
             return currentObject;
         }
         
-        /** The root object the display object is connected to (i.e. an instance of the class 
-         *  that was passed to the Starling constructor), or null if the object is not connected
-         *  to the stage. */
-        public function get root():DisplayObject
+        /** 
+		 * 包含该显示对象的顶级显示对象（例如:Starling构造函数里的rootClass对象），
+		 * 如果显示对象尚未添加到显示列表，则root 属性为null。
+		 */
+		public function get root():DisplayObject
         {
             var currentObject:DisplayObject = this;
             while (currentObject.mParent)
@@ -638,8 +647,9 @@ package starling.display
             return null;
         }
         
-        /** The stage the display object is connected to, or null if it is not connected 
-         *  to the stage. */
+        /**
+         * 获取显示对象的舞台，如果还没有被添加到舞台则为空。
+         */
         public function get stage():Stage { return this.base as Stage; }
     }
 }
