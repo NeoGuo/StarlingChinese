@@ -34,29 +34,29 @@ package starling.events
      */
     public class Event
     {
-        /** Event type for a display object that is added to a parent. */
+        /** 事件类型：一个显示对象被添加到了它的父级容器上。 */
         public static const ADDED:String = "added";
-        /** Event type for a display object that is added to the stage */
+        /** 事件类型：一个显示对象被添加到了舞台上。 */
         public static const ADDED_TO_STAGE:String = "addedToStage";
-        /** Event type for a display object that is entering a new frame. */
+        /** 事件类型：一个显示对象进入了新的一帧。 */
         public static const ENTER_FRAME:String = "enterFrame";
-        /** Event type for a display object that is removed from its parent. */
+        /** 事件类型：一个显示对象从它的父级删除 */
         public static const REMOVED:String = "removed";
-        /** Event type for a display object that is removed from the stage. */
+        /** 事件类型：一个显示对象从舞台上删除。 */
         public static const REMOVED_FROM_STAGE:String = "removedFromStage";
-        /** Event type for a triggered button. */
+        /** 事件类型：按钮点击。 */
         public static const TRIGGERED:String = "triggered";
-        /** Event type for a display object that is being flattened. */
+        /** 事件类型：一个即将被扁平化的对象派发。 */
         public static const FLATTEN:String = "flatten";
-        /** Event type for a resized Flash Player. */
+        /** 事件类型：Flash Player尺寸改变。 */
         public static const RESIZE:String = "resize";
-        /** Event type that may be used whenever something finishes. */
+        /** 事件类型：可以用在一些表示“完成”的场合。 */
         public static const COMPLETE:String = "complete";
-        /** Event type for a (re)created stage3D rendering context. */
+        /** 事件类型：表示创建(或重建)了Context3D实例。 */
         public static const CONTEXT3D_CREATE:String = "context3DCreate";
-        /** Event type that indicates that the root DisplayObject has been created. */
+        /** 事件类型：表示最顶层的显示对象已被创建。 */
         public static const ROOT_CREATED:String = "rootCreated";
-        /** Event type for an animated object that requests to be removed from the juggler. */
+        /** 事件类型：当一个动画对象需要被Juggler删除的时候派发 */
         public static const REMOVE_FROM_JUGGLER:String = "removeFromJuggler";
         
         private static var sEventPool:Vector.<Event> = new <Event>[];
