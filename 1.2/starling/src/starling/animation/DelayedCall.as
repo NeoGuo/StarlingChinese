@@ -61,19 +61,19 @@ package starling.animation
             }
         }
         
-        /** Indicates if enough time has passed, and the call has already been executed. */
+        /** 用来确定调用是否已经完成，如果为true则代表已经过去了足够的时间，调用已经完成了 */
         public function get isComplete():Boolean 
         { 
             return mRepeatCount == 1 && mCurrentTime >= mTotalTime; 
         }
         
-        /** The time for which calls will be delayed (in seconds). */
+        /** 要延迟的总时间 (单位是秒). */
         public function get totalTime():Number { return mTotalTime; }
         
-        /** The time that has already passed (in seconds). */
+        /** 目前已经消逝的时间(单位是秒). */
         public function get currentTime():Number { return mCurrentTime; }
         
-        /** The number of times the call will be repeated. */
+        /** 方法调用将被重复的次数 */
         public function get repeatCount():int { return mRepeatCount; }
         public function set repeatCount(value:int):void { mRepeatCount = value; }
     }
