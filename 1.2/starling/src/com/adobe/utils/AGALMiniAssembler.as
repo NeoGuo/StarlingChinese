@@ -37,9 +37,9 @@ package com.adobe.utils
 	//import flash.display3D.*;
 	import flash.utils.*;
 	
-	// ===========================================================================
-	//	Class
-	// ---------------------------------------------------------------------------
+	/**
+	 * AGAL(Adobe Graphics Assembly Language)是Adobe开发的图形汇编语言，汇编语言是仅高于计算机二进制机器码的低级语言，可以精确地操控机器硬件比如可编程显卡，PC的Dirext9、MAC的OpenGL以及移动设备中的OpenGL ES 2都是可编程显卡，并且都支持AGAL。通过Adobe官方提供的编译器AGALMiniAssembler（实际上是一个AS类库），我们可以通过字符串指令来获得一个AGAL二进制流，再通过context3D上传给显卡的编程管线。对于顶点以及片段的运算都是通过AGAL交由显卡来处理的，这就是传说中的GPU硬件加速。
+	 */	
 	public class AGALMiniAssembler
 	{
 		// ======================================================================
@@ -64,12 +64,18 @@ package com.adobe.utils
 		// ======================================================================
 		//	Getters
 		// ----------------------------------------------------------------------
+		/**错误信息*/
 		public function get error():String						{ return _error; }
+		/**编译后的AGAL字节*/
 		public function get agalcode():ByteArray				{ return _agalcode; }
 		
 		// ======================================================================
 		//	Constructor
 		// ----------------------------------------------------------------------
+		/**
+		 * 构造函数
+		 * @param debugging 是否开启调试模式
+		 */		
 		public function AGALMiniAssembler( debugging:Boolean = false ):void
 		{
 			debugEnabled = debugging;
@@ -79,6 +85,13 @@ package com.adobe.utils
 		// ======================================================================
 		//	Methods
 		// ----------------------------------------------------------------------
+		/**
+		 * 将AGAL的代码片段编译为字节数组
+		 * @param mode 是顶点还是片段
+		 * @param source 代码片段
+		 * @return 字节数组
+		 * 
+		 */		
 		public function assemble( mode:String, source:String ):ByteArray
 		{
 			var start:uint = getTimer();
