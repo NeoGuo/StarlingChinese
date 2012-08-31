@@ -23,7 +23,7 @@ package starling.events
      */
     public class ResizeEvent extends Event
     {
-        /** Event type for a resized Flash player. */
+        /** 事件类型：Flash Player尺寸改变。 */
         public static const RESIZE:String = "resize";
         
         /** 创建一个新的ResizeEvent实例。 */
