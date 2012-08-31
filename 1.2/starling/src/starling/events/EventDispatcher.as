@@ -36,11 +36,11 @@ package starling.events
         /** Helper object. */
         private static var sBubbleChains:Array = [];
         
-        /** Creates an EventDispatcher. */
+        /** 创建一个EventDispatcher实例。 */
         public function EventDispatcher()
         {  }
         
-        /** Registers an event listener at a certain object. */
+        /** 在指定的对象上注册一个事件侦听器。 */
         public function addEventListener(type:String, listener:Function):void
         {
             if (mEventListeners == null)
@@ -53,7 +53,7 @@ package starling.events
                 listeners.push(listener);
         }
         
-        /** Removes an event listener from the object. */
+        /** 在指定的对象上删除一个事件侦听器。 */
         public function removeEventListener(type:String, listener:Function):void
         {
             if (mEventListeners)
@@ -72,8 +72,8 @@ package starling.events
             }
         }
         
-        /** Removes all event listeners with a certain type, or all of them if type is null. 
-         *  Be careful when removing all event listeners: you never know who else was listening. */
+        /** 根据指定的事件类型删除所有与这个事件类型有关的侦听器，如果传递null则删除所有的侦听器。 
+         *  要小心进行删除所有侦听器的操作：您永远不知道还有谁在侦听。 */
         public function removeEventListeners(type:String=null):void
         {
             if (type && mEventListeners)
@@ -82,7 +82,7 @@ package starling.events
                 mEventListeners = null;
         }
         
-        /** Dispatches an event to all objects that have registered for events of the same type. */
+        /** 派发一个事件到所有注册了同一个事件类型侦听器的对象。 */
         public function dispatchEvent(event:Event):void
         {
             var bubbles:Boolean = event.bubbles;
@@ -174,7 +174,7 @@ package starling.events
             }
         }
         
-        /** Returns if there are listeners registered for a certain event type. */
+        /** 判断是否具备指定的事件类型的侦听器。 */
         public function hasEventListener(type:String):Boolean
         {
             var listeners:Vector.<Function> = mEventListeners ? mEventListeners[type] : null;
