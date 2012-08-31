@@ -48,7 +48,7 @@ package starling.events
             mShiftKey = shiftKey;
         }
         
-        /** 按键的标示符号。 */
+        /** 按键的字符代码。 */
         public function get charCode():uint { return mCharCode; }
         
         /** 按键的标示符号。 */
