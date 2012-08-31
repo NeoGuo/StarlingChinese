@@ -17,20 +17,14 @@ package starling.events
     
     use namespace starling_internal;
     
-    /** The EventDispatcher class is the base class for all classes that dispatch events. 
-     *  This is the Starling version of the Flash class with the same name. 
+    /** EventDispatcher类是所有具备调度事件能力的类的基类。这是传统Flash里的EventDispatcher在Starling中的对应实现。
      *  
-     *  <p>The event mechanism is a key feature of Starling's architecture. Objects can communicate 
-     *  with each other through events. Compared the the Flash event system, Starling's event system
-     *  was simplified. The main difference is that Starling events have no "Capture" phase.
-     *  They are simply dispatched at the target and may optionally bubble up. They cannot move 
-     *  in the opposite direction.</p>  
-     *  
-     *  <p>As in the conventional Flash classes, display objects inherit from EventDispatcher 
-     *  and can thus dispatch events. Beware, though, that the Starling event classes are 
-     *  <em>not compatible with Flash events:</em> Starling display objects dispatch 
-     *  Starling events, which will bubble along Starling display objects - but they cannot 
-     *  dispatch Flash events or bubble along Flash display objects.</p>
+     *  <p>事件机制也是Starling架构的一个关键特性。通过事件对象可以互相通信。相比传统Flash的事件系统，Starling的事件
+     *  系统是经过简化的。 主要区别在于，Starling事件没有“捕捉”的阶段。这些事件只是简单的被一个对象派发，并可以选择
+     *  冒泡。他们不能向相反的方向传递。</p>  
+     *  <p>就像传统的Flash类那样，显示对象只要继承EventDispatcher就可以派发事件。但要小心， 
+     *  <em>Starling中的事件不能和传统Flash的事件混用。</em>  Starling的显示对象会派发Starling事件，冒泡也是在Starling
+     *  显示对象中进行-但是他们不能派发或冒泡传统Flash显示对象的事件。</p>
      *  
      *  @see Event
      *  @see starling.display.DisplayObject DisplayObject
