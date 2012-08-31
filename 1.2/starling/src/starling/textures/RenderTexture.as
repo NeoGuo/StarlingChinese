@@ -204,7 +204,7 @@ package starling.textures
             mActiveTexture.adjustVertexData(vertexData, vertexID, count);   
         }
         
-        /** Indicates if the texture is persistent over multiple draw calls. */
+        /** 指明纹理在经过多次绘制之后是否是持久的。 */
         public function get isPersistent():Boolean { return mBufferTexture != null; }
         
         /** @inheritDoc */
