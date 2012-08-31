@@ -109,7 +109,7 @@ package starling.textures
         /** @inheritDoc */
         public override function get height():Number { return mHeight / mScale; }
         
-        /** The scale factor, which influences width and height properties. */
+        /** 缩放比例因素，影响宽度和高度。 */
         public override function get scale():Number { return mScale; }
         
         /** @inheritDoc */
