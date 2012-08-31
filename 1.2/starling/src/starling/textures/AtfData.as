@@ -13,7 +13,7 @@ package starling.textures
     import flash.display3D.Context3DTextureFormat;
     import flash.utils.ByteArray;
 
-    /** A parser for the ATF data format. */
+    /** ATF格式解析器。*/
     internal class AtfData
     {
         private var mFormat:String;
@@ -22,7 +22,7 @@ package starling.textures
         private var mNumTextures:int;
         private var mData:ByteArray;
         
-        /** Create a new instance by parsing the given byte array. */
+        /** 通过解析byteArray类型的参数创建一个新的实例。 */
         public function AtfData(data:ByteArray)
         {
             var signature:String = String.fromCharCode(data[0], data[1], data[2]);
