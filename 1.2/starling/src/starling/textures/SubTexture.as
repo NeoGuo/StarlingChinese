@@ -31,7 +31,7 @@ package starling.textures
         private static var sTexCoords:Point = new Point();
         
         /** 从一个父级纹理对象指定的区域（点）来创建一个新的SubTexture对象。 
-         * 如果ownsParent设置为true，当subtexture被释放的时，父级纹理对象也会被释放。*/
+         * 如果ownsParent设置为true，当子纹理被释放的时，父级纹理对象也会被释放。*/
         public function SubTexture(parentTexture:Texture, region:Rectangle,
                                    ownsParent:Boolean=false)
         {
