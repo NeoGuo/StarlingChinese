@@ -18,20 +18,14 @@ package starling.events
     import starling.utils.MatrixUtil;
     import starling.utils.formatString;
 
-    /** A Touch object contains information about the presence or movement of a finger 
-     *  or the mouse on the screen.
+    /** 一个Touch对象包含了在屏幕上的一个手指或鼠标的相关信息（出现或移动）。
      *  
-     *  <p>You receive objects of this type from a TouchEvent. When such an event is triggered, you can 
-     *  query it for all touches that are currently present on the screen. One Touch object contains
-     *  information about a single touch. A touch object always moves through a series of
-     *  TouchPhases. Have a look at the TouchPhase class for more information.</p>
+     *  <p>您将从TouchEvent中获取这个对象。当这样的事件被触发，您可以查询目前呈现在屏幕上的所有触碰。
+     *  一个Touch对象，包含了一个单指触碰的信息。一个Touch对象总是会通过TouchPhases的集合移动。请参阅TouchPhase类来获取更多信息。</p>
      *  
-     *  <strong>The position of a touch</strong>
+     *  <strong>触碰的位置</strong>
      *  
-     *  <p>You can get the current and previous position in stage coordinates with the corresponding 
-     *  properties. However, you'll want to have the position in a different coordinate system 
-     *  most of the time. For this reason, there are methods that convert the current and previous 
-     *  touches into the local coordinate system of any object.</p>
+     *  <p>您可以用相应的属性，获取坐标系上的当前的和上一个位置。当然，在大部分情况下您希望能获取在一个不同的坐标系上的位置。 基于这个原因，这里有一些方法可以转换当前的和上一个位置到任何对象的局部坐标系。</p>
      * 
      *  @see TouchEvent
      *  @see TouchPhase
