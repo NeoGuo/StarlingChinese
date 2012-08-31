@@ -12,22 +12,22 @@ package starling.textures
 {
     import starling.errors.AbstractClassError;
 
-    /** A class that provides constant values for the possible smoothing algorithms of a texture. */ 
+    /** 这个类为可能的材质平滑算法提供常量值。 */ 
     public class TextureSmoothing
     {
         /** @private */
         public function TextureSmoothing() { throw new AbstractClassError(); }
         
-        /** No smoothing, also called "Nearest Neighbor". Pixels will scale up as big rectangles. */
+        /** 不具备平滑, 通常称之为"Nearest Neighbor"。像素将放大成大个的矩形。 */
         public static const NONE:String      = "none";
         
-        /** Bilinear filtering. Creates smooth transitions between pixels. */
+        /** 双线性过滤。创建像素间的平滑过渡。 */
         public static const BILINEAR:String  = "bilinear";
         
-        /** Trilinear filtering. Highest quality by taking the next mip map level into account. */
+        /** 三线性过滤。通过考虑使用更高级别的MIP映射.实现最高级别的渲染质量。 */
         public static const TRILINEAR:String = "trilinear";
         
-        /** Determines whether a smoothing value is valid. */
+        /** 确定一个平滑值是否是有效的。 */
         public static function isValid(smoothing:String):Boolean
         {
             return smoothing == NONE || smoothing == BILINEAR || smoothing == TRILINEAR;
