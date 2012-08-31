@@ -10,14 +10,12 @@
 
 package starling.events
 {
-    /** A KeyboardEvent is dispatched in response to user input through a keyboard.
+    /** 一个键盘事件的派发，是对用户使用键盘输入的回应。
      * 
-     *  <p>This is Starling's version of the Flash KeyboardEvent class. It contains the same 
-     *  properties as the Flash equivalent.</p> 
+     *  <p>这个类是Flash的键盘事件的Starling版本。它包含了和Flash的键盘事件相同的属性。</p> 
      * 
-     *  <p>To be notified of keyboard events, add an event listener to the Starling stage. Children
-     *  of the stage won't be notified of keybaord input. Starling has no concept of a "Focus"
-     *  like native Flash.</p>
+     *  <p>要捕获键盘事件，需要在Starling的stage上添加事件侦听。stage的子节点是不能获取到键盘事件的。 
+     *  Starling并没有像传统Flash那样的“焦点”的概念。</p>
      *  
      *  @see starling.display.Stage
      */  
