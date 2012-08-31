@@ -25,7 +25,8 @@ package starling.events
      *  
      *  <strong>触碰的位置</strong>
      *  
-     *  <p>您可以用相应的属性，获取坐标系上的当前的和上一个位置。当然，在大部分情况下您希望能获取在一个不同的坐标系上的位置。 基于这个原因，这里有一些方法可以转换当前的和上一个位置到任何对象的局部坐标系。</p>
+     *  <p>您可以用相应的属性，获取坐标系上的当前的和上一个位置。当然，在大部分情况下您希望能获取在一个不同的坐标系上的位置。 
+     *  基于这个原因，这里有一些方法可以转换当前的和上一个位置到任何对象的局部坐标系。</p>
      * 
      *  @see TouchEvent
      *  @see TouchPhase
@@ -45,7 +46,7 @@ package starling.events
         /** Helper object. */
         private static var sHelperMatrix:Matrix = new Matrix();
         
-        /** Creates a new Touch object. */
+        /** 创建一个新的Touch对象。 */
         public function Touch(id:int, globalX:Number, globalY:Number, phase:String, target:DisplayObject)
         {
             mID = id;
@@ -56,9 +57,10 @@ package starling.events
             mTarget = target;
         }
         
-        /** Converts the current location of a touch to the local coordinate system of a display 
-         *  object. If you pass a 'resultPoint', the result will be stored in this point instead 
-         *  of creating a new object.*/
+        /** 转换当前touch的位置到一个显示对象的局部坐标系。
+         *  如果你传递一个 resultPoint ，此方法的返回值会存储于这个Point对象中，而不是创建一个新的对象
+         *  version 1.2 添加了resultPoint参数 
+         */
         public function getLocation(space:DisplayObject, resultPoint:Point=null):Point
         {
             if (resultPoint == null) resultPoint = new Point();
