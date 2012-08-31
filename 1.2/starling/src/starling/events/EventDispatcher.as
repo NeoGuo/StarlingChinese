@@ -161,10 +161,9 @@ package starling.events
             sBubbleChains.push(chain);
         }
         
-        /** Dispatches an event with the given parameters to all objects that have registered for 
-         *  events of the given type. The method uses an internal pool of event objects to avoid 
-         *  allocations. */
-        /** 派发一个包含了特定参数的事件到所有注册了特定类型侦听器的对象中。这个方法使用了一个内部的事件对象池因避免重复的分配导致的额外开销
+        /** 派发一个包含了特定参数的事件到所有注册了特定类型侦听器的对象中。
+         * 这个方法使用了一个内部的事件对象池因避免重复的分配导致的额外开销。
+         */
         public function dispatchEventWith(type:String, bubbles:Boolean=false, data:Object=null):void
         {
             if (bubbles || hasEventListener(type)) 
