@@ -30,21 +30,19 @@ package starling.events
         /** @private */
         public function TouchPhase() { throw new AbstractClassError(); }
         
-        /** Only available for mouse input: the cursor hovers over an object <em>without</em> a 
-         *  pressed button. */
+        /**  只有鼠标模式下可用：当光标滑过一个对象，并且没有按下鼠标。 */
         public static const HOVER:String = "hover";
         
-        /** The finger touched the screen just now, or the mouse button was pressed. */
+        /** 当手指刚刚接触屏幕，或者鼠标按下。 */
         public static const BEGAN:String = "began";
         
-        /** The finger moves around on the screen, or the mouse is moved while the button is 
-         *  pressed. */
+        /** 手指在屏幕上滑动，或者鼠标在按下的情况下在屏幕上滑动。 */
         public static const MOVED:String = "moved";
         
-        /** The finger or mouse (with pressed button) has not moved since the last frame. */
+        /** 手指或鼠标(按下) 没有移动。 */
         public static const STATIONARY:String = "stationary";
         
-        /** The finger was lifted from the screen or from the mouse button. */
+        /** 手指离开屏幕或鼠标松开。 */
         public static const ENDED:String = "ended";
     }
 }
