@@ -26,16 +26,16 @@ package starling.events
         /** Event type for a resized Flash player. */
         public static const RESIZE:String = "resize";
         
-        /** Creates a new ResizeEvent. */
+        /** 创建一个新的ResizeEvent实例。 */
         public function ResizeEvent(type:String, width:int, height:int, bubbles:Boolean=false)
         {
         	super(type, bubbles, new Point(width, height));
         }
         
-        /** The updated width of the player. */
+        /** 播放器更新后的宽度。 */
         public function get width():int { return (data as Point).x; }
         
-        /** The updated height of the player. */
+        /** T播放器更新后的高度。 */
         public function get height():int { return (data as Point).y; }
 	}
 }
