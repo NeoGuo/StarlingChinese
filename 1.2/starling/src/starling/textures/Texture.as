@@ -303,7 +303,7 @@ package starling.textures
         /** 以像素为单位的纹理高度。 */
         public function get height():Number { return 0; }
 
-        /** 影响宽度和高度属性的缩放因子。 */
+        /** 缩放比例因素,影响宽度和高度。 */
         public function get scale():Number { return 1.0; }
         
         /** 纹理所基于的Stage3D纹理对象。 */
