@@ -48,25 +48,22 @@ package starling.events
             mShiftKey = shiftKey;
         }
         
-        /** Contains the character code of the key. */
+        /** 按键的标示符号。 */
         public function get charCode():uint { return mCharCode; }
         
-        /** The key code of the key. */
+        /** 按键的标示符号。 */
         public function get keyCode():uint { return mKeyCode; }
         
-        /** Indicates the location of the key on the keyboard. This is useful for differentiating 
-         *  keys that appear more than once on a keyboard. @see Keylocation */ 
+        /** 按键在键盘上的区域。如果一个按键会在键盘上出现多次，这个属性将非常有用 。 @see Keylocation */ 
         public function get keyLocation():uint { return mKeyLocation; }
         
-        /** Indicates whether the Alt key is active on Windows or Linux; 
-         *  indicates whether the Option key is active on Mac OS. */
+        /** 判断Alt键（Windows或Linux）或Option键（Mac OS）是否被激活。按下为true，松开为false。*/
         public function get altKey():Boolean { return mAltKey; }
         
-        /** Indicates whether the Ctrl key is active on Windows or Linux; 
-         *  indicates whether either the Ctrl or the Command key is active on Mac OS. */
+        /** 判断Ctrl键（Windows或Linux）或Ctrl/Command键（Mac OS）是否被激活，按下为true，松开为false。 */
         public function get ctrlKey():Boolean { return mCtrlKey; }
         
-        /** Indicates whether the Shift key modifier is active (true) or inactive (false). */
+        /**判断Shift键是否被激活，按下为true，松开为false。 */
         public function get shiftKey():Boolean { return mShiftKey; }
     }
 }
