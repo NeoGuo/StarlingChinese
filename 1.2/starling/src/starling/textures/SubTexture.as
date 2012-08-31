@@ -16,10 +16,9 @@ package starling.textures
     
     import starling.utils.VertexData;
 
-    /** A SubTexture represents a section of another texture. This is achieved solely by 
-     *  manipulation of texture coordinates, making the class very efficient. 
+    /** 一个SubTexture用于表现另一个纹理的一部分。由于这是完全通过操作纹理坐标实现的，使得这个类非常高效。
      *
-     *  <p><em>Note that it is OK to create subtextures of subtextures.</em></p>
+     *  <p><em>注意：从子纹理继续创建子纹理也是允许的。</em></p>
      */ 
     public class SubTexture extends Texture
     {
@@ -28,12 +27,11 @@ package starling.textures
         private var mRootClipping:Rectangle;
         private var mOwnsParent:Boolean;
         
-        /** Helper object. */
+        /** 助手对象。 */
         private static var sTexCoords:Point = new Point();
         
-        /** Creates a new subtexture containing the specified region (in points) of a parent 
-         *  texture. If 'ownsParent' is true, the parent texture will be disposed automatically
-         *  when the subtexture is disposed. */
+        /** 从一个父级纹理对象指定的区域（点）来创建一个新的SubTexture对象。 
+         * 如果ownsParent设置为true，当子纹理被释放的时，父级纹理对象也会被释放。*/
         public function SubTexture(parentTexture:Texture, region:Rectangle,
                                    ownsParent:Boolean=false)
         {
@@ -47,7 +45,7 @@ package starling.textures
                                            region.height / parentTexture.height));
         }
         
-        /** Disposes the parent texture if this texture owns it. */
+        /**如果ownsParent为true释放父级纹理对象。 */
         public override function dispose():void
         {
             if (mOwnsParent) mParent.dispose();
@@ -90,14 +88,13 @@ package starling.textures
             }
         }
         
-        /** The texture which the subtexture is based on. */ 
+        /** 该子纹理所基于的纹理对象。 */ 
         public function get parent():Texture { return mParent; }
         
-        /** Indicates if the parent texture is disposed when this object is disposed. */
+        /** 指示父级纹理对象是否因当前子纹理对象的释放而释放。 */
         public function get ownsParent():Boolean { return mOwnsParent; }
         
-        /** The clipping rectangle, which is the region provided on initialization 
-         *  scaled into [0.0, 1.0]. */
+        /** 一个在初始化时规定缩放到[0.0, 1.0]的裁剪矩形区域。 */
         public function get clipping():Rectangle { return mClipping.clone(); }
         
         /** @inheritDoc */

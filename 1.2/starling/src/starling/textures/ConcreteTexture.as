@@ -18,7 +18,7 @@ package starling.textures
     import starling.core.Starling;
     import starling.events.Event;
 
-    /** A ConcreteTexture wraps a Stage3D texture object, storing the properties of the texture. */
+    /** 一个封装了Stage3D纹理对象的ConcreteTexture，用于存储纹理属性。 */
     public class ConcreteTexture extends Texture
     {
         private var mBase:TextureBase;
@@ -31,8 +31,8 @@ package starling.textures
         private var mData:Object;
         private var mScale:Number;
         
-        /** Creates a ConcreteTexture object from a TextureBase, storing information about size,
-         *  mip-mapping, and if the channels contain premultiplied alpha values. */
+        /** 创建一个具有TextureBase和存储信息(关于尺寸,mip映射和该Texture对象的alpha通道是否被
+         *  预乘到RGB)的ConcreteTexture对象。 */
         public function ConcreteTexture(base:TextureBase, format:String, width:int, height:int, 
                                         mipMapping:Boolean, premultipliedAlpha:Boolean,
                                         optimizedForRenderTexture:Boolean=false,
@@ -48,7 +48,7 @@ package starling.textures
             mOptimizedForRenderTexture = optimizedForRenderTexture;
         }
         
-        /** Disposes the TextureBase object. */
+        /** 释放TextureBase对象的纹理数据。 */
         public override function dispose():void
         {
             if (mBase) mBase.dispose();
@@ -58,8 +58,7 @@ package starling.textures
         
         // texture backup (context lost)
         
-        /** Instructs this instance to restore its base texture when the context is lost. 'data' 
-         *  can be either BitmapData or a ByteArray with ATF data. */ 
+        /** 指示此实例在上下文丢失时恢复其基本纹理。数据可以是BitmapData或包含ATF数据的ByteArray。 */ 
         public function restoreOnLostContext(data:Object):void
         {
             if (mData == null && data != null)
@@ -95,7 +94,7 @@ package starling.textures
         
         // properties
         
-        /** Indicates if the base texture was optimized for being used in a render texture. */
+        /** 表示当基础纹理进行纹理渲染时是否优化。 */
         public function get optimizedForRenderTexture():Boolean { return mOptimizedForRenderTexture; }
         
         /** @inheritDoc */
@@ -110,7 +109,7 @@ package starling.textures
         /** @inheritDoc */
         public override function get height():Number { return mHeight / mScale; }
         
-        /** The scale factor, which influences width and height properties. */
+        /** 缩放比例因素，影响宽度和高度。 */
         public override function get scale():Number { return mScale; }
         
         /** @inheritDoc */

@@ -23,19 +23,16 @@ package starling.textures
     import starling.utils.VertexData;
     import starling.utils.getNextPowerOfTwo;
 
-    /** A RenderTexture is a dynamic texture onto which you can draw any display object.
-     * 
-     *  <p>After creating a render texture, just call the <code>drawObject</code> method to render 
-     *  an object directly onto the texture. The object will be drawn onto the texture at its current
-     *  position, adhering its current rotation, scale and alpha properties.</p> 
+    /** RenderTexture是一个能在其上绘制任何显示对象的动态纹理。
+     *
+     *  <p>在创建一个RenderTexture对象后，仅需调用 <code>drawObject</code> 方法直接在纹理上渲染一个对象。 
+     *  对象将会在当前位置，连带当前的旋转，缩放和透明值属性被绘制在纹理上。</p> 
      *  
-     *  <p>Drawing is done very efficiently, as it is happening directly in graphics memory. After 
-     *  you have drawn objects onto the texture, the performance will be just like that of a normal 
-     *  texture - no matter how many objects you have drawn.</p>
+     *  <p>绘制能够被高效的完成，因为它在显存中是直接发生的。绘制能够被高效的完成，因为它在显存中是直接发生的。
+     *  当你在纹理上绘制完对象后，不管你绘制了多少个对象，它的性能将和通常的纹理没什么区别。</p>
      *  
-     *  <p>If you draw lots of objects at once, it is recommended to bundle the drawing calls in 
-     *  a block via the <code>drawBundled</code> method, like shown below. That will speed it up 
-     *  immensely, allowing you to draw hundreds of objects very quickly.</p>
+     *  <p>如果你一次绘制许多的对象的话，推荐通过<code>drawBundled</code>方法把绘制调用捆绑在一个代码块中，像下面展示的一样。
+     * 那将会产生极大地提速，允许你迅速绘制几百个对象。</p>
      *  
      * 	<pre>
      *  renderTexture.drawBundled(function():void
@@ -48,10 +45,9 @@ package starling.textures
      *  });
      *  </pre>
      *  
-     *  <p>To erase parts of a render texture, you can use any display object like a "rubber" by
-     *  setting its blending mode to "BlendMode.ERASE".</p>
+     *  <p>为了擦除一个经渲染纹理的一部分，你可以使用像“rubber”一样的任意显示对象通过设置它的混合模式为"BlendMode.ERASE"。</p>
      * 
-     *  <p>Beware that render textures can't be restored when the Starling's render context is lost.
+     *  <p>注意当Starling的渲染上下文丢失，渲染纹理就不能够被恢复。
      *  </p>
      *     
      */
@@ -69,11 +65,10 @@ package starling.textures
         private var mNativeHeight:int;
         private var mSupport:RenderSupport;
         
-        /** Creates a new RenderTexture with a certain size. If the texture is persistent, the
-         *  contents of the texture remains intact after each draw call, allowing you to use the
-         *  texture just like a canvas. If it is not, it will be cleared before each draw call.
-         *  Persistancy doubles the required graphics memory! Thus, if you need the texture only 
-         *  for one draw (or drawBundled) call, you should deactivate it. */
+        /** 创建一个某一尺寸的新RenderTexture对象。如果设置presistent为true，在每次调用绘制之后纹理的内容都会原封不动的
+         *  保留下来，允许你像使用画布一样使用纹理。相反的设为false，将会在每次调用绘制时先进行清除操作。
+         *  前一种会加倍所需要的显示内存！因此如果你只需一次绘制调用或一次块绘制调用，你应该停用它。
+         */
         public function RenderTexture(width:int, height:int, persistent:Boolean=true, scale:Number=-1)
         {
             if (scale <= 0) scale = Starling.contentScaleFactor; 
@@ -107,14 +102,13 @@ package starling.textures
             super.dispose();
         }
         
-        /** Draws an object into the texture.
+        /** 绘制一个对象到纹理上。
          * 
-         *  @param object       The object to draw.
-         *  @param matrix       If 'matrix' is null, the object will be drawn adhering its 
-         *                      properties for position, scale, and rotation. If it is not null,
-         *                      the object will be drawn in the orientation depicted by the matrix.
-         *  @param alpha        The object's alpha value will be multiplied with this value.
-         *  @param antiAliasing This parameter is currently ignored by Stage3D.
+         *  @param object       要绘制的对象。
+         *  @param matrix       如果matrix参数为空，对象绘制时将采用它的位置，缩放和旋转属性。如果不为空，
+         *                      对象将会根据matrix的描述来绘制。
+         *  @param alpha        对象的透明度将被乘以这个值。
+         *  @param antiAliasing 这个参数目前被Stage3D忽略。
          */
         public function draw(object:DisplayObject, matrix:Matrix=null, alpha:Number=1.0, 
                              antiAliasing:int=0):void
@@ -141,9 +135,9 @@ package starling.textures
                 mSupport.popBlendMode();
             }
         }
-        
-        /** Bundles several calls to <code>draw</code> together in a block. This avoids buffer 
-         *  switches and allows you to draw multiple objects into a non-persistent texture. */
+           
+        /** 把几个<code>draw</code>的调用一起捆绑在一个代码块中。这就避免了缓冲开关并且允许你绘制多
+         *  个对象到一个非持久（non-persistent）的纹理上。 */
         public function drawBundled(drawingBlock:Function, antiAliasing:int=0):void
         {
             var scale:Number = mActiveTexture.scale;
@@ -193,7 +187,7 @@ package starling.textures
             }
         }
         
-        /** Clears the texture (restoring full transparency). */
+        /** 清除纹理（恢复完整透明值）。 */
         public function clear():void
         {
             var context:Context3D = Starling.context;
@@ -210,7 +204,7 @@ package starling.textures
             mActiveTexture.adjustVertexData(vertexData, vertexID, count);   
         }
         
-        /** Indicates if the texture is persistent over multiple draw calls. */
+        /** 指明纹理在经过多次绘制之后是否是持久的。 */
         public function get isPersistent():Boolean { return mBufferTexture != null; }
         
         /** @inheritDoc */
