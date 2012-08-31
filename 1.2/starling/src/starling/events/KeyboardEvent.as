@@ -21,10 +21,10 @@ package starling.events
      */  
     public class KeyboardEvent extends Event
     {
-        /** Event type for a key that was released. */
+        /** 事件类型：当一个键被释放。 */
         public static const KEY_UP:String = "keyUp";
         
-        /** Event type for a key that was pressed. */
+        /** 事件类型：当一个键被按下。 */
         public static const KEY_DOWN:String = "keyDown";
         
         private var mCharCode:uint;
