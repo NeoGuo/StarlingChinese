@@ -34,7 +34,7 @@ package starling.events
         private var mCtrlKey:Boolean;
         private var mShiftKey:Boolean;
         
-        /** Creates a new KeyboardEvent. */
+        /** 创建一个新的KeyboardEvent实例。 */
         public function KeyboardEvent(type:String, charCode:uint=0, keyCode:uint=0, 
                                       keyLocation:uint=0, ctrlKey:Boolean=false, 
                                       altKey:Boolean=false, shiftKey:Boolean=false)
