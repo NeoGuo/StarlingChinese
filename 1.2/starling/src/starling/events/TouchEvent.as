@@ -13,38 +13,32 @@ package starling.events
     import starling.display.DisplayObject;
     import starling.display.DisplayObjectContainer;
     
-    /** A TouchEvent is triggered either by touch or mouse input.  
+    /** 一个TouchEvent是被手指触碰或鼠标输入来触发的。  
      *  
-     *  <p>In Starling, both touch events and mouse events are handled through the same class: 
-     *  TouchEvent. To process user input from a touch screen or the mouse, you have to register
-     *  an event listener for events of the type <code>TouchEvent.TOUCH</code>. This is the only
-     *  event type you need to handle; the long list of mouse event types as they are used in
-     *  conventional Flash are mapped to so-called "TouchPhases" instead.</p> 
+     *  <p>在Starling中，无论是触碰事件还是鼠标事件，都统一封装为一个类：TouchEvent。
+     *  要处理用户在一个可触碰的屏幕或使用鼠标完成的输入， 您需要注册一个事件侦听器，来侦听类型是<code>TouchEvent.TOUCH</code>的事件。
+     *  这是唯一的您需要捕获的事件类型； 原有Flash里面的那个很长的事件类型列表，全都被映射到一个"TouchPhases"里面。</p> 
      * 
-     *  <p>The difference between mouse input and touch input is that</p>
+     *  <p>鼠标输入和触摸屏输入的区别是：</p>
      *  
      *  <ul>
-     *    <li>only one mouse cursor can be present at a given moment and</li>
-     *    <li>only the mouse can "hover" over an object without a pressed button.</li>
+     *    <li>在某一时刻只有一个鼠标光标可以呈现</li>
+     *    <li>只有鼠标才可以"hover",即在没有按下按键的情况下滑过一个对象。</li>
      *  </ul> 
      *  
-     *  <strong>Which objects receive touch events?</strong>
+     *  <strong>哪些对象能够接收触碰事件？</strong>
      * 
-     *  <p>In Starling, any display object receives touch events, as long as the  
-     *  <code>touchable</code> property of the object and its parents is enabled. There 
-     *  is no "InteractiveObject" class in Starling.</p>
+     *  <p>在Starling中，任何一个显示对象都可以接受触碰事件，只要它的 
+     *  <code>touchable</code> 属性，以及它的父级都是可用状态(true)。 在Starling中是没有"InteractiveObject"这个类的。</p>
      *  
-     *  <strong>How to work with individual touches</strong>
+     *  <strong>如何使用单个触碰对象</strong>
      *  
-     *  <p>The event contains a list of all touches that are currently present. Each individual
-     *  touch is stored in an object of type "Touch". Since you are normally only interested in 
-     *  the touches that occurred on top of certain objects, you can query the event for touches
-     *  with a specific target:</p>
+     *  <p>T事件包含了一个包括所有的触碰对象的列表。每一个独立的触碰都被保存在一个类型是"Touch"的对象里。
+     *  既然您通常只对在特定对象上发生的触碰感兴趣，您可以查询事件，传入一个具体的目标：</p>
      * 
      *  <code>var touches:Vector.&lt;Touch&gt; = touchEvent.getTouches(this);</code>
      *  
-     *  <p>This will return all touches of "this" or one of its children. When you are not using 
-     *  multitouch, you can also access the touch object directly, like this:</p>
+     *  <p>这会返回附加在"this"或 它的子级上的所有触碰对象。如果您没有使用多点触碰，您也可以直接访问触碰对象，就像这样：</p>
      * 
      *  <code>var touch:Touch = touchEvent.getTouch(this);</code>
      *  
@@ -53,7 +47,7 @@ package starling.events
      */ 
     public class TouchEvent extends Event
     {
-        /** Event type for touch or mouse input. */
+        /** 触碰或鼠标输入的事件类型。 */
         public static const TOUCH:String = "touch";
         
         private var mTouches:Vector.<Touch>;
@@ -61,7 +55,7 @@ package starling.events
         private var mCtrlKey:Boolean;
         private var mTimestamp:Number;
         
-        /** Creates a new TouchEvent instance. */
+        /** 创建一个新的TouchEvent实例。 */
         public function TouchEvent(type:String, touches:Vector.<Touch>, shiftKey:Boolean=false, 
                                    ctrlKey:Boolean=false, bubbles:Boolean=true)
         {
@@ -78,7 +72,7 @@ package starling.events
                     mTimestamp = touches[i].timestamp;
         }
         
-        /** Returns a list of touches that originated over a certain target. */
+        /** 返回附加在指定的对象上的触碰对象数组。 */
         public function getTouches(target:DisplayObject, phase:String=null):Vector.<Touch>
         {
             var touchesFound:Vector.<Touch> = new <Touch>[];
@@ -98,7 +92,7 @@ package starling.events
             return touchesFound;
         }
         
-        /** Returns a touch that originated over a certain target. */
+        /** 返回附加到指定对象上的一个触碰对象。 */
         public function getTouch(target:DisplayObject, phase:String=null):Touch
         {
             var touchesFound:Vector.<Touch> = getTouches(target, phase);
@@ -106,7 +100,7 @@ package starling.events
             else return null;
         }
         
-        /** Indicates if a target is currently being touched or hovered over. */
+        /** 判断目标显示对象是否正在被触碰或被鼠标滑过。 */
         public function interactsWith(target:DisplayObject):Boolean
         {
             if (getTouch(target) == null)
@@ -123,16 +117,16 @@ package starling.events
             }
         }
 
-        /** The time the event occurred (in seconds since application launch). */
+        /** 事件发生的时间（单位是秒，自应用启动时算起）。 */
         public function get timestamp():Number { return mTimestamp; }
         
-        /** All touches that are currently available. */
+        /** 当前可用的所有触碰对象。 */
         public function get touches():Vector.<Touch> { return mTouches.concat(); }
         
-        /** Indicates if the shift key was pressed when the event occurred. */
+        /** 表示，事件发生时shift键是否被按下。 */
         public function get shiftKey():Boolean { return mShiftKey; }
         
-        /** Indicates if the ctrl key was pressed when the event occurred. (Mac OS: Cmd or Ctrl) */
+        /** 表示，事件发生时ctrl键是否被按下。 (Mac OS: Cmd 或 Ctrl) */
         public function get ctrlKey():Boolean { return mCtrlKey; }
     }
 }
