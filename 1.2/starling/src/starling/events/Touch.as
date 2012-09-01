@@ -110,32 +110,31 @@ package starling.events
             return clone;
         }
         
-        /** The identifier of a touch. '0' for mouse events, an increasing number for touches. */
+        /**一个Touch对象的唯一标示. '0' 代表鼠标事件, 正数用于touch事件。 */
         public function get id():int { return mID; }
         
-        /** The x-position of the touch in stage coordinates. */
+        /**  touch对象在stage坐标系的X坐标值。 */
         public function get globalX():Number { return mGlobalX; }
 
-        /** The y-position of the touch in stage coordinates. */
+        /**  touch对象在stage坐标系的Y坐标值。 */
         public function get globalY():Number { return mGlobalY; }
         
-        /** The previous x-position of the touch in stage coordinates. */
+        /**touch对象的上一个位置在stage坐标系的X坐标值。 */
         public function get previousGlobalX():Number { return mPreviousGlobalX; }
         
-        /** The previous y-position of the touch in stage coordinates. */
+        /** touch对象的上一个位置在stage坐标系的Y坐标值。 */
         public function get previousGlobalY():Number { return mPreviousGlobalY; }
         
-        /** The number of taps the finger made in a short amount of time. Use this to detect 
-         *  double-taps / double-clicks, etc. */ 
+        /**手指在很短的时间内触碰屏幕的次数。可以用来判断双击等情况。 */ 
         public function get tapCount():int { return mTapCount; }
         
-        /** The current phase the touch is in. @see TouchPhase */
+        /** 当前触碰所处的阶段。 @see TouchPhase */
         public function get phase():String { return mPhase; }
         
-        /** The display object at which the touch occurred. */
+        /** 发生触碰的显示对象。 */
         public function get target():DisplayObject { return mTarget; }
         
-        /** The moment the touch occurred (in seconds since application start). */
+        /** 触碰发生时的时间（以秒为单位，自应用程序启动时算起）。 */
         public function get timestamp():Number { return mTimestamp; }
         
         // internal methods
