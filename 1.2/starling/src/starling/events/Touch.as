@@ -58,7 +58,7 @@ package starling.events
         }
         
         /** 转换当前touch的位置到一个显示对象的局部坐标系。
-         *  如果你传递一个 resultPoint ，此方法的返回值会存储于这个Point对象中，而不是创建一个新的对象
+         *  如果你传递一个 resultPoint ，此方法的返回值会存储于这个Point对象中，而不是创建一个新的对象。
          *  version 1.2 添加了resultPoint参数 
          */
         public function getLocation(space:DisplayObject, resultPoint:Point=null):Point
@@ -68,9 +68,9 @@ package starling.events
             return MatrixUtil.transformCoords(sHelperMatrix, mGlobalX, mGlobalY, resultPoint); 
         }
         
-        /** Converts the previous location of a touch to the local coordinate system of a display 
-         *  object. If you pass a 'resultPoint', the result will be stored in this point instead 
-         *  of creating a new object.*/
+        /** 转换touch的上一个位置到一个显示对象的局部坐标系。 
+         *  如果你传递一个 resultPoint ，此方法的返回值会存储于这个Point对象中，而不是创建一个新的对象。
+         *  version 1.2 添加了resultPoint参数 */
         public function getPreviousLocation(space:DisplayObject, resultPoint:Point=null):Point
         {
             if (resultPoint == null) resultPoint = new Point();
@@ -78,9 +78,9 @@ package starling.events
             return MatrixUtil.transformCoords(sHelperMatrix, mPreviousGlobalX, mPreviousGlobalY, resultPoint);
         }
         
-        /** Returns the movement of the touch between the current and previous location. 
-         *  If you pass a 'resultPoint', the result will be stored in this point instead 
-         *  of creating a new object. */ 
+        /** 返回从上一个位置到当前位置移动的距离。 
+         *  如果你传递一个 resultPoint ，此方法的返回值会存储于这个Point对象中，而不是创建一个新的对象。
+         *  version 1.2 添加了resultPoint参数 */ 
         public function getMovement(space:DisplayObject, resultPoint:Point=null):Point
         {
             if (resultPoint == null) resultPoint = new Point();
@@ -92,14 +92,14 @@ package starling.events
             return resultPoint;
         }
         
-        /** Returns a description of the object. */
+        /** 返回这个对象的描述。 */
         public function toString():String
         {
             return formatString("Touch {0}: globalX={1}, globalY={2}, phase={3}",
                                 mID, mGlobalX, mGlobalY, mPhase);
         }
         
-        /** Creates a clone of the Touch object. */
+        /** 创建这个一个Touch对象的副本 */
         public function clone():Touch
         {
             var clone:Touch = new Touch(mID, mGlobalX, mGlobalY, mPhase, mTarget);
