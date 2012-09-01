@@ -10,11 +10,14 @@
 
 package starling.errors
 {
-    /** An AbstractClassError is thrown when you attempt to create an instance of an abstract 
-     *  class. */
+    /** 
+     * 当您尝试创建一个抽象类的一个实例，就会抛出一个AbstractClassError。
+     */
     public class AbstractClassError extends Error
     {
-        /** Creates a new AbstractClassError object. */
+        /** 
+         * 创建一个新的AbstractClassError对象。 
+         */
         public function AbstractClassError(message:*="", id:*=0)
         {
             super(message, id);

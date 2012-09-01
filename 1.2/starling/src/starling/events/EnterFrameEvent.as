@@ -10,25 +10,23 @@
 
 package starling.events
 {
-    /** An EnterFrameEvent is triggered once per frame and is dispatched to all objects in the
-     *  display tree.
-     *
-     *  It contains information about the time that has passed since the last frame. That way, you 
-     *  can easily make animations that are independent of the frame rate, taking the passed time
-     *  into account.
+    /** 
+     *  处于显示列表树中的所有显示对象，在每一帧都会派发一个EnterFrameEvent事件。 
+     *  
+     *  它包含了从上一帧到现在所经过的时间的信息。这样，您就可以轻松的通过帧频创建动画，传递经过的时间给它。
      */ 
     public class EnterFrameEvent extends Event
     {
-        /** Event type for a display object that is entering a new frame. */
+        /** 一个显示对象进入了新的一帧。 */
         public static const ENTER_FRAME:String = "enterFrame";
         
-        /** Creates an enter frame event with the passed time. */
+        /** 创建一个EnterFrameEvent实例 */
         public function EnterFrameEvent(type:String, passedTime:Number, bubbles:Boolean=false)
         {
             super(type, bubbles, passedTime);
         }
         
-        /** The time that has passed since the last frame (in seconds). */
+        /** 从上一帧到现在所经过的时间。（以秒为单位） */
         public function get passedTime():Number { return data as Number; }
     }
 }
