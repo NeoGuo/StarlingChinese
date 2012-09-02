@@ -51,6 +51,37 @@ package starling.text
      *  <code>name</code> value of the bitmap font. This will make the text field use the bitmap
      *  font.  
      */ 
+	
+	//
+	/** 
+	 *  BitmapFont类解析bitmap字体文件，并保存在一个字符表中。
+	 *
+	 *  这个类解析的XML格式的文件使用了
+	 *  <a href="http://www.angelcode.com/products/bmfont/">AngelCode Bitmap Font Generator</a> or
+	 *  the <a href="http://glyphdesigner.71squared.com/">Glyph Designer</a>. 
+	 *  T这种格式看起来就像下面写的:
+	 *
+	 *  <pre> 
+	 *  &lt;font&gt;
+	 *    &lt;info face="BranchingMouse" size="40" /&gt;
+	 *    &lt;common lineHeight="40" /&gt;
+	 *    &lt;pages&gt;  &lt;!-- currently, only one page is supported --&gt;
+	 *      &lt;page id="0" file="texture.png" /&gt;
+	 *    &lt;/pages&gt;
+	 *    &lt;chars&gt;
+	 *      &lt;char id="32" x="60" y="29" width="1" height="1" xoffset="0" yoffset="27" xadvance="8" /&gt;
+	 *      &lt;char id="33" x="155" y="144" width="9" height="21" xoffset="0" yoffset="6" xadvance="9" /&gt;
+	 *    &lt;/chars&gt;
+	 *    &lt;kernings&gt; &lt;!-- Kerning is optional --&gt;
+	 *      &lt;kerning first="83" second="83" amount="-4"/&gt;
+	 *    &lt;/kernings&gt;
+	 *  &lt;/font&gt;
+	 *  </pre>
+	 *  通过TextField类的<code>registerBitmapFont</code>方法传递一个这个类的实例。 
+	 *  然后，设置文本字段的<code>fontName</code>属性为位图字体的名称值。这将使文本字段使用位图字体。
+	 *  
+	 * 
+	 */ 
     public class BitmapFont
     {
         // embed minimal font
@@ -62,9 +93,16 @@ package starling.text
         
         /** Use this constant for the <code>fontSize</code> property of the TextField class to 
          *  render the bitmap font in exactly the size it was created. */ 
+		
+		/**
+		 * 为TextField类的fontSize属性设置这个常量，让位图字体按照它的默认大小渲染 
+		 */		
         public static const NATIVE_SIZE:int = -1;
         
         /** The font name of the embedded minimal bitmap font. Use this e.g. for debug output. */
+		/**
+		 * 内嵌的一个小巧的位图字体. 
+		 */	
         public static const MINI:String = "mini";
         
         private static const CHAR_SPACE:int   = 32;
@@ -82,6 +120,12 @@ package starling.text
         
         /** Creates a bitmap font by parsing an XML file and uses the specified texture. 
          *  If you don't pass any data, the "mini" font will be created. */
+		/**
+		 * 通过解析XML文件创建一个位图字体，并使用指定的纹理。如果不传递任何数据，就使用内嵌的MINI字型。 
+		 * @param texture 纹理
+		 * @param fontXml 字体XML
+		 * 
+		 */		
         public function BitmapFont(texture:Texture=null, fontXml:XML=null)
         {
             // if no texture is passed in, we create the minimal, embedded font
@@ -102,6 +146,10 @@ package starling.text
         }
         
         /** Disposes the texture of the bitmap font! */
+		/**
+		 * 销毁位图字体的纹理 
+		 * 
+		 */		
         public function dispose():void
         {
             if (mTexture)
@@ -155,19 +203,45 @@ package starling.text
         }
         
         /** Returns a single bitmap char with a certain character ID. */
-        public function getChar(charID:int):BitmapChar
+		/**
+		 * 根据指定的字符ID返回一个位图字符 
+		 * @param charID 字符ID
+		 * @return 
+		 * 
+		 */        
+		public function getChar(charID:int):BitmapChar
         {
             return mChars[charID];   
         }
         
         /** Adds a bitmap char with a certain character ID. */
-        public function addChar(charID:int, bitmapChar:BitmapChar):void
+		/**
+		 * 根据指定的字符ID增加一个位图字符 
+		 * @param charID 字符ID
+		 * @param bitmapChar
+		 * 
+		 */        
+		public function addChar(charID:int, bitmapChar:BitmapChar):void
         {
             mChars[charID] = bitmapChar;
         }
         
         /** Creates a sprite that contains a certain text, made up by one image per char. */
-        public function createSprite(width:Number, height:Number, text:String,
+		/**
+		 * 创建一个包含字符图片的Sprite对象 
+		 * @param width 宽度
+		 * @param height 高度
+		 * @param text 文本内容
+		 * @param fontSize 文字大小
+		 * @param color 颜色
+		 * @param hAlign 水平对齐方式
+		 * @param vAlign 垂直对齐方式
+		 * @param autoScale 自动缩放
+		 * @param kerning 字距
+		 * @return 绘制生成的Sprite对象
+		 * 
+		 */        
+		public function createSprite(width:Number, height:Number, text:String,
                                      fontSize:Number=-1, color:uint=0xffffff, 
                                      hAlign:String="center", vAlign:String="center",      
                                      autoScale:Boolean=true, 
@@ -193,6 +267,20 @@ package starling.text
         }
         
         /** Draws text into a QuadBatch. */
+		/**
+		 * 将文本绘制成QuadBatch. 
+		 * @param quadBatch QuadBatch实例
+		 * @param width 宽度
+		 * @param height 高度
+		 * @param text 文本
+		 * @param fontSize 字号
+		 * @param color 颜色
+		 * @param hAlign 水平对齐方式
+		 * @param vAlign 垂直对齐方式
+		 * @param autoScale 自动缩放
+		 * @param kerning 字距
+		 * 
+		 */		
         public function fillQuadBatch(quadBatch:QuadBatch, width:Number, height:Number, text:String,
                                       fontSize:Number=-1, color:uint=0xffffff, 
                                       hAlign:String="center", vAlign:String="center",      
@@ -220,7 +308,7 @@ package starling.text
         }
         
         /** Arranges the characters of a text inside a rectangle, adhering to the given settings. 
-         *  Returns a Vector of CharLocations. */
+         *  Returns a Vector of CharLocations. */	
         private function arrangeChars(width:Number, height:Number, text:String, fontSize:Number=-1,
                                       hAlign:String="center", vAlign:String="center",
                                       autoScale:Boolean=true, kerning:Boolean=true):Vector.<CharLocation>
@@ -382,20 +470,45 @@ package starling.text
         }
         
         /** The name of the font as it was parsed from the font file. */
+		/**
+		 * 字体名称. 
+		 * @return 
+		 * 
+		 */		
         public function get name():String { return mName; }
         
         /** The native size of the font. */
+		/**
+		 * 字号. 
+		 * @return 
+		 * 
+		 */		
         public function get size():Number { return mSize; }
         
         /** The height of one line in pixels. */
+		/**
+		 * 行高. 
+		 * @return 
+		 * 
+		 */		
         public function get lineHeight():Number { return mLineHeight; }
         public function set lineHeight(value:Number):void { mLineHeight = value; }
         
         /** The smoothing filter that is used for the texture. */ 
+		/**
+		 * 纹理的平滑度. 
+		 * @return 
+		 * 
+		 */		
         public function get smoothing():String { return mHelperImage.smoothing; }
         public function set smoothing(value:String):void { mHelperImage.smoothing = value; } 
         
         /** The baseline of the font. */
+		/**
+		 * 字体的基线. 
+		 * @return 
+		 * 
+		 */		
         public function get baseline():Number { return mBaseline; }
     }
 }
