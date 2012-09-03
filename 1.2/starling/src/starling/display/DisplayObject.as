@@ -294,7 +294,7 @@ package starling.display
         /**
          * 返回一个矩形，该矩形定义相对于 targetSpace 对象坐标系的显示对象区域。
          * @param targetSpace	定义要使用的坐标系的显示对象。
-         * @param resultRect	如果传入一个resultRect, 计算的结果将保存在resultRect里，而不是重新创建一个<code>Rectangle</code>对象。
+         * @param resultRect	如果传入一个resultRect参数, 计算的结果将保存在这个矩形里，而不是重新创建一个<code>Rectangle</code>对象。
          * @return 
          * @throws AbstractMethodError
          */
