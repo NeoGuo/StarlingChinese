@@ -62,26 +62,33 @@ package starling.display
         /** @private */
         public function BlendMode() { throw new AbstractClassError(); }
         
-        /** Inherits the blend mode from this display object's parent. */
+        /** 继承这个显示对象的父级的混合模式。
+		 * Inherits the blend mode from this display object's parent. */
         public static const AUTO:String = "auto";
 
-        /** Deactivates blending, i.e. disabling any transparency. */
+        /** 停用混合，即禁止任何透明度。
+		 * Deactivates blending, i.e. disabling any transparency. */
         public static const NONE:String = "none";
         
-        /** The display object appears in front of the background. */
+        /** 显示对象显示在背景的前面。 
+		 * The display object appears in front of the background. */
         public static const NORMAL:String = "normal";
         
-        /** Adds the values of the colors of the display object to the colors of its background. */
+        /** 将显示对象的颜色值添加到背景的颜色里。 
+		 * Adds the values of the colors of the display object to the colors of its background. */
         public static const ADD:String = "add";
         
-        /** Multiplies the values of the display object colors with the the background color. */
+        /** 将显示对象的颜色值与背景的颜色相乘。 
+		 * Multiplies the values of the display object colors with the the background color. */
         public static const MULTIPLY:String = "multiply";
         
-        /** Multiplies the complement (inverse) of the display object color with the complement of 
+        /** 将显示对象颜色的补码（反码）与背景颜色的补码相乘，产生漂白效果。
+		 * Multiplies the complement (inverse) of the display object color with the complement of 
           * the background color, resulting in a bleaching effect. */
         public static const SCREEN:String = "screen";
         
-        /** Erases the background when drawn on a RenderTexture. */
+        /** 当绘制渲染纹理的时候擦除背景。
+		 * Erases the background when drawn on a RenderTexture. */
         public static const ERASE:String = "erase";
         
         // accessing modes
