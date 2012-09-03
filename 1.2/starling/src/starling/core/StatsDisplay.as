@@ -1,13 +1,11 @@
 // =================================================================================================
 //
-//	Starling Framework
-//	Copyright 2012 Gamua OG. All Rights Reserved.
+//	Starling 框架
+//	版权信息  2012 Gamua OG. 所有权利保留.
 //
-//	This program is free software. You can redistribute and/or modify it
-//	in accordance with the terms of the accompanying license agreement.
+//	这个程序是免费软件. 你可以在协议范围内自由修改和再发布.
 //
 // =================================================================================================
-
 package starling.core
 {
     import flash.system.System;
@@ -22,8 +20,7 @@ package starling.core
     import starling.utils.HAlign;
     import starling.utils.VAlign;
     
-    /** A small, lightweight box that displays the current framerate, memory consumption and
-     *  the number of draw calls per frame. */
+	/** 一个很小的，轻量级的盒子，它显示了当前的帧速率，内存消耗和每帧绘制调用次数 */
     internal class StatsDisplay extends Sprite
     {
         private var mBackground:Quad;
@@ -33,7 +30,7 @@ package starling.core
         private var mDrawCount:int  = 0;
         private var mTotalTime:Number = 0;
         
-        /** Creates a new Statistics Box. */
+		/** 创建一个数据统计盒子. */
         public function StatsDisplay()
         {
             mBackground = new Quad(50, 25, 0x0);
@@ -59,7 +56,7 @@ package starling.core
         
         private function getMemory():Number
         {
-            return System.totalMemory * 0.000000954; // 1 / (1024*1024) to convert to MB
+            return System.totalMemory * 0.000000954; // 1 / (1024*1024) 转化成 MB	
         }
         
         private function onEnterFrame(event:EnterFrameEvent):void
@@ -69,12 +66,12 @@ package starling.core
             
             if (mTotalTime > 1.0)
             {
-                updateText(mFrameCount / mTotalTime, getMemory(), mDrawCount-2); // DRW: ignore self
+                updateText(mFrameCount / mTotalTime, getMemory(), mDrawCount-2); // DRW: 忽略本身
                 mFrameCount = mTotalTime = 0;
             }
         }
         
-        /** The number of Stage3D draw calls per second. */
+		/** Stage3D每秒绘制调用次数. */
         public function get drawCount():int { return mDrawCount; }
         public function set drawCount(value:int):void { mDrawCount = value; }
     }
