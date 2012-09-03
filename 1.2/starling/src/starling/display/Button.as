@@ -23,20 +23,18 @@ package starling.display
     import starling.utils.HAlign;
     import starling.utils.VAlign;
 
-    /** Dispatched when the user triggers the button. Bubbles. */
+    /** 当用户点击或者触碰了按钮时进行分派，冒泡事件。 */
     [Event(name="triggered", type="starling.events.Event")]
     
-    /** A simple button composed of an image and, optionally, text.
+    /** 一个简单的按钮由一张图片和一个可选的文本组成。
      *  
-     *  <p>You can pass a texture for up- and downstate of the button. If you do not provide a down 
-     *  state, the button is simply scaled a little when it is touched.
-     *  In addition, you can overlay a text on the button. To customize the text, almost the 
-     *  same options as those of text fields are provided. In addition, you can move the text to a 
-     *  certain position with the help of the <code>textBounds</code> property.</p>
+     *  <p>你可以分别为按钮构造函数传递up和down两种状态的纹理。
+	 * 如果你没有指定一个down状态的纹理，按钮会采用默认的办法：被触碰的时候缩小一点。
+	 * 此外，你可以在按钮上覆盖一个文本，要自定义这个文本，只需要提供和原来的基本相同的文本框即可。
+	 * 你可以使用<code>textBounds</code>属性，将文本移动到一个指定的位置。</p>
      *  
-     *  <p>To react on touches on a button, there is special <code>triggered</code>-event type. Use
-     *  this event instead of normal touch events - that way, users can cancel button activation
-     *  by moving the mouse/finger away from the button before releasing.</p> 
+     *  <p>判断按钮是否被触碰，请使用<code>triggered</code>事件类型，
+	 * 用这个事件来代替普通的触碰事件。也就是说，用户只要在松开手指或者鼠标之前，移动手指/鼠标离开按钮区域，就可以取消对该按钮的点击操作。</p> 
      */ 
     public class Button extends DisplayObjectContainer
     {
@@ -56,7 +54,13 @@ package starling.display
         private var mIsDown:Boolean;
         private var mUseHandCursor:Boolean;
         
-        /** Creates a button with textures for up- and down-state or text. */
+        /**
+         * 创建一个按钮实例，设置它的up和down状态的纹理，以及文本。
+         * @param upState	up状态纹理
+         * @param text		文本
+         * @param downState	down状态纹理，默认为:null
+         * @throws ArgumentError
+         */
         public function Button(upState:Texture, text:String="", downState:Texture=null)
         {
             if (upState == null) throw new ArgumentError("Texture cannot be null");
@@ -140,16 +144,16 @@ package starling.display
             }
         }
         
-        /** The scale factor of the button on touch. Per default, a button with a down state 
-          * texture won't scale. */
+        /** 当按钮被触碰的时候的缩放参数。
+		 *  默认情况下，如果按钮含有down状态的纹理，则不会被缩放。 */
         public function get scaleWhenDown():Number { return mScaleWhenDown; }
         public function set scaleWhenDown(value:Number):void { mScaleWhenDown = value; }
         
-        /** The alpha value of the button when it is disabled. @default 0.5 */
+        /** 当按钮被禁用时的透明度，默认为：0.5。  */
         public function get alphaWhenDisabled():Number { return mAlphaWhenDisabled; }
         public function set alphaWhenDisabled(value:Number):void { mAlphaWhenDisabled = value; }
         
-        /** Indicates if the button can be triggered. */
+        /** 按钮是否能够被触碰。 */
         public function get enabled():Boolean { return mEnabled; }
         public function set enabled(value:Boolean):void
         {
@@ -161,7 +165,7 @@ package starling.display
             }
         }
         
-        /** The text that is displayed on the button. */
+        /** 按钮上的显示文本。  */
         public function get text():String { return mTextField ? mTextField.text : ""; }
         public function set text(value:String):void
         {
@@ -169,8 +173,8 @@ package starling.display
             mTextField.text = value;
         }
        
-        /** The name of the font displayed on the button. May be a system font or a registered 
-          * bitmap font. */
+        /** 按钮上显示文本的字体名称。
+		 *  可能是系统字体，或者已注册的位图字体。 */
         public function get fontName():String { return mTextField ? mTextField.fontName : "Verdana"; }
         public function set fontName(value:String):void
         {
@@ -178,7 +182,7 @@ package starling.display
             mTextField.fontName = value;
         }
         
-        /** The size of the font. */
+        /** 文本字体大小。 */
         public function get fontSize():Number { return mTextField ? mTextField.fontSize : 12; }
         public function set fontSize(value:Number):void
         {
@@ -186,7 +190,7 @@ package starling.display
             mTextField.fontSize = value;
         }
         
-        /** The color of the font. */
+        /** 文本字体颜色。 */
         public function get fontColor():uint { return mTextField ? mTextField.color : 0x0; }
         public function set fontColor(value:uint):void
         {
@@ -194,7 +198,7 @@ package starling.display
             mTextField.color = value;
         }
         
-        /** Indicates if the font should be bold. */
+        /** 文本字体是否加粗。 */
         public function get fontBold():Boolean { return mTextField ? mTextField.bold : false; }
         public function set fontBold(value:Boolean):void
         {
@@ -202,7 +206,7 @@ package starling.display
             mTextField.bold = value;
         }
         
-        /** The texture that is displayed when the button is not being touched. */
+        /** 按钮默认情况下显示的纹理（即没有被触碰的时候）。 */
         public function get upState():Texture { return mUpState; }
         public function set upState(value:Texture):void
         {
@@ -213,7 +217,7 @@ package starling.display
             }
         }
         
-        /** The texture that is displayed while the button is touched. */
+        /** 按钮被触碰时显示的纹理。 */
         public function get downState():Texture { return mDownState; }
         public function set downState(value:Texture):void
         {
@@ -224,7 +228,8 @@ package starling.display
             }
         }
         
-        /** The bounds of the textfield on the button. Allows moving the text to a custom position. */
+        /** 按钮上文本框的边界矩形。
+		 * 允许移动文本到一个自定义的位置。 */
         public function get textBounds():Rectangle { return mTextBounds.clone(); }
         public function set textBounds(value:Rectangle):void
         {
@@ -232,7 +237,7 @@ package starling.display
             createTextField();
         }
         
-        /** Indicates if the mouse cursor should transform into a hand while it's over the button. 
+        /** 当光标移动到按钮上时，是否显示手型光标，默认为：true。
          *  @default true */
         public override function get useHandCursor():Boolean { return mUseHandCursor; }
         public override function set useHandCursor(value:Boolean):void { mUseHandCursor = value; }

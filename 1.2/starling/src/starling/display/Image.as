@@ -19,18 +19,16 @@ package starling.display
     import starling.textures.TextureSmoothing;
     import starling.utils.VertexData;
     
-    /** An Image is a quad with a texture mapped onto it.
+    /**
+	 * 一个图片是一个映射了纹理的四边形。
      *  
-     *  <p>The Image class is the Starling equivalent of Flash's Bitmap class. Instead of 
-     *  BitmapData, Starling uses textures to represent the pixels of an image. To display a 
-     *  texture, you have to map it onto a quad - and that's what the Image class is for.</p>
+     *  <p>Image类相当于Flash的Bitmap类的Starling版本，不过Starling是用纹理来代替BitmapData来提供图像的像素资源。
+	 * 要显示一个纹理，你需要把它映射到一个四边形上--这就是Image类的功能。</p>
      *  
-     *  <p>As "Image" inherits from "Quad", you can give it a color. For each pixel, the resulting  
-     *  color will be the result of the multiplication of the color of the texture with the color of 
-     *  the quad. That way, you can easily tint textures with a certain color. Furthermore, images 
-     *  allow the manipulation of texture coordinates. That way, you can move a texture inside an 
-     *  image without changing any vertex coordinates of the quad. You can also use this feature
-     *  as a very efficient way to create a rectangular mask.</p> 
+     *  <p>因为"Image"是继承自"Quad",所以你可以给它设置颜色。
+	 * 每个像素的颜色是根据纹理的颜色和四边形的颜色相乘得来的，这样，你就可以很容易的根据一个颜色改变纹理的色调。
+	 * 此外，Image允许你对纹理坐标进行操作，你可以在不改变四边形任何顶点坐标的情况下，在图片的内部移动纹理。
+	 * 你还可以使用这种功能以一个非常高效的方式创建一个矩形遮罩。</p> 
      *  
      *  @see starling.textures.Texture
      *  @see Quad
@@ -43,7 +41,7 @@ package starling.display
         private var mVertexDataCache:VertexData;
         private var mVertexDataCacheInvalid:Boolean;
         
-        /** Creates a quad with a texture mapped onto it. */
+        /** 创建一个具有纹理映射的四边形。 */
         public function Image(texture:Texture)
         {
             if (texture)
@@ -71,7 +69,11 @@ package starling.display
             }
         }
         
-        /** Creates an Image with a texture that is created from a bitmap object. */
+        /**
+         * 根据传入的位图对象创建一个包含纹理的Image。
+         * @param bitmap	位图对象
+         * @return 
+         */
         public static function fromBitmap(bitmap:Bitmap):Image
         {
             return new Image(Texture.fromBitmap(bitmap));
@@ -83,8 +85,7 @@ package starling.display
             mVertexDataCacheInvalid = true;
         }
         
-        /** Readjusts the dimensions of the image according to its current texture. Call this method 
-         *  to synchronize image and texture size after assigning a texture with a different size.*/
+        /** 根据图像当前的纹理调整图像的尺寸，在为图片设置了另外一个不同的纹理以后，需要调用这个方法来同步图像和纹理的尺寸。*/
         public function readjustSize():void
         {
             var frame:Rectangle = texture.frame;
@@ -99,16 +100,23 @@ package starling.display
             onVertexDataChanged();
         }
         
-        /** Sets the texture coordinates of a vertex. Coordinates are in the range [0, 1]. */
+        /**
+         * 设置一个顶点的纹理坐标，坐标范围：[0,1]。
+         * @param vertexID	顶点的ID
+         * @param coords	坐标
+         */
         public function setTexCoords(vertexID:int, coords:Point):void
         {
             mVertexData.setTexCoords(vertexID, coords.x, coords.y);
             onVertexDataChanged();
         }
         
-        /** Gets the texture coordinates of a vertex. Coordinates are in the range [0, 1]. 
-         *  If you pass a 'resultPoint', the result will be stored in this point instead of 
-         *  creating a new object.*/
+        /**
+         * 获取一个顶点的纹理坐标，坐标范围：[0,1]。
+         * @param vertexID	顶点的ID
+         * @param resultPoint	如果传入一个resultPoint, 计算的结果将保存在resultPoint里，而不是重新创建一个<code>Point</code>对象。
+         * @return 
+         */
         public function getTexCoords(vertexID:int, resultPoint:Point=null):Point
         {
             if (resultPoint == null) resultPoint = new Point();
@@ -116,8 +124,12 @@ package starling.display
             return resultPoint;
         }
         
-        /** Copies the raw vertex data to a VertexData instance.
-         *  The texture coordinates are already in the format required for rendering. */ 
+        /**
+         * 复制源顶点数据到一个<code>VertexData</code>实例。
+		 * 纹理坐标已经存在于渲染所需的格式中。
+         * @param targetData		目标<code>VertexData</code>实例
+         * @param targetVertexID	目标顶点的ID
+         */
         public override function copyVertexDataTo(targetData:VertexData, targetVertexID:int=0):void
         {
             if (mVertexDataCacheInvalid)
@@ -130,7 +142,7 @@ package starling.display
             mVertexDataCache.copyTo(targetData, targetVertexID);
         }
         
-        /** The texture that is displayed on the quad. */
+		/** 映射到四边形的纹理对象。 */
         public function get texture():Texture { return mTexture; }
         public function set texture(value:Texture):void 
         { 
@@ -146,7 +158,7 @@ package starling.display
             }
         }
         
-        /** The smoothing filter that is used for the texture. 
+        /** 用于纹理的平滑过滤，默认值为：bilinear。
         *   @default bilinear
         *   @see starling.textures.TextureSmoothing */ 
         public function get smoothing():String { return mSmoothing; }
