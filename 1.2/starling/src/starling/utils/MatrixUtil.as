@@ -1,6 +1,6 @@
 // =================================================================================================
 //
-//	Starling Framework
+//    Starling Framework
 //	Copyright 2011 Gamua OG. All Rights Reserved.
 //
 //	This program is free software. You can redistribute and/or modify it
@@ -16,18 +16,17 @@ package starling.utils
     
     import starling.errors.AbstractClassError;
 
-    /** A utility class containing methods related to the Matrix class. */
+    /** 一个包含矩阵相关方法的类 */
     public class MatrixUtil
     {
-        /** Helper object. */
+        /** 有用的对象 */
         private static var sRawData:Vector.<Number> = 
             new <Number>[1, 0, 0, 0,  0, 1, 0, 0,  0, 0, 1, 0,  0, 0, 0, 1];
         
         /** @private */
         public function MatrixUtil() { throw new AbstractClassError(); }
         
-        /** Converts a 2D matrix to a 3D matrix. If you pass a 'resultMatrix',  
-         *  the result will be stored in this matrix instead of creating a new object. */
+        /** 2D矩阵转换为3D矩阵.如果传入'resultMatrix',则结果会存储在这个矩阵中，而不是创建一个新对象. */
         public static function convertTo3D(matrix:Matrix, resultMatrix:Matrix3D=null):Matrix3D
         {
             if (resultMatrix == null) resultMatrix = new Matrix3D();
@@ -43,8 +42,7 @@ package starling.utils
             return resultMatrix;
         }
         
-        /** Uses a matrix to transform 2D coordinates into a different space. If you pass a 
-         *  'resultPoint', the result will be stored in this point instead of creating a new object.*/
+        /** 用一个矩阵转换2D坐标到另一个不同的空间.如果传入'resultPoint',则结果会存储在这个点里，而不是创建一个新对象. */
         public static function transformCoords(matrix:Matrix, x:Number, y:Number,
                                                resultPoint:Point=null):Point
         {
@@ -56,7 +54,7 @@ package starling.utils
             return resultPoint;
         }
         
-        /** Appends a skew transformation to a matrix, with angles in radians. */
+        /** 以一定的弧度附加一个扭曲转换到矩阵中. */
         public static function skew(matrix:Matrix, skewX:Number, skewY:Number):void
         {
             var a:Number    = matrix.a;
@@ -77,7 +75,7 @@ package starling.utils
             matrix.d = d * cosX - b * sinX;
         }
         
-        /** Prepends a matrix to 'base' by multiplying it with another matrix. */
+        /** 通过与另一矩阵相乘，追加矩阵到'base'. */
         public static function prependMatrix(base:Matrix, prep:Matrix):void
         {
             base.setTo(base.a * prep.a + base.c * prep.b,
@@ -88,14 +86,14 @@ package starling.utils
                        base.ty + base.b * prep.tx + base.d * prep.ty);
         }
         
-        /** Prepends an incremental translation to a Matrix object. */
+        /** 追加一个增量位移到矩阵中. */
         public static function prependTranslation(matrix:Matrix, tx:Number, ty:Number):void
         {
             matrix.tx += matrix.a * tx + matrix.c * ty;
             matrix.ty += matrix.b * tx + matrix.d * ty;
         }
         
-        /** Prepends an incremental scale change to a Matrix object. */
+        /** 追加一个增量缩放变换到矩阵中. */
         public static function prependScale(matrix:Matrix, sx:Number, sy:Number):void
         {
             matrix.setTo(matrix.a * sx, matrix.b * sx, 
@@ -103,7 +101,7 @@ package starling.utils
                          matrix.tx, matrix.ty);
         }
         
-        /** Prepends an incremental rotation to a Matrix3D object. */
+        /** 追加一个增量旋转到Matrix3D中. */
         public static function prependRotation(matrix:Matrix, angle:Number):void
         {
             var sin:Number = Math.sin(angle);
