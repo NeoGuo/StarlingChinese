@@ -10,9 +10,9 @@
 
 package starling.utils
 {
-    /** 弧度转换为角度. */
-    public function rad2deg(rad:Number):Number
+    /** 角度转换为弧度. */
+    public function deg2rad(deg:Number):Number
     {
-        return rad / Math.PI * 180.0;            
+        return deg / 180.0 * Math.PI;   
     }
 }
