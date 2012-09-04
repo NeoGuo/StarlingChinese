@@ -36,44 +36,23 @@ package starling.display
     
     use namespace starling_internal;
     
-    /** Optimizes rendering of a number of quads with an identical state.
-	 * 用于优化渲染大量具备相同状态的四边形(Quad类).
+    /** 
+	 * QuadBatch类用于优化渲染大量具备相同状态的四边形(Quad类).
      * 
      *  <p>Starling的大部分渲染对象都是四边形。实际上，Starling的所有默认叶子节点都是四边形（Image和Quad类）。
-	 * 如果所有的具有相同状态的四边形可以只用一次请求就上传给GPU，那么渲染这些四边形的执行效率将会得到
-	 * 极大的提升。这就是QuadBatch类的作用。
-	 * The majority of all rendered objects in Starling are quads. In fact, all the default
-     *  leaf nodes of Starling are quads (the Image and Quad classes). The rendering of those 
-     *  quads can be accelerated by a big factor if all quads with an identical state are sent 
-     *  to the GPU in just one call. That's what the QuadBatch class can do.</p>
+	 * 如果所有的具有相同状态的四边形可以只用一次请求就上传给GPU，那么渲染这些四边形的执行效率将会得到极大的提升。这就是QuadBatch类的作用。</p>
      *  
      *  <p>Sprite类的'flatten'方法在内部使用了这个类来提升渲染效率。
-	 * 大多数情况下，建议你使用"平面化"的对象，因为他们用起来很简单。然后有时，直接使用QuadBatch类更
-	 * 有意义：例如，你可以将一个四边形多次添加进一个四边形批次，然而，你只能添加它到一个sprite容器一次。
-	 * 此外，当一个四边形被添加时，并不会分派<code>ADDED</code> 或者 <code>ADDED_TO_STAGE</code> 
-	 * 事件，这使得QuadBatch更加轻便。
-	 * The 'flatten' method of the Sprite class uses this class internally to optimize its 
-     *  rendering performance. In most situations, it is recommended to stick with flattened
-     *  sprites, because they are easier to use. Sometimes, however, it makes sense
-     *  to use the QuadBatch class directly: e.g. you can add one quad multiple times to 
-     *  a quad batch, whereas you can only add it once to a sprite. Furthermore, this class
-     *  does not dispatch <code>ADDED</code> or <code>ADDED_TO_STAGE</code> events when a quad
-     *  is added, which makes it more lightweight.</p>
+	 * 大多数情况下，建议你使用"平面化"的对象，因为他们用起来很简单。不过有时，直接使用QuadBatch类效果会更好：
+	 * 例如，你可以将一个四边形多次添加进一个四边形批次，但是，你只能添加它到一个sprite容器一次。
+	 * 此外，当一个四边形被添加时，并不会派发<code>ADDED</code> 或者 <code>ADDED_TO_STAGE</code> 事件，这使得QuadBatch更加轻便。</p>
      *  
      *  <p>一个QuadBatch对象只能有一个特定的渲染状态。
 	 * 你添加到批次的第一个对象将决定QuadBatch的状态，包括：它的纹理，它的平滑度和混合设置，
-	 * 它是否被染色（有色的顶点 和/或  透明的）。当你重置批次，它将会在添加下一个四边形时
-	 * 接受一个新的状态。
-	 * One QuadBatch object is bound to a specific render state. The first object you add to a 
-     *  batch will decide on the QuadBatch's state, that is: its texture, its settings for 
-     *  smoothing and blending, and if it's tinted (colored vertices and/or transparency). 
-     *  When you reset the batch, it will accept a new state on the next added quad.</p> 
+	 * 它是否被染色（有色的顶点 和/或  透明的）。当你重置批次，它将会在添加下一个四边形时接受一个新的状态。</p> 
      *  
      *  <p>这个类继承了DisplayObject，但是你可以使用它，即使它没有被添加到显示列表树。
-	 * 只需从另一个渲染方法调用'renderCustom'方法，并且传递适当的值（包括变换矩阵，透明度，混合模式）。
-	 * The class extends DisplayObject, but you can use it even without adding it to the
-     *  display tree. Just call the 'renderCustom' method from within another render method,
-     *  and pass appropriate values for transformation matrix, alpha and blend mode.</p>
+	 * 只需从另一个渲染方法调用'renderCustom'方法，并且传递适当的值（包括变换矩阵，透明度，混合模式）。</p>
      *
      *  @see Sprite  
      */ 
@@ -193,8 +172,7 @@ package starling.display
             mSyncRequired = false;
         }
         
-        /** 
-		 * Uploads the raw data of all batched quads to the vertex buffer. */
+        /** 上传所有的四边形源数据到顶点缓冲区。*/
         private function syncBuffers():void
         {
             if (mVertexBuffer == null)
@@ -210,7 +188,7 @@ package starling.display
         }
         
         /**
-         * 结合对 模型-视图-投影矩阵，透明度和混合模式的自定义设置来呈现当前批次。
+         * 结合对 模型-视图-投影矩阵，透明度和混合模式的自定义设置来渲染当前批次。
 		 * 这样就使渲染那些不在显示列表的批次成为可能。
          * @param mvpMatrix	 模型-视图-投影矩阵
          * @param parentAlpha	父级的透明度
@@ -287,10 +265,6 @@ package starling.display
             addQuad(image, parentAlpha, image.texture, image.smoothing, modelViewMatrix, blendMode);
         }
         
-        /** Adds a quad to the batch. The first quad determines the state of the batch,
-         *  i.e. the values for texture, smoothing and blendmode. When you add additional quads,  
-         *  make sure they share that state (e.g. with the 'isStageChange' method), or reset
-         *  the batch. */ 
         /**
          * 添加一个四边形到当前批次。
 		 * 第一个四边形决定批次的状态。比如纹理的值，平滑度和混合模式。
@@ -365,10 +339,6 @@ package starling.display
             mNumQuads += numQuads;
         }
         
-        /** Indicates if specific quads can be added to the batch without causing a state change. 
-         *  A state change occurs if the quad uses a different base texture, has a different 
-         *  'tinted', 'smoothing', 'repeat' or 'blendMode' setting, or if the batch is full
-         *  (one batch can contain up to 8192 quads). */
         /**
          * 判断如果一个四边形可以被添加到批次，会否引起状态的变化。
 		 * 状态变化可能是由于四边形使用了不同的基础纹理，可能是有不同的"是否染色"，"平滑度"，"纹理是否平铺显示"，或者"混合模式"设置，
@@ -419,10 +389,6 @@ package starling.display
         
         // compilation (for flattened sprites)
         
-        /** Analyses a container object that is made up exclusively of quads (or other containers)
-         *  and creates a vector of QuadBatch objects representing the container. This can be
-         *  used to render the container very efficiently. The 'flatten'-method of the Sprite 
-         *  class uses this method internally. */
         /**
          * 分析一个专门由四边形（或者其他容器）组成的容器对象，
 		 * 并且创建一个矢量数组(元素类型是QuadBatch)来代替容器。 这可以用来非常高效的渲染容器。
@@ -543,7 +509,7 @@ package starling.display
         public function get numQuads():int { return mNumQuads; }
 		/** 是否染色。 */
         public function get tinted():Boolean { return mTinted; }
-		/** 此批次的纹理。 */
+		/** 纹理。 */
         public function get texture():Texture { return mTexture; }
 		/** 平滑度。 */
         public function get smoothing():String { return mSmoothing; }

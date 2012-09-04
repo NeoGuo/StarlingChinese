@@ -15,7 +15,7 @@ package starling.display
     import starling.core.RenderSupport;
     import starling.events.Event;
 
-    /** 当"平面化"这个对象时，向对象的所有子级分派此事件。 */
+    /** 当"平面化"这个对象时，向对象的所有子级派发此事件。 */
     [Event(name="flatten", type="starling.events.Event")]
     
     /** Sprite是一个极其轻量，非抽象的容器类。
@@ -79,7 +79,7 @@ package starling.display
             }
         }
         
-        /** 返回这个对象是否经过"平面化"处理。 */
+        /** 判断这个对象是否经过"平面化"处理。 */
         public function get isFlattened():Boolean { return mFlattenedContents != null; }
         
         /** @inheritDoc */

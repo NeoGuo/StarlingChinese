@@ -23,7 +23,7 @@ package starling.display
     import starling.utils.HAlign;
     import starling.utils.VAlign;
 
-    /** 当用户点击或者触碰了按钮时进行分派，冒泡事件。 */
+    /** 当用户点击或者触碰了按钮时进行派发，冒泡事件。 */
     [Event(name="triggered", type="starling.events.Event")]
     
     /** 一个简单的按钮由一张图片和一个可选的文本组成。

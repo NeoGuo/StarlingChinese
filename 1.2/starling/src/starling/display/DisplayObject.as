@@ -27,17 +27,17 @@ package starling.display
     import starling.filters.FragmentFilter;
     import starling.utils.MatrixUtil;
     
-    /** 将显示对象添加到显示列表中时分派。 */
+    /** 当一个显示对象被添加到父级的时候派发。 */
     [Event(name="added", type="starling.events.Event")]
-    /** 在将显示对象直接添加到舞台显示列表或将包含显示对象的子树添加至舞台显示列表中时分派。 */
+    /** 当一个显示对象被添加到stage(直接的或者间接的)的时候派发。 */
     [Event(name="addedToStage", type="starling.events.Event")]
-    /** 将要从显示列表中删除显示对象时分派。 */
+    /** 当一个显示对象从父级删除的时候派发。 */
     [Event(name="removed", type="starling.events.Event")]
-    /** 在从显示列表中直接删除显示对象或删除包含显示对象的子树时分派, 删除后不再渲染此显示对象。 */ 
+    /** 当一个显示对象从stage删除(直接的或者间接的)的时候派发，此对象不再会被渲染。 */ 
     [Event(name="removedFromStage", type="starling.events.Event")]
-    /** 在每一个新帧分派给舞台显示列表中的所有显示对象。 */ 
+    /** 在每一帧派发给stage上的所有显示对象。 */ 
     [Event(name="enterFrame", type="starling.events.EnterFrameEvent")]
-    /** 当显示对象被触碰时分派。 */
+    /** 当显示对象被触碰时派发，冒泡事件。 */
     [Event(name="touch", type="starling.events.TouchEvent")]
     
     /**
@@ -48,59 +48,32 @@ package starling.display
      *  <p>在Starling中，所有可显示对象都处于显示列表树中，只有属于显示列表树的成员才可以在屏幕上显示和渲染。</p> 
      *   
      *  <p>显示列表树由可以直接渲染到屏幕的叶子节点（Image, Quad）和容器节点（<code>DisplayObjectContainer</code>的子类，比如 <code>Sprite</code>）组成。
-	 * 	   容器是一个包含子节点（子节点可以使叶子节点或者其他容器）的显示对象。	
-	 * The display tree consists of leaf nodes (Image, Quad) that will be rendered directly to
-     *  the screen, and of container nodes (subclasses of "DisplayObjectContainer", like "Sprite").
-     *  A container is simply a display object that has child nodes - which can, again, be either
-     *  leaf nodes or other containers.</p> 
+	 * 	   容器是一个包含子节点（子节点可以是叶子节点或者其他容器）的显示对象。</p> 
      *  
      *  <p>Stage处于显示列表树的顶级节点，同样也是一个容器。
-	 *  要创建一个Starling应用，你需要创建一个自定义的Sprite的子类，Starling会添加一个该子类的实例对象到stage上。
-	 * At the base of the display tree, there is the Stage, which is a container, too. To create
-     *  a Starling application, you create a custom Sprite subclass, and Starling will add an
-     *  instance of this class to the stage.</p>
+	 *  要创建一个Starling应用，你需要创建一个自定义的Sprite的子类，Starling会添加一个该子类的实例对象到stage上。</p>
      *  
      *  <p>一个显示对象有定义它自身相对于它的父级的位置的属性（x，y），有旋转和缩放参数（scaleX，scaleY），
-	 * 可以使用<code>alpha</code> 和 <code>visible</code>属性分别控制显示对象的透明度和可见性。
-	 * A display object has properties that define its position in relation to its parent
-     *  (x, y), as well as its rotation and scaling factors (scaleX, scaleY). Use the 
-     *  <code>alpha</code> and <code>visible</code> properties to make an object translucent or 
-     *  invisible.</p>
+	 * 可以使用<code>alpha</code> 和 <code>visible</code>属性分别控制显示对象的透明度和可见性。</p>
      *  
      *  <p>每个显示对象都有可能是触碰事件的目标，你可以设置"touchable"属性来禁止对象被触碰。
-	 * 当它被设置为禁止触碰，对象本身和它的子对象都不会再响应触碰事件。
-	 * Every display object may be the target of touch events. If you don't want an object to be
-     *  touchable, you can disable the "touchable" property. When it's disabled, neither the object
-     *  nor its children will receive any more touch events.</p>
+	 * 当它被设置为禁止触碰，对象本身和它的子对象都不会再响应触碰事件。</p>
      *    
      *  <strong>坐标转换</strong>
      *  
      *  <p>在显示坐标树里，每个对象都有自己的局部坐标系统，如果你旋转一个容器，意味着你旋转了整个容器的坐标
-	 * 系统，并且影响到了容器的所有子对象。
-	 * Within the display tree, each object has its own local coordinate system. If you rotate
-     *  a container, you rotate that coordinate system - and thus all the children of the 
-     *  container.</p>
+	 * 系统，并且影响到了容器的所有子对象。</p>
      *  
      *  <p>有时候你需要知道某个点相对于其他坐标系的坐标，<code>getTransformationMatrix</code>函数实现了这个功能。
-	 * 它将创建一个矩阵，该矩阵表示从一个局部坐标系到另一个坐标系的转换。
-	 * Sometimes you need to know where a certain point lies relative to another coordinate 
-     *  system. That's the purpose of the method <code>getTransformationMatrix</code>. It will  
-     *  create a matrix that represents the transformation of a point in one coordinate system to 
-     *  another.</p> 
+	 * 它将创建一个矩阵，该矩阵表示从一个局部坐标系到另一个坐标系的转换。</p> 
      *  
      *  <strong>子类</strong>
      *  
      *  <p>由于DisplayObject是抽象类,所以你不能直接实例化它，只能用某个它的子类。目前已经有很多这样的子类了，
-	 * 大部分情况下他们应该能够满足你的需要了。
-	 * Since DisplayObject is an abstract class, you cannot instantiate it directly, but have 
-     *  to use one of its subclasses instead. There are already a lot of them available, and most 
-     *  of the time they will suffice.</p> 
+	 * 大部分情况下它们应该能够满足你的需要了。</p> 
      *  
      *  <p>然而，你也可以自定义你自己的子类，要实现自定义的子类，你需要实现自定义的渲染方法，在你自定义的子类中
-	 * 需要实现下面的方法：
-	 * However, you can create custom subclasses as well. That way, you can create an object
-     *  with a custom render function. You will need to implement the following methods when you 
-     *  subclass DisplayObject:</p>
+	 * 需要实现下面的方法：</p>
      *  
      *  <ul>
      *    <li><code>function render(support:RenderSupport, parentAlpha:Number):void</code></li>
@@ -109,18 +82,10 @@ package starling.display
      *  </ul>
      *  
      *  <p>请参阅Quad类，它对于"getBounds"方法有一个简单的实现。
-	 * 一个简单的例子阐述如何创建自定义的渲染方法，你可以参考这个在Starling Wiki上的<a href="http://wiki.starling-framework.org/manual/custom_display_objects">自定义显示对象</a>
-	 * Have a look at the Quad class for a sample implementation of the 'getBounds' method.
-     *  For a sample on how to write a custom render function, you can have a look at this
-     *  <a href="http://wiki.starling-framework.org/manual/custom_display_objects">article</a>
-     *  in the Starling Wiki.</p> 
+	 * 一个简单的例子阐述如何创建自定义的渲染方法，你可以参考这个在Starling Wiki上的<a href="http://wiki.starling-framework.org/manual/custom_display_objects">自定义显示对象</a></p> 
      * 
      *  <p>当你重载render方法时，请注意调用辅助对象(一个RenderSupport对象)的'finishQuadBatch'方法。
-	 * 这将促使Starling使用不同的渲染方法来渲染之前累计的所有四边形（鉴于性能考虑），否则，z-ordering将会不正确。
-	 * When you override the render method, it is important that you call the method
-     *  'finishQuadBatch' of the support object. This forces Starling to render all quads that 
-     *  were accumulated before by different render methods (for performance reasons). Otherwise, 
-     *  the z-ordering will be incorrect.</p> 
+	 * 这将促使Starling使用不同的渲染方法来渲染之前累计的所有四边形（鉴于性能考虑），否则，z-ordering将会出错。</p> 
      * 
      *  @see DisplayObjectContainer
      *  @see Sprite
@@ -197,7 +162,7 @@ package starling.display
         /**
          * 返回一个矩阵，该矩阵表示从一个局部坐标系到另一个坐标系的转换。
          * @param targetSpace	定义要使用的坐标系的显示对象。
-         * @param resultMatrix	如果传入一个resultMatrix, 计算的结果将保存在resultMatrix里，而不是重新创建一个<code>Matrix</code>对象。
+         * @param resultMatrix	如果传入一个resultMatrix, 计算的结果将保存在这个矩阵里，而不是重新创建一个<code>Matrix</code>对象。
          * @return 
          * @throws ArgumentError
          */
@@ -323,7 +288,7 @@ package starling.display
         /**
          * 将一个点坐标从局部坐标系转换成全局(stage)坐标系坐标 。
          * @param localPoint    需要转换成全局坐标的局部坐标点。
-         * @param resultPoint	如果传入一个resultPoint, 计算的结果将保存在resultPoint里，而不是重新创建一个<code>Point</code>对象。
+         * @param resultPoint	如果传入一个resultPoint, 计算的结果将保存在这个点里，而不是重新创建一个<code>Point</code>对象。
          * @return 
          */
         public function localToGlobal(localPoint:Point, resultPoint:Point=null):Point
@@ -335,7 +300,7 @@ package starling.display
         /**
          * 将一个点坐标从全局(stage)坐标系转换成为局部坐标系坐标 。
          * @param globalPoint	需要转换成局部坐标的全局坐标点。
-         * @param resultPoint	如果传入一个resultPoint, 计算的结果将保存在resultPoint里，而不是重新创建一个<code>Point</code>对象。
+         * @param resultPoint	如果传入一个resultPoint, 计算的结果将保存在这个点里，而不是重新创建一个<code>Point</code>对象。
          * @return 
          */
         public function globalToLocal(globalPoint:Point, resultPoint:Point=null):Point
@@ -345,7 +310,7 @@ package starling.display
             return MatrixUtil.transformCoords(sHelperMatrix, globalPoint.x, globalPoint.y, resultPoint);
         }
         
-        /**使用辅助对象来渲染显示对象，永远不要直接调用这个方法，除非在另外一个渲染方法里调用。 
+        /** 使用辅助对象来渲染显示对象，永远不要直接调用这个方法，除非在另外一个渲染方法里调用。 
          *  @param support 为渲染显示对象提供一些实用方法。
          *  @param parentAlpha 从显示对象的父级到stage的alpha值的累加值。*/
         public function render(support:RenderSupport, parentAlpha:Number):void
@@ -354,7 +319,6 @@ package starling.display
         }
         
         /** @inheritDoc */
-		/** 分派一个事件到所有注册了同一个事件类型侦听器的对象。 */
         public override function dispatchEvent(event:Event):void
         {
             // on one given moment, there is only one set of touches -- thus, 
@@ -405,7 +369,7 @@ package starling.display
         // properties
  
         /** 返回显示对象相对于父级对象坐标系的变换矩阵。
-		 *  如果你指定一个变换矩阵，Starling会为（<code>x, y, scaleX/Y, rotation</code> etc）自动计算出合适的值。
+		 *  如果你指定一个变换矩阵，Starling会为（<code>x, y, scaleX/Y, rotation</code> 等）自动计算出合适的值。
 		 *  警告：返回的是显示对象本身的变换矩阵，并不是副本。*/
         public function get transformationMatrix():Matrix
         {
@@ -513,7 +477,7 @@ package starling.display
             else                     scaleY = 1.0;
         }
         
-		/**显示对象相对于父级对象的局部坐标系的x坐标。  */
+		/** 显示对象相对于父级对象的局部坐标系的x坐标。  */
         public function get x():Number { return mX; }
         public function set x(value:Number):void 
         { 
@@ -524,7 +488,7 @@ package starling.display
             }
         }
         
-        /**显示对象相对于父级对象的局部坐标系的y坐标。  */
+        /** 显示对象相对于父级对象的局部坐标系的y坐标。  */
         public function get y():Number { return mY; }
         public function set y(value:Number):void 
         {
@@ -657,7 +621,7 @@ package starling.display
         public function get parent():DisplayObjectContainer { return mParent; }
         
         /**
-         *  包含该显示对象的显示列表树的顶级显示对象。
+         * 包含该显示对象的显示列表树的顶级显示对象。
          */
         public function get base():DisplayObject
         {
@@ -667,7 +631,7 @@ package starling.display
         }
         
         /** 
-		 * 包含该显示对象的显示列表树的顶级显示对象（例如:Starling构造函数里的rootClass对象），
+		 * 包含该显示对象的显示列表树的最顶级的对象（非stage, 例如:Starling构造函数里的rootClass对象），
 		 * 如果显示对象尚未添加到显示列表，则root 属性为null。
 		 */
 		public function get root():DisplayObject
@@ -683,7 +647,7 @@ package starling.display
         }
         
         /**
-         * 与该显示对象关联的stage对象，如果还没有被添加到舞台则为空。
+         * 与该显示对象关联的stage对象，如果还没有被添加到stage则为空。
          */
         public function get stage():Stage { return this.base as Stage; }
     }

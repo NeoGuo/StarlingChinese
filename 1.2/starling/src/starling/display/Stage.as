@@ -19,13 +19,13 @@ package starling.display
     
     use namespace starling_internal;
     
-    /** 当Flash容器的尺寸发生改变时进行分派。 */
+    /** 当Flash容器的尺寸发生改变时进行派发。 */
     [Event(name="resize", type="starling.events.ResizeEvent")]
     
-    /** 当键盘按键松开时进行分派。 */
+    /** 当键盘按键松开时进行派发。 */
     [Event(name="keyUp", type="starling.events.KeyboardEvent")]
     
-    /** 当键盘按键按下时进行分派。 */
+    /** 当键盘按键按下时进行派发。 */
     [Event(name="keyDown", type="starling.events.KeyboardEvent")]
     
     /** Stage是显示列表树的根节点，只有直接或者间接放置到stage上的显示对象才会被渲染。
@@ -40,11 +40,11 @@ package starling.display
      * 
      *  <strong>键盘事件</strong>
      * 
-     *  <p>在Starling中，键盘事件只能够在stage分派，所以，如果想捕获到分派的键盘事件，只能给stage添加键盘事件监听。</p>
+     *  <p>在Starling中，键盘事件只能够在stage派发，所以，如果想捕获到派发的键盘事件，只能给stage添加键盘事件监听。</p>
      * 
      *  <strong>尺寸变化事件</strong>
      * 
-     *  <p>当Flash player 尺寸变化时，stage会分派一个<code>ResizeEvent</code>事件。
+     *  <p>当Flash player 尺寸变化时，stage会派发一个<code>ResizeEvent</code>事件。
 	 *  这个事件的属性包含更新后的Flash player的宽度和高度。</p>
      *
      *  @see starling.events.KeyboardEvent

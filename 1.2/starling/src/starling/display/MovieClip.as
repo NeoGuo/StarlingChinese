@@ -17,7 +17,7 @@ package starling.display
     import starling.events.Event;
     import starling.textures.Texture;
     
-    /** 当影片剪辑播放完最后一帧时进行分派。 */
+    /** 当影片剪辑播放完最后一帧时进行派发。 */
     [Event(name="complete", type="starling.events.Event")]
     
     /** 一个影片剪辑(MovieClip)根据一个纹理集合来显示动画。
@@ -28,11 +28,11 @@ package starling.display
      *  
      *  <p>你可以在构造函数中指定一个特定的帧频，如果需要，你还可以设置每一帧的执行时间，或者在某一帧执行时播放一个声音。</p>
      *  
-     *  <p><code>play</code> 和 <code>pause</code> 方法可以控制影片的播放，当影片播放完毕时，你会接受到一个<code>Event.MovieCompleted</code>
-	 * 事件。如果影片是循环播放的，这个事件会在每一次循环都分派。</p>
+     *  <p><code>play</code> 和 <code>pause</code> 方法可以控制影片的播放，当影片播放完毕时，你会接收到一个<code>Event.MovieCompleted</code>
+	 * 事件。如果影片是循环播放的，这个事件会在每一次循环都派发。</p>
      *  
      *  <p>同其他动画对象一样，一个影片剪辑必须添加到一个juggler（或者是一个拥有自己的定时执行的<code>advanceTime</code>方法的对象）里来运行。
-	 * 当影片剪辑播放完最后一帧时，会分派"Event.COMPLETE"事件。</p>
+	 * 当影片剪辑播放完最后一帧时，会派发"Event.COMPLETE"事件。</p>
      *  
      *  @see starling.textures.TextureAtlas
      */    

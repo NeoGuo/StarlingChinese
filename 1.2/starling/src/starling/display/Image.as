@@ -158,7 +158,7 @@ package starling.display
             }
         }
         
-        /** 用于纹理的平滑过滤，默认值为：bilinear。
+        /** 用于纹理的平滑过滤方式，默认值为：bilinear。
         *   @default bilinear
         *   @see starling.textures.TextureSmoothing */ 
         public function get smoothing():String { return mSmoothing; }

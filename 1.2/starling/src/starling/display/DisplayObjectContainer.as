@@ -27,51 +27,33 @@ package starling.display
     
     /**
 	 * 一个显示对象容器是一个包含了各种显示对象的集合。
-	 * 这是所有容器类（包含其他显示对象）的基类。它拥有一个有序列表来管理子级对象，并在显示对象树立定义了
+	 * 这是所有容器类（包含其他显示对象的容器）的基类。它拥有一个有序列表来管理子级对象，并在显示对象树立定义了
 	 * 所有子级的显示顺序。
-     *  A DisplayObjectContainer represents a collection of display objects.
-     *  It is the base class of all display objects that act as a container for other objects. By 
-     *  maintaining an ordered list of children, it defines the back-to-front positioning of the 
-     *  children within the display tree.
      *  
-     *  <p>一个容器本身是没有尺寸的，它的宽度和高度代表了子级的范围，改变这些属性会缩放它的所有子级。
-	 * A container does not a have size in itself. The width and height properties represent the 
-     *  extents of its children. Changing those properties will scale all children accordingly.</p>
+     *  <p>一个容器本身是没有尺寸的，它的宽度和高度代表了子级的范围，改变这些属性会缩放它的所有子级。</p>
      *  
      *  <p>由于DisplayObjectContainer是一个抽象类，你不能直接实例化它，而是应该使用它的子类。
-	 * 其中最轻量级的容器子类是"Sprite"。
-	 * As this is an abstract class, you can't instantiate it directly, but have to 
-     *  use a subclass instead. The most lightweight container class is "Sprite".</p>
+	 * 其中最轻量级的容器子类是"Sprite"。</p>
      *  
-     *  <strong>添加和删除子级Adding and removing children</strong>
+     *  <strong>添加和删除子级</strong>
      *  
      *  <p>这个类包含了一些允许你添加和删除子级的方法。
-	 * 当你添加一个子级，它会被添加到列表的最顶层，可能会遮挡住一个前一个添加的子级。
-	 * 你可以通过索引访问子级，第一个子级索引为0，第二个子级索引为1，以此类推。
-	 * The class defines methods that allow you to add or remove children. When you add a child, 
-     *  it will be added at the frontmost position, possibly occluding a child that was added 
-     *  before. You can access the children via an index. The first child will have index 0, the 
-     *  second child index 1, etc.</p> 
+	 * 当你添加一个子级，它会被添加到列表的最顶层，有可能会遮挡住前一个添加的子级。
+	 * 你可以通过索引访问子级，第一个子级索引为0，第二个子级索引为1，以此类推。</p> 
      *  
-	 * 向容器添加或者删对象会分派一些不冒泡的事件。
-     *  Adding and removing objects from a container triggers non-bubbling events.
+	 * 向容器添加或者删对象会派发一些不冒泡的事件。
      *  
      *  <ul>
      *   <li><code>Event.ADDED</code>: 对象被添加到了它的父级。</li>
      *   <li><code>Event.ADDED_TO_STAGE</code>: 对象被添加到了它的父级，并且父级已经被添加
-	 * 到stage上，因此对象立即显示。the object was added to a parent that is 
-     *       connected to the stage, thus becoming visible now.</li>
+	 * 到stage上，因此对象立即显示。</li>
      *   <li><code>Event.REMOVED</code>: 从对象的父级删除该对象。</li>
      *   <li><code>Event.REMOVED_FROM_STAGE</code>: 从对象的父级删除该对象，并且父级已经被添加
-	 * 到stage上，因此对象立即不显示。the object was removed from a parent that 
-     *       is connected to the stage, thus becoming invisible now.</li>
+	 * 到stage上，因此对象立即不显示。</li>
      *  </ul>
+	 * 
      *  
-	 * 尤其是<code>ADDED_TO_STAGE</code>事件是非常有用的，因为它可以让你在一个对象第一次被渲染时
-	 * 自动执行一些逻辑（比如开始播放一段动画）。
-     *  Especially the <code>ADDED_TO_STAGE</code> event is very helpful, as it allows you to 
-     *  automatically execute some logic (e.g. start an animation) when an object is rendered the 
-     *  first time.
+	 * 尤其是<code>ADDED_TO_STAGE</code>事件是非常有用的，因为它可以让你在一个对象第一次被渲染时自动执行一些逻辑（比如开始播放一段动画）。
      *  
      *  @see Sprite
      *  @see DisplayObject
@@ -427,7 +409,7 @@ package starling.display
         }
         
         /**
-         * 通过递归的方法，对所有的子级分派一个指定事件，此事件必须是非冒泡事件。
+         * 通过递归的方法，对所有的子级派发一个指定事件，此事件必须是非冒泡事件。
          * @param event	事件
          * @throws ArgumentError
          */
@@ -452,7 +434,7 @@ package starling.display
         }
         
         /**
-         *  通过递归的方法，对所有的子级分派一个包含数据的事件。
+         *  通过递归的方法，对所有的子级派发一个包含数据的事件。
 		 * 为了避免新的内存分配开销，此方法使用了内部的事件对象池。
          * @param type	事件类型
          * @param data	事件传递的数据
