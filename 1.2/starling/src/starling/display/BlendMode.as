@@ -14,23 +14,19 @@ package starling.display
     
     import starling.errors.AbstractClassError;
     
-    /** A class that provides constant values for visual blend mode effects. 
+    /** BlendMode类提供了混合模式视觉效果的常量。
      *   
-     *  <p>A blend mode is always defined by two 'Context3DBlendFactor' values. A blend factor 
-     *  represents a particular four-value vector that is multiplied with the source or destination
-     *  color in the blending formula. The blending formula is:</p>
+     *  <p>一个混合模式，总是由两个'Context3DBlendFactor'值来定义。一个混合因素代表一个特定的四个数值的数组。
+	 * 这个数组是根据源颜色和目标颜色用混合公式计算的，公式如下：</p>
      * 
      *  <pre>result = source × sourceFactor + destination × destinationFactor</pre>
      * 
-     *  <p>In the formula, the source color is the output color of the pixel shader program. The 
-     *  destination color is the color that currently exists in the color buffer, as set by 
-     *  previous clear and draw operations.</p>
+     *  <p>在这个公式里，源颜色是像素着色器的输出颜色，目标颜色是在上一次清除和绘制操作以后，颜色缓冲区中当前存在的颜色。</p>
      *  
-     *  <p>Beware that blending factors produce different output depending on the texture type.
-     *  Textures may contain 'premultiplied alpha' (pma), which means that their RGB values were 
-     *  multiplied with their color value (to save processing time). Textures based on 'BitmapData'
-     *  objects have premultiplied alpha values, while ATF textures haven't. For this reason, 
-     *  a blending mode may have different factors depending on the pma value.</p>
+     *  <p>要注意的是，由于纹理类型的不同，混合因素产生产生的输出也不同。
+	 * 纹理可能包含'预乘透明度'(pma)，意思就是它们的RGB色值是根据它们的颜色值分别相乘得到的（目的是节省计算时间）。
+	 * 基于'BitmapData'的纹理，会含有预乘透明度值，ATF纹理没有这个值。
+	 * 因此，一个混合模式可能会根据pma的值而拥有不同的混合因素。</p>
      *  
      *  @see flash.display3D.Context3DBlendFactor
      */
@@ -62,32 +58,37 @@ package starling.display
         /** @private */
         public function BlendMode() { throw new AbstractClassError(); }
         
-        /** Inherits the blend mode from this display object's parent. */
+        /** 继承这个显示对象的父级的混合模式。 */
         public static const AUTO:String = "auto";
 
-        /** Deactivates blending, i.e. disabling any transparency. */
+        /** 停用混合，即禁止任何透明度。 */
         public static const NONE:String = "none";
         
-        /** The display object appears in front of the background. */
+        /** 显示对象显示在背景的前面。  */
         public static const NORMAL:String = "normal";
         
-        /** Adds the values of the colors of the display object to the colors of its background. */
+        /** 将显示对象的颜色值添加到背景的颜色里。  */
         public static const ADD:String = "add";
         
-        /** Multiplies the values of the display object colors with the the background color. */
+        /** 将显示对象的颜色值与背景的颜色相乘。  */
         public static const MULTIPLY:String = "multiply";
         
-        /** Multiplies the complement (inverse) of the display object color with the complement of 
-          * the background color, resulting in a bleaching effect. */
+        /** 将显示对象颜色的补码（反码）与背景颜色的补码相乘，产生漂白效果。 */
         public static const SCREEN:String = "screen";
         
-        /** Erases the background when drawn on a RenderTexture. */
+        /** 当绘制渲染纹理的时候擦除背景。 */
         public static const ERASE:String = "erase";
         
         // accessing modes
         
-        /** Returns the blend factors that correspond with a certain mode and premultiplied alpha
-         *  value. Throws an ArgumentError if the mode does not exist. */
+        /**
+         * 根据指定的模式名称和预乘透明度返回混合因素。
+		 * 如果模式不存在，会抛出一个参数错误。
+         * @param mode		模式
+         * @param premultipliedAlpha	预乘透明度
+         * @return 
+         * @throws ArgumentError
+         */
         public static function getBlendFactors(mode:String, premultipliedAlpha:Boolean=true):Array
         {
             var modes:Object = sBlendFactors[int(premultipliedAlpha)];
@@ -95,9 +96,14 @@ package starling.display
             else throw new ArgumentError("Invalid blend mode");
         }
         
-        /** Registeres a blending mode under a certain name and for a certain premultiplied alpha
-         *  (pma) value. If the mode for the other pma value was not yet registered, the factors are
-         *  used for both pma settings. */
+        /**
+         * 根据指定的名称和预乘透明度（pma）值注册一个混合模式。
+		 * 如果一个用其他pma值的模式尚未注册，则两个pma的设置都会应用这些因素。
+         * @param name	名称
+         * @param sourceFactor	源因素
+         * @param destFactor	目标因素
+         * @param premultipliedAlpha	是否预乘透明度
+         */
         public static function register(name:String, sourceFactor:String, destFactor:String,
                                         premultipliedAlpha:Boolean=true):void
         {
