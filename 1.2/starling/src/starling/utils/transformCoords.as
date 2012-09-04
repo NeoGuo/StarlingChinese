@@ -1,6 +1,6 @@
 // =================================================================================================
 //
-//	Starling Framework
+//    Starling Framework
 //	Copyright 2012 Gamua OG. All Rights Reserved.
 //
 //	This program is free software. You can redistribute and/or modify it
@@ -13,8 +13,7 @@ package starling.utils
     import flash.geom.Matrix;
     import flash.geom.Point;
 
-    /** Uses a matrix to transform 2D coordinates into a different space. If you pass a 
-     *  'resultPoint', the result will be stored in this point instead of creating a new object.*/
+    /** 用一个矩阵转换2D坐标到另一个不同的空间.如果传入'resultPoint',则结果会存储在这个点里，而不是创建一个新对象. */
     public function transformCoords(matrix:Matrix, x:Number, y:Number,
                                     resultPoint:Point=null):Point
     {
