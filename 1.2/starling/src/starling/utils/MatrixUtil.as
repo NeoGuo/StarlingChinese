@@ -19,7 +19,7 @@ package starling.utils
     /** 一个包含矩阵相关方法的类 */
     public class MatrixUtil
     {
-        /** 有用的对象 */
+        /** 辅助原始数据对象 */
         private static var sRawData:Vector.<Number> = 
             new <Number>[1, 0, 0, 0,  0, 1, 0, 0,  0, 0, 1, 0,  0, 0, 0, 1];
         
