@@ -1,6 +1,6 @@
 // =================================================================================================
 //
-//	Starling Framework
+//    Starling Framework
 //	Copyright 2011 Gamua OG. All Rights Reserved.
 //
 //	This program is free software. You can redistribute and/or modify it
@@ -12,8 +12,8 @@ package starling.utils
 {
     import starling.errors.AbstractClassError;
 
-    /** A utility class containing predefined colors and methods converting between different
-     *  color representations. */
+    /** 一个非常有用的类，包含在不用颜色表现间转换的预定义颜色和方法. */
+	
     public class Color
     {
         public static const WHITE:uint   = 0xffffff;
@@ -33,27 +33,25 @@ package starling.utils
         public static const FUCHSIA:uint = 0xff00ff;
         public static const PURPLE:uint  = 0x800080;
         
-        /** Returns the alpha part of an ARGB color (0 - 255). */
+        /** 返回ARGB的alpha部分(0 - 255).*/
         public static function getAlpha(color:uint):int { return (color >> 24) & 0xff; }
         
-        /** Returns the red part of an (A)RGB color (0 - 255). */
+        /** 返回(A)RGB的red部分(0 - 255).*/
         public static function getRed(color:uint):int   { return (color >> 16) & 0xff; }
         
-        /** Returns the green part of an (A)RGB color (0 - 255). */
+        /** 返回(A)RGB的green部分(0 - 255).*/
         public static function getGreen(color:uint):int { return (color >>  8) & 0xff; }
         
-        /** Returns the blue part of an (A)RGB color (0 - 255). */
+        /** 返回(A)RGB的blue部分(0 - 255).*/
         public static function getBlue(color:uint):int  { return  color        & 0xff; }
         
-        /** Creates an RGB color, stored in an unsigned integer. Channels are expected
-         *  in the range 0 - 255. */
+        /** 创建一个uint的RGB颜色。各通道范围为0 - 255.*/
         public static function rgb(red:int, green:int, blue:int):uint
         {
             return (red << 16) | (green << 8) | blue;
         }
         
-        /** Creates an ARGB color, stored in an unsigned integer. Channels are expected
-         *  in the range 0 - 255. */
+        /** 创建一个uint的ARGB颜色。各通道范围为0 - 255.*/
         public static function argb(alpha:int, red:int, green:int, blue:int):uint
         {
             return (alpha << 24) | (red << 16) | (green << 8) | blue;
