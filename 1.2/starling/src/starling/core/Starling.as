@@ -69,7 +69,7 @@ package starling.core
      *  
      *  <p>第一个参数必须是Starling的显示类。例如<code>starling.display.Sprite</code>的子类，在上面的例子
 	 * 	中，类“Game”是程序的根。当Starling初始化后“Game”的对象也随之创建。
-	 * 	第二个参数是FLash本身的stage对象，在默认情况下，Starling会在stage下层显示内容。
+	 * 	第二个参数是FLash本身的stage对象，在默认情况下，Starling会在stage下层显示内容。</p>
      *  
      *  <p>建议保存Starling对象作为成员变量，这样可以保证垃圾回收系统不会销毁它。在创建Starling对象后，你必须这样启动它：</p>
      * 
@@ -99,7 +99,7 @@ package starling.core
      *  
      *  <p>对于提供支持多点触摸功能的设备，Starling也支持这项功能。在开发过程中，我们大多数基本上都是使用鼠标的键盘，Starling可以
 	 * 	在“Shift”和“Ctrl”的帮助下（Mac苹果机是“Cmd”）模拟实现多点触摸事件。启动<code>simulateMultitouch</code>属性就可以激活
-	 * 	这个功能。
+	 * 	这个功能。</p>
      *  
      *  <strong>处理丢失的渲染内容</strong>
      *  
