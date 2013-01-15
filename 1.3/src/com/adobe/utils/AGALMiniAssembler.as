@@ -40,6 +40,9 @@ package com.adobe.utils
 	// ===========================================================================
 	//	Class
 	// ---------------------------------------------------------------------------
+	/**
+	 * AGAL(Adobe Graphics Assembly Language)是Adobe开发的图形汇编语言，汇编语言是仅高于计算机二进制机器码的低级语言，可以精确地操控机器硬件比如可编程显卡，PC的Dirext9、MAC的OpenGL以及移动设备中的OpenGL ES 2都是可编程显卡，并且都支持AGAL。通过Adobe官方提供的编译器AGALMiniAssembler（实际上是一个AS类库），我们可以通过字符串指令来获得一个AGAL二进制流，再通过context3D上传给显卡的编程管线。对于顶点以及片段的运算都是通过AGAL交由显卡来处理的，这就是传说中的GPU硬件加速。
+	 */
 	public class AGALMiniAssembler
 	{		// ======================================================================
 		//	Constants
@@ -61,12 +64,18 @@ package com.adobe.utils
 		// ======================================================================
 		//	Getters
 		// ----------------------------------------------------------------------
+		/**错误信息*/
 		public function get error():String						{ return _error; }
+		/**编译后的AGAL字节*/
 		public function get agalcode():ByteArray				{ return _agalcode; }
 		
 		// ======================================================================
 		//	Constructor
 		// ----------------------------------------------------------------------
+		/**
+		 * 构造函数
+		 * @param debugging 是否开启调试模式
+		 */
 		public function AGALMiniAssembler( debugging:Boolean = false ):void
 		{
 			debugEnabled = debugging;
@@ -76,7 +85,14 @@ package com.adobe.utils
 		// ======================================================================
 		//	Methods
 		// ----------------------------------------------------------------------
-		
+		/**
+		 * 新增的一个简化方法，可以通过传递顶点着色器源码和片段着色器源码，快捷生成Program3D对象
+		 * @param ctx3d Context3D实例
+		 * @param version 版本号
+		 * @param vertexsrc 顶点着色器源码
+		 * @param fragmentsrc 片段着色器源码
+		 * @return Program3D对象
+		 */		
 		public function assemble2( ctx3d : Context3D, version:uint, vertexsrc:String, fragmentsrc:String ) : Program3D 
 		{
 			var agalvertex : ByteArray = assemble ( VERTEX, vertexsrc, version );
@@ -85,7 +101,14 @@ package com.adobe.utils
 			prog.upload(agalvertex,agalfragment);
 			return prog; 
 		}
-		
+		/**
+		 * 将AGAL的代码片段编译为字节数组
+		 * @param mode 是顶点还是片段
+		 * @param source 代码片段
+		 * @param version 版本号，默认为1
+		 * @param ignorelimits 是否忽略限制，默认为否
+		 * @return 字节数组
+		 */
 		public function assemble( mode:String, source:String, version:uint=1, ignorelimits:Boolean=false ):ByteArray
 		{
 			var start:uint = getTimer();
