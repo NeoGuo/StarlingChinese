@@ -14,49 +14,42 @@ package starling.animation
     import starling.events.Event;
     import starling.events.EventDispatcher;
 
-    /** The Juggler takes objects that implement IAnimatable (like Tweens) and executes them.
-     * 
-     *  <p>A juggler is a simple object. It does no more than saving a list of objects implementing 
-     *  "IAnimatable" and advancing their time if it is told to do so (by calling its own 
-     *  "advanceTime"-method). When an animation is completed, it throws it away.</p>
-     *  
-     *  <p>There is a default juggler available at the Starling class:</p>
-     *  
-     *  <pre>
-     *  var juggler:Juggler = Starling.juggler;
-     *  </pre>
-     *  
-     *  <p>You can create juggler objects yourself, just as well. That way, you can group 
-     *  your game into logical components that handle their animations independently. All you have
-     *  to do is call the "advanceTime" method on your custom juggler once per frame.</p>
-     *  
-     *  <p>Another handy feature of the juggler is the "delayCall"-method. Use it to 
-     *  execute a function at a later time. Different to conventional approaches, the method
-     *  will only be called when the juggler is advanced, giving you perfect control over the 
-     *  call.</p>
-     *  
-     *  <pre>
-     *  juggler.delayCall(object.removeFromParent, 1.0);
-     *  juggler.delayCall(object.addChild, 2.0, theChild);
-     *  juggler.delayCall(function():void { doSomethingFunny(); }, 3.0);
-     *  </pre>
-     * 
-     *  @see Tween
-     *  @see DelayedCall 
-     */
+	/** Juggler管理那些实现了IAnimatable接口的对象（比如Tweens）并执行它们。
+	 * 
+	 *  <p>一个juggler实例是一个非常简单的对象。它只是持有一个列表，列表里面是那些实现了IAnimatable接口的对象，并管理它们的执行时间（通过对象自己的advanceTime方法）。当动画播放完毕，就把这个对象抛出。</p>
+	 *  
+	 *  <p>在Starling类中有一个默认的juggler变量:</p>
+	 *  
+	 *  <pre>
+	 *  var juggler:Juggler = Starling.juggler;
+	 *  </pre>
+	 *  
+	 *  <p>您可以创建您自己的juggler对象，如果需要的话。这样，您就可以组合您的游戏到一些逻辑组件，并独立控制他们的动画。 您需要做的就是，在每一帧都调用您自定义的juggler的advanceTime方法。</p>
+	 *  
+	 *  <p>juggler另一个很强的特性就是"delayCall"方法。使用它可以延迟执行某个方法。但是和传统的延迟调用(比如setTimeout)不同, 这个方法只有在juggler被时间推送器驱动的时候才会起作用，这可以让您更加完美的控制呼叫的逻辑。</p>
+	 *  <p>下面是delayCall的一些示例：</p>
+	 *  <pre>
+	 *  juggler.delayCall(object.removeFromParent, 1.0);
+	 *  juggler.delayCall(object.addChild, 2.0, theChild);
+	 *  juggler.delayCall(function():void { doSomethingFunny(); }, 3.0);
+	 *  </pre>
+	 * 
+	 *  @see Tween
+	 *  @see DelayedCall 
+	 */
     public class Juggler implements IAnimatable
     {
         private var mObjects:Vector.<IAnimatable>;
         private var mElapsedTime:Number;
         
-        /** Create an empty juggler. */
+		/** 创建一个空的juggler实例. */
         public function Juggler()
         {
             mElapsedTime = 0;
             mObjects = new <IAnimatable>[];
         }
 
-        /** Adds an object to the juggler. */
+		/** 向juggler添加一个对象. @param object 实现IAnimatable的类的实例 */
         public function add(object:IAnimatable):void
         {
             if (object && mObjects.indexOf(object) == -1) 
@@ -68,13 +61,13 @@ package starling.animation
             }
         }
         
-        /** Determines if an object has been added to the juggler. */
+        /** 判断juggler是否持有对这个对象的引用.@param object 实现IAnimatable的类的实例  */
         public function contains(object:IAnimatable):Boolean
         {
             return mObjects.indexOf(object) != -1;
         }
         
-        /** Removes an object from the juggler. */
+		/** 从juggler中删除一个对象. @param object 实现IAnimatable的类的实例 */
         public function remove(object:IAnimatable):void
         {
             if (object == null) return;
@@ -86,7 +79,7 @@ package starling.animation
             if (index != -1) mObjects[index] = null;
         }
         
-        /** Removes all tweens with a certain target. */
+		/** 删除一个对象上应用的所有的tween对象 @param target 目标对象 */
         public function removeTweens(target:Object):void
         {
             if (target == null) return;
@@ -102,7 +95,7 @@ package starling.animation
             }
         }
         
-        /** Removes all objects at once. */
+		/** 一次性删除所有的对象 */
         public function purge():void
         {
             // the object vector is not purged right away, because if this method is called 
@@ -118,9 +111,13 @@ package starling.animation
             }
         }
         
-        /** Delays the execution of a function until a certain time has passed. Creates an
-         *  object of type 'DelayedCall' internally and returns it. Remove that object
-         *  from the juggler to cancel the function call. */
+		/**
+		 * 在一定的时间间隔之后执行指定的方法。方法会创建一个DelayedCall类的实例并返回。从juggler中删除这个实例即可取消调用。
+		 * @param call 回调方法
+		 * @param delay 延迟时间
+		 * @param args 传递给回调方法的参数
+		 * @return DelayedCall实例
+		 */
         public function delayCall(call:Function, delay:Number, ...args):DelayedCall
         {
             if (call == null) return null;
@@ -146,6 +143,12 @@ package starling.animation
          *  });
          *  </pre> 
          */
+		/**
+		 * 
+		 * @param target
+		 * @param time
+		 * @param properties
+		 */		
         public function tween(target:Object, time:Number, properties:Object):void
         {
             var tween:Tween = Tween.starling_internal::fromPool(target, time);
@@ -171,7 +174,7 @@ package starling.animation
             Tween.starling_internal::toPool(event.target as Tween);
         }
         
-        /** Advances all objects by a certain time (in seconds). */
+		/** 在一定的时间内集中处理所有的对象(单位是秒) @param time 时间(单位是秒) */
         public function advanceTime(time:Number):void
         {   
             var numObjects:int = mObjects.length;
@@ -222,7 +225,7 @@ package starling.animation
                 add(tween.nextTween);
         }
         
-        /** The total life time of the juggler. */
+		/** 这个juggler对象截止到目前的存活时间累计. */
         public function get elapsedTime():Number { return mElapsedTime; }        
     }
 }
