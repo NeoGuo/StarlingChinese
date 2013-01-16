@@ -127,27 +127,20 @@ package starling.animation
             return delayedCall;
         }
         
-        /** Utilizes a tween to animate the target object over a certain time. Internally, this
-         *  method uses a tween instance (taken from an object pool) that is added to the
-         *  juggler right away. This method provides a convenient alternative for creating 
-         *  and adding a tween manually.
-         *  
-         *  <p>Fill 'properties' with key-value pairs that describe both the 
-         *  tween and the animation target. Here is an example:</p>
-         *  
-         *  <pre>
+		/**
+		 * 在指定的时间内，用一个补间动画(tween)去"运动"一个对象。在内部，这个方法使用一个tween的实例（从缓存池中获取的），然后添加到juggler里面。
+		 * 这个方法是一个快捷机制，用来方便的创建一个tween并且使用它。
+		 * <p>设置'properties'属性，可以用键值对的方式来定义tween和动画对象。这里是一个示例片段：</p>
+		 *  <pre>
          *  juggler.tween(object, 2.0, {
          *      transition: Transitions.EASE_IN_OUT,
          *      delay: 20, // -> tween.delay = 20
          *      x: 50      // -> tween.animate("x", 50)
          *  });
-         *  </pre> 
-         */
-		/**
-		 * 
-		 * @param target
-		 * @param time
-		 * @param properties
+         *  </pre>  
+		 * @param target 目标对象
+		 * @param time 动画时长
+		 * @param properties 动画属性
 		 */		
         public function tween(target:Object, time:Number, properties:Object):void
         {

@@ -46,114 +46,90 @@ package starling.core
     import starling.utils.HAlign;
     import starling.utils.VAlign;
     
-    /** Dispatched when a new render context is created. */
+	/** 新的渲染环境创建后派发事件. */
     [Event(name="context3DCreate", type="starling.events.Event")]
     
-    /** Dispatched when the root class has been created. */
+	/** 根类创建后派发事件. */
     [Event(name="rootCreated", type="starling.events.Event")]
     
-    /** The Starling class represents the core of the Starling framework.
-     *
-     *  <p>The Starling framework makes it possible to create 2D applications and games that make
-     *  use of the Stage3D architecture introduced in Flash Player 11. It implements a display tree
-     *  system that is very similar to that of conventional Flash, while leveraging modern GPUs
-     *  to speed up rendering.</p>
-     *  
-     *  <p>The Starling class represents the link between the conventional Flash display tree and
-     *  the Starling display tree. To create a Starling-powered application, you have to create
-     *  an instance of the Starling class:</p>
-     *  
-     *  <pre>var starling:Starling = new Starling(Game, stage);</pre>
-     *  
-     *  <p>The first parameter has to be a Starling display object class, e.g. a subclass of 
-     *  <code>starling.display.Sprite</code>. In the sample above, the class "Game" is the
-     *  application root. An instance of "Game" will be created as soon as Starling is initialized.
-     *  The second parameter is the conventional (Flash) stage object. Per default, Starling will
-     *  display its contents directly below the stage.</p>
-     *  
-     *  <p>It is recommended to store the Starling instance as a member variable, to make sure
-     *  that the Garbage Collector does not destroy it. After creating the Starling object, you 
-     *  have to start it up like this:</p>
-     * 
-     *  <pre>starling.start();</pre>
-     * 
-     *  <p>It will now render the contents of the "Game" class in the frame rate that is set up for
-     *  the application (as defined in the Flash stage).</p> 
-     *  
-     *  <strong>Accessing the Starling object</strong>
-     * 
-     *  <p>From within your application, you can access the current Starling object anytime
-     *  through the static method <code>Starling.current</code>. It will return the active Starling
-     *  instance (most applications will only have one Starling object, anyway).</p> 
-     * 
-     *  <strong>Viewport</strong>
-     * 
-     *  <p>The area the Starling content is rendered into is, per default, the complete size of the 
-     *  stage. You can, however, use the "viewPort" property to change it. This can be  useful 
-     *  when you want to render only into a part of the screen, or if the player size changes. For
-     *  the latter, you can listen to the RESIZE-event dispatched by the Starling
-     *  stage.</p>
-     * 
-     *  <strong>Native overlay</strong>
-     *  
-     *  <p>Sometimes you will want to display native Flash content on top of Starling. That's what the
-     *  <code>nativeOverlay</code> property is for. It returns a Flash Sprite lying directly
-     *  on top of the Starling content. You can add conventional Flash objects to that overlay.</p>
-     *  
-     *  <p>Beware, though, that conventional Flash content on top of 3D content can lead to
-     *  performance penalties on some (mobile) platforms. For that reason, always remove all child
-     *  objects from the overlay when you don't need them any longer. Starling will remove the 
-     *  overlay from the display list when it's empty.</p>
-     *  
-     *  <strong>Multitouch</strong>
-     *  
-     *  <p>Starling supports multitouch input on devices that provide it. During development, 
-     *  where most of us are working with a conventional mouse and keyboard, Starling can simulate 
-     *  multitouch events with the help of the "Shift" and "Ctrl" (Mac: "Cmd") keys. Activate
-     *  this feature by enabling the <code>simulateMultitouch</code> property.</p>
-     *  
-     *  <strong>Handling a lost render context</strong>
-     *  
-     *  <p>On some operating systems and under certain conditions (e.g. returning from system
-     *  sleep), Starling's stage3D render context may be lost. Starling can recover from a lost
-     *  context if the class property "handleLostContext" is set to "true". Keep in mind, however, 
-     *  that this comes at the price of increased memory consumption; Starling will cache textures 
-     *  in RAM to be able to restore them when the context is lost.</p> 
-     *  
-     *  <p>In case you want to react to a context loss, Starling dispatches an event with
-     *  the type "Event.CONTEXT3D_CREATE" when the context is restored. You can recreate any 
-     *  invalid resources in a corresponding event listener.</p>
-     * 
-     *  <strong>Sharing a 3D Context</strong>
-     * 
-     *  <p>Per default, Starling handles the Stage3D context independently. If you want to combine
-     *  Starling with another Stage3D engine, however, this may not be what you want. In this case,
-     *  you can make use of the <code>shareContext</code> property:</p> 
-     *  
-     *  <ol>
-     *    <li>Manually create and configure a context3D object that both frameworks can work with
-     *        (through <code>stage3D.requestContext3D</code> and
-     *        <code>context.configureBackBuffer</code>).</li>
-     *    <li>Initialize Starling with the stage3D instance that contains that configured context.
-     *        This will automatically enable <code>shareContext</code>.</li>
-     *    <li>Call <code>start()</code> on your Starling instance (as usual). This will make  
-     *        Starling queue input events (keyboard/mouse/touch).</li>
-     *    <li>Create a game loop (e.g. using the native <code>ENTER_FRAME</code> event) and let it  
-     *        call Starling's <code>nextFrame</code> as well as the equivalent method of the other 
-     *        Stage3D engine. Surround those calls with <code>context.clear()</code> and 
-     *        <code>context.present()</code>.</li>
-     *  </ol>
-     *  
-     *  <p>The Starling wiki contains a <a href="http://goo.gl/BsXzw">tutorial</a> with more 
-     *  information about this topic.</p>
-     * 
-     */ 
+	/** Starling类展现了Starling框架的核心.
+	 *
+	 *  <p>Starling框架让使用Stage3D技术(在flash player 11中引入)创建二维程序和游戏成为可能。 它实现了和Flash
+	 * 	一样的显示列表系统，同时使用先进的GPUs加速渲染. </p>
+	 *  
+	 *  <p>Starling类展示了Flash显示列表和Starling显示列表之间的结构关系。创建一个Starling应用程序，你必须首先
+	 * 	创建一个Starling类的实例对象。</p>
+	 *  
+	 *  <pre>var starling:Starling = new Starling(Game, stage);</pre>
+	 *  
+	 *  <p>第一个参数必须是Starling的显示类。例如<code>starling.display.Sprite</code>的子类，在上面的例子
+	 * 	中，类“Game”是程序的根。当Starling初始化后“Game”的对象也随之创建。
+	 * 	第二个参数是FLash本身的stage对象，在默认情况下，Starling会在stage下层显示内容。</p>
+	 *  
+	 *  <p>建议保存Starling对象作为成员变量，这样可以保证垃圾回收系统不会销毁它。在创建Starling对象后，你必须这样启动它：</p>
+	 * 
+	 *  <pre>starling.start();</pre>
+	 * 
+	 *  <p>现在它会按照为程序设置好帧频率（和设置Flash stage的方法一样）来渲染“Game”类的内容了.</p> 
+	 *  
+	 *  <strong>访问Starling对象</strong>
+	 * 
+	 *  <p>在你的程序里，你可以在任意时间通过静态方法<code>Starling.current</code>访问当前的Starling对象。它会返回
+	 * 	当前活跃的Starling实例（实际上大多数程序只会有一个Starling对象）。</p> 
+	 * 
+	 *  <strong>观察口，视口</strong>
+	 * 
+	 *  <p>即是Starling内容渲染显示的范围，默认情况下是舞台大小。但是，你可以使用“viewport”属性去改变它。当你只想在屏幕的一部分中
+	 * 	渲染，或者播放器大小改变时，这个属性非常有用。随后你可以监听由Starling舞台发出的RESIZE事件。</p>
+	 * 
+	 *  <strong>原生Flash叠加层</strong>
+	 *  
+	 *  <p>有时你会想在Starling上面显示一些原生Flash内容，这就是<code>nativeOverlay</code>属性的作用。它返回的是在Starling之上
+	 * 	的原生FLash Sprite。你可以在叠加层内添加原生Flash对象。</p>
+	 *  
+	 *  <p>但是需要注意，在3D加速内容之上的原生Flash内容在某些（移动）平台上会有性能上的问题。因为这个原因，请注意删除这一层中所有
+	 * 	不需要和不再使用的对象。当这一层被置空后Starling会从显示列表中删除原生Flash叠加层。</p>
+	 *  
+	 *  <strong>多点触摸</strong>
+	 *  
+	 *  <p>对于提供支持多点触摸功能的设备，Starling也支持这项功能。在开发过程中，我们大多数基本上都是使用鼠标的键盘，Starling可以
+	 * 	在“Shift”和“Ctrl”的帮助下（Mac苹果机是“Cmd”）模拟实现多点触摸事件。启动<code>simulateMultitouch</code>属性就可以激活
+	 * 	这个功能。</p>
+	 *  
+	 *  <strong>处理丢失的渲染内容</strong>
+	 *  
+	 *  <p>在某些系统和某些条件下（例如，从系统睡眠中返回），Starling的stage3D渲染内容会丢失。如果类属性“handleLostContext”
+	 * 	设置为 “true” Starling会自动修复丢失内容。但是需要注意，这是以提高内存消耗为代价的。Starling会在内存中创建纹理缓存，这样
+	 * 	在内容丢失时才可以修复它。</p> 
+	 *  
+	 *  <p>如果你想和丢失的内容交互，Starling在这个内容修复时发送"Event.CONTEXT3D_CREATE"事件，你可以在相对应的事件监听器中重新
+	 * 	创建这些不可用资源.</p>
+	 * 
+	 *  <strong>共享三维加速内容</strong>
+	 * 
+	 *  <p>正常情况下，Starling是独立处理stage3d加速内容。如果你想让Starling和其它的stage3d引擎同时使用，可能会达不到你需要的效果。
+	 * 	在这种情况下，你可以使用<code>shareContext</code>属性:</p> 
+	 *  
+	 *  <ol>
+	 *    <li>手动创建和定义一个让两个框架公用的context3D对象
+	 *        (通过<code>stage3D.requestContext3D</code> 和
+	 *        <code>context.configureBackBuffer</code>)创建.</li>
+	 *    <li>使用已经定义了的context3d对象的stage3d实例来初始化Starling。
+	 *        这样做会自动启用 <code>shareContext</code>.</li>
+	 *    <li>调用Starling实例的  <code>start()</code>(与往常一样). 这样做是让  
+	 *        Starling 对事件监听进行排队处理 (keyboard/mouse/touch).</li>
+	 *    <li>创建一个游戏逻辑（例如，使用原生的<code>ENTER_FRAME</code>事件）然后让它调用Starling的 
+	 *        <code>nextFrame</code>同时调用其它Stage3D引擎的同功能方法 . 
+	 * 		相关类型的方法还有<code>context.clear()</code> 和
+	 *        <code>context.present()</code>.</li>
+	 *  </ol>
+	 */
     public class Starling extends EventDispatcher
     {
-        /** The version of the Starling framework. */
+		/** Starling framework的版本. */
         public static const VERSION:String = "1.3";
         
-        /** The key for the shader programs stored in 'contextData' */
+        /** 在'contextData'中存储的着色器程序的键值 */
         private static const PROGRAM_DATA_NAME:String = "Starling.programs"; 
         
         // members
@@ -189,19 +165,16 @@ package starling.core
         
         // construction
         
-        /** Creates a new Starling instance. 
-         *  @param rootClass  A subclass of a Starling display object. It will be created as soon as
-         *                    initialization is finished and will become the first child of the
-         *                    Starling stage.
-         *  @param stage      The Flash (2D) stage.
-         *  @param viewPort   A rectangle describing the area into which the content will be 
-         *                    rendered. @default stage size
-         *  @param stage3D    The Stage3D object into which the content will be rendered. If it 
-         *                    already contains a context, <code>sharedContext</code> will be set
-         *                    to <code>true</code>. @default the first available Stage3D.
-         *  @param renderMode Use this parameter to force "software" rendering. 
-         *  @param profile    The Context3DProfile that should be requested.
-         */
+		/** 创建一个新的Starling实例. 
+		 *  @param rootClass  Starling显示对象的子类。它将会在Starling
+		 *                    初始化完成后创建成为Starling舞台的第一个子对象
+		 *  @param stage      Flash (2D) 舞台.
+		 *  @param viewPort   一个显示内容的矩形区域. @default 舞台的大小
+		 *  @param stage3D    渲染内容的stage3D对象. 如果已经包含了 context, <code>sharedContext</code>将会被设置为
+		 * 					 <code>true</code>. @default 第一个 Stage3D.
+		 *  @param renderMode 用这个参数设置软件加速. 
+		 *  @param profile    要请求的 Context3DProfile 类型.
+		 */
         public function Starling(rootClass:Class, stage:flash.display.Stage, 
                                  viewPort:Rectangle=null, stage3D:Stage3D=null,
                                  renderMode:String="auto", profile:String="baselineConstrained") 

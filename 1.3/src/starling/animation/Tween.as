@@ -15,31 +15,27 @@ package starling.animation
     import starling.events.Event;
     import starling.events.EventDispatcher;
 
-    /** A Tween animates numeric properties of objects. It uses different transition functions 
-     *  to give the animations various styles.
-     *  
-     *  <p>The primary use of this class is to do standard animations like movement, fading, 
-     *  rotation, etc. But there are no limits on what to animate; as long as the property you want
-     *  to animate is numeric (<code>int, uint, Number</code>), the tween can handle it. For a list 
-     *  of available Transition types, look at the "Transitions" class.</p> 
-     *  
-     *  <p>Here is an example of a tween that moves an object to the right, rotates it, and 
-     *  fades it out:</p>
-     *  
-     *  <listing>
-     *  var tween:Tween = new Tween(object, 2.0, Transitions.EASE_IN_OUT);
-     *  tween.animate("x", object.x + 50);
-     *  tween.animate("rotation", deg2rad(45));
-     *  tween.fadeTo(0);    // equivalent to 'animate("alpha", 0)'
-     *  Starling.juggler.add(tween);</listing> 
-     *  
-     *  <p>Note that the object is added to a juggler at the end of this sample. That's because a 
-     *  tween will only be executed if its "advanceTime" method is executed regularly - the 
-     *  juggler will do that for you, and will remove the tween when it is finished.</p>
-     *  
-     *  @see Juggler
-     *  @see Transitions
-     */ 
+	/** 一个Tween实例，将使用补间动画的方式，"运动"某个对象的属性(比如改变x坐标值，从1,2,3...一直到N，从而形成视觉上的动画效果)。 它可以使用不同的过渡方法，来实现不同的动画方式。
+	 *  
+	 *  <p>这个类的主要用途是实现标准的动画，比如移动，透明度渐变，旋转等等。但是"动画"的范围远远不止于此。只要您想"运动"的对象的属性值是数字 (int, uint, Number), Tween就能搞定它。
+	 *  要了解Tween可以使用的过渡方法的列表，请参阅"Transitions"类。</p> 
+	 *  
+	 *  <p>下面是一个实例，展示了tween移动一个对象到右侧，旋转它，然后让它透明度逐渐降低而消失:</p>
+	 *  
+	 *  <pre>
+	 *  var tween:Tween = new Tween(object, 2.0, Transitions.EASE_IN_OUT);
+	 *  tween.animate("x", object.x + 50);
+	 *  tween.animate("rotation", deg2rad(45));
+	 *  tween.fadeTo(0);    // 您也可以使用'animate("alpha", 0)'来代替
+	 *  Starling.juggler.add(tween); 
+	 *  </pre> 
+	 *  
+	 *  <p>注意在上面的代码的最后，tween的实例被添加到了juggler。这是因为，只有tween自己的"advanceTime"方法被实际执行的时候，tween才会起作用。
+	 *  这个工作juggler会帮您做的，而且它会自动在tween执行完毕的时候删除它。</p>
+	 *  
+	 *  @see Juggler
+	 *  @see Transitions
+	 */ 
     public class Tween extends EventDispatcher implements IAnimatable
     {
         private var mTarget:Object;
@@ -70,18 +66,24 @@ package starling.animation
         private var mReverse:Boolean;
         private var mCurrentCycle:int;
         
-        /** Creates a tween with a target, duration (in seconds) and a transition function.
-         *  @param target the object that you want to animate
-         *  @param time the duration of the Tween
-         *  @param transition can be either a String (e.g. one of the constants defined in the
-         *         Transitions class) or a function. Look up the 'Transitions' class for a   
-         *         documentation about the required function signature. */ 
+		/**
+		 * 创建一个tween的实例， 同时设置目标对象, 时间 (单位是秒) 和过渡方式.
+		 * @param target 目标
+		 * @param time 时间
+		 * @param transition 过渡方式，默认linear
+		 */   
         public function Tween(target:Object, time:Number, transition:Object="linear")        
         {
              reset(target, time, transition);
         }
 
-        /** Resets the tween to its default values. Useful for pooling tweens. */
+		/**
+		 * 把tween恢复到它的初始值. 对pooling tweens有用.
+		 * @param target 目标
+		 * @param time 时间
+		 * @param transition 过渡方式，默认linear
+		 * @return Tween实例
+		 */
         public function reset(target:Object, time:Number, transition:Object="linear"):Tween
         {
             mTarget = target;
@@ -108,8 +110,11 @@ package starling.animation
             return this;
         }
         
-        /** Animates the property of an object to a target value. You can call this method multiple
-         *  times on one tween. */
+		/**
+		 * "运动"某个对象的属性到目标值。您可以在一个tween上多次调用这个方法。
+		 * @param property 属性值
+		 * @param targetValue 目标值
+		 */  
         public function animate(property:String, targetValue:Number):void
         {
             if (mTarget == null) return; // tweening null just does nothing.
@@ -119,21 +124,31 @@ package starling.animation
             mEndValues.push(targetValue);
         }
         
-        /** Animates the 'scaleX' and 'scaleY' properties of an object simultaneously. */
+		/**
+		 * 同时"运动"目标对象的'scaleX' 和 'scaleY'两个值。用这个方法放大或缩小对象。
+		 * @param factor 缩放值
+		 */
         public function scaleTo(factor:Number):void
         {
             animate("scaleX", factor);
             animate("scaleY", factor);
         }
         
-        /** Animates the 'x' and 'y' properties of an object simultaneously. */
+		/**
+		 * 同时"运动"目标对象的'x' 和 'y'两个值。用这个方法移动对象。
+		 * @param x X坐标值
+		 * @param y Y坐标值
+		 */
         public function moveTo(x:Number, y:Number):void
         {
             animate("x", x);
             animate("y", y);
         }
         
-        /** Animates the 'alpha' property of an object to a certain target value. */ 
+		/**
+		 * "运动"目标对象的'alpha'值，直到达到目标值。
+		 * @param alpha 透明度的目标值
+		 */ 
         public function fadeTo(alpha:Number):void
         {
             animate("alpha", alpha);
@@ -209,16 +224,16 @@ package starling.animation
                 advanceTime(carryOverTime);
         }
         
-        /** Indicates if the tween is finished. */
+		/** 动画是否播放完毕 */
         public function get isComplete():Boolean 
         { 
             return mCurrentTime >= mTotalTime && mRepeatCount == 1; 
         }        
         
-        /** The target object that is animated. */
+		/** 当前"动画"要执行的对象 */
         public function get target():Object { return mTarget; }
         
-        /** The transition method used for the animation. @see Transitions */
+		/** 动画过程中用到的过渡方法. @see Transitions */
         public function get transition():String { return mTransitionName; }
         public function set transition(value:String):void 
         { 
@@ -229,7 +244,7 @@ package starling.animation
                 throw new ArgumentError("Invalid transiton: " + value);
         }
         
-        /** The actual transition function used for the animation. */
+		/**可以传递一个方法来实现自定义的过渡过程*/
         public function get transitionFunc():Function { return mTransitionFunc; }
         public function set transitionFunc(value:Function):void
         {
@@ -237,13 +252,13 @@ package starling.animation
             mTransitionFunc = value;
         }
         
-        /** The total time the tween will take per repetition (in seconds). */
+		/** 动画执行的总时间 (秒). */
         public function get totalTime():Number { return mTotalTime; }
         
-        /** The time that has passed since the tween was created. */
+        /** 已经执行的时间(秒) */
         public function get currentTime():Number { return mCurrentTime; }
         
-        /** The delay before the tween is started. @default 0 */
+		/** 动画需要延迟多长时间才开始.默认是0 */
         public function get delay():Number { return mDelay; }
         public function set delay(value:Number):void 
         { 
@@ -251,63 +266,60 @@ package starling.animation
             mDelay = value;
         }
         
-        /** The number of times the tween will be executed. 
-         *  Set to '0' to tween indefinitely. @default 1 */
+        /** 动画需要被执行的次数.0代表永不停止. 默认是1 */
         public function get repeatCount():int { return mRepeatCount; }
         public function set repeatCount(value:int):void { mRepeatCount = value; }
         
-        /** The amount of time to wait between repeat cycles, in seconds. @default 0 */
+        /** 重复执行动画的时候，中间的时间间隔，单位是秒. 默认是0 */
         public function get repeatDelay():Number { return mRepeatDelay; }
         public function set repeatDelay(value:Number):void { mRepeatDelay = value; }
         
-        /** Indicates if the tween should be reversed when it is repeating. If enabled, 
-         *  every second repetition will be reversed. @default false */
+        /** 设置当动画重复播放的时候，是否翻转执行. 如果设置为true，则重复的时候一直是翻转的. 默认是false */
         public function get reverse():Boolean { return mReverse; }
         public function set reverse(value:Boolean):void { mReverse = value; }
         
-        /** Indicates if the numeric values should be cast to Integers. @default false */
+		/** 表示数字是否会被截取为整型. @default false */
         public function get roundToInt():Boolean { return mRoundToInt; }
         public function set roundToInt(value:Boolean):void { mRoundToInt = value; }        
         
-        /** A function that will be called when the tween starts (after a possible delay). */
+		/** 当tween开始动画的时候会执行的方法 (如果有延迟的话，则在延迟之后).*/
         public function get onStart():Function { return mOnStart; }
         public function set onStart(value:Function):void { mOnStart = value; }
         
-        /** A function that will be called each time the tween is advanced. */
+		/** 动画过程中的每一帧都会执行的方法. */
         public function get onUpdate():Function { return mOnUpdate; }
         public function set onUpdate(value:Function):void { mOnUpdate = value; }
         
-        /** A function that will be called each time the tween finishes one repetition
-         *  (except the last, which will trigger 'onComplete'). */
+        /** 当Tween完成每一次执行的时候，会调用的方法。
+         *  (除了最后一次调用，因为它会触发'onComplete'). */
         public function get onRepeat():Function { return mOnRepeat; }
         public function set onRepeat(value:Function):void { mOnRepeat = value; }
         
-        /** A function that will be called when the tween is complete. */
+		/** 当tween执行完毕的时候会调用的方法. */
         public function get onComplete():Function { return mOnComplete; }
         public function set onComplete(value:Function):void { mOnComplete = value; }
         
-        /** The arguments that will be passed to the 'onStart' function. */
+		/** 需要传递给 'onStart' 方法的参数. */
         public function get onStartArgs():Array { return mOnStartArgs; }
         public function set onStartArgs(value:Array):void { mOnStartArgs = value; }
         
-        /** The arguments that will be passed to the 'onUpdate' function. */
+		/** 需要传递给'onUpdate' 方法的参数. */
         public function get onUpdateArgs():Array { return mOnUpdateArgs; }
         public function set onUpdateArgs(value:Array):void { mOnUpdateArgs = value; }
         
-        /** The arguments that will be passed to the 'onRepeat' function. */
+        /** 需要传递给'onRepeat' 方法的参数. */
         public function get onRepeatArgs():Array { return mOnRepeatArgs; }
         public function set onRepeatArgs(value:Array):void { mOnRepeatArgs = value; }
         
-        /** The arguments that will be passed to the 'onComplete' function. */
+		/** 需要传递给'onComplete' 方法的参数. */
         public function get onCompleteArgs():Array { return mOnCompleteArgs; }
         public function set onCompleteArgs(value:Array):void { mOnCompleteArgs = value; }
         
-        /** Another tween that will be started (i.e. added to the same juggler) as soon as 
-         *  this tween is completed. */
+        /** 当这个tween完成的时候，立刻开始执行下一个tween */
         public function get nextTween():Tween { return mNextTween; }
         public function set nextTween(value:Tween):void { mNextTween = value; }
         
-        // tween pooling
+        // tween的缓存对象池
         
         private static var sTweenPool:Vector.<Tween> = new <Tween>[];
         

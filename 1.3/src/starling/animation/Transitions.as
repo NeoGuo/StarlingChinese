@@ -18,18 +18,15 @@ package starling.animation
     
     import starling.errors.AbstractClassError;
     
-    /** The Transitions class contains static methods that define easing functions. 
-     *  Those functions are used by the Tween class to execute animations.
-     * 
-     *  <p>Here is a visual representation of the available transitions:</p> 
-     *  <img src="http://gamua.com/img/blog/2010/sparrow-transitions.png"/>
-     *  
-     *  <p>You can define your own transitions through the "registerTransition" function. A 
-     *  transition function must have the following signature, where <code>ratio</code> is 
-     *  in the range 0-1:</p>
-     *  
-     *  <pre>function myTransition(ratio:Number):Number</pre>
-     */
+	/** Transitions(过渡)类包含了一些静态方法，来定义缓动相关的函数。这些函数被用在Tween类执行动画的时候。
+	 * 
+	 *  <p>关于transitions这里有一张很直观的图片描述：</p> 
+	 *  <img src="http://gamua.com/img/blog/2010/sparrow-transitions.png"/>
+	 *  
+	 *  <p>您可以使用"registerTransition" 方法来自定义过渡方式. 一个过渡的实现方法必须遵循下面的语法, 其中 ratio 的取值范围是 0-1:</p>
+	 *  
+	 *  <pre>function myTransition(ratio:Number):Number</pre>
+	 */
     public class Transitions
     {        
         public static const LINEAR:String = "linear";
@@ -55,14 +52,14 @@ package starling.animation
         /** @private */
         public function Transitions() { throw new AbstractClassError(); }
         
-        /** Returns the transition function that was registered under a certain name. */ 
+		/** 通过指定一个唯一的名称，获取过渡的实现方法 */ 
         public static function getTransition(name:String):Function
         {
             if (sTransitions == null) registerDefaults();
             return sTransitions[name];
         }
         
-        /** Registers a new transition function under a certain name. */
+		/** 通过指定一个唯一的名称，注册一个过渡的实现方法 */
         public static function register(name:String, func:Function):void
         {
             if (sTransitions == null) registerDefaults();

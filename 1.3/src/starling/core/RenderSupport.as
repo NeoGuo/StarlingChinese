@@ -29,12 +29,10 @@ package starling.core
     import starling.utils.Color;
     import starling.utils.MatrixUtil;
 
-    /** A class that contains helper methods simplifying Stage3D rendering.
-     *
-     *  A RenderSupport instance is passed to any "render" method of display objects. 
-     *  It allows manipulation of the current transformation matrix (similar to the matrix 
-     *  manipulation methods of OpenGL 1.x) and other helper methods.
-     */
+	/** 这个类 包含了简化Stage3D渲染的辅助方法.
+	 *  RenderSupport实例可以被任意显示对象的“渲染”方法使用. 
+	 *  它可以对当前变换矩阵和其它帮助方法进行处理 (与OpenGL 1.x的变换矩阵方法类似).
+	 */
     public class RenderSupport
     {
         // members
@@ -63,7 +61,7 @@ package starling.core
         
         // construction
         
-        /** Creates a new RenderSupport object with an empty matrix stack. */
+		/** 创建一个携带空矩阵堆的RenderSupport对象. */
         public function RenderSupport()
         {
             mProjectionMatrix = new Matrix();
@@ -84,7 +82,7 @@ package starling.core
             setOrthographicProjection(0, 0, 400, 300);
         }
         
-        /** Disposes all quad batches. */
+		/** 删除所四角面. */
         public function dispose():void
         {
             for each (var quadBatch:QuadBatch in mQuadBatches)
@@ -93,50 +91,50 @@ package starling.core
         
         // matrix manipulation
         
-        /** Sets up the projection matrix for ortographic 2D rendering. */
+		/** 设置正面二维渲染的矩阵映射. */
         public function setOrthographicProjection(x:Number, y:Number, width:Number, height:Number):void
         {
             mProjectionMatrix.setTo(2.0/width, 0, 0, -2.0/height, 
                 -(2*x + width) / width, (2*y + height) / height);
         }
         
-        /** Changes the modelview matrix to the identity matrix. */
+		/** 把模型视图矩阵变换为单位矩阵. */
         public function loadIdentity():void
         {
             mModelViewMatrix.identity();
         }
         
-        /** Prepends a translation to the modelview matrix. */
+		/** 根据相应位移变化得到模型视图矩阵. */
         public function translateMatrix(dx:Number, dy:Number):void
         {
             MatrixUtil.prependTranslation(mModelViewMatrix, dx, dy);
         }
         
-        /** Prepends a rotation (angle in radians) to the modelview matrix. */
+		/** 根据相应旋转变化得到模型视图矩阵. */
         public function rotateMatrix(angle:Number):void
         {
             MatrixUtil.prependRotation(mModelViewMatrix, angle);
         }
         
-        /** Prepends an incremental scale change to the modelview matrix. */
+		/** 根据相应缩放变化得到模型视图矩阵. */
         public function scaleMatrix(sx:Number, sy:Number):void
         {
             MatrixUtil.prependScale(mModelViewMatrix, sx, sy);
         }
         
-        /** Prepends a matrix to the modelview matrix by multiplying it another matrix. */
+		/** 与另一矩阵相乘得到模型视图矩阵. */
         public function prependMatrix(matrix:Matrix):void
         {
             MatrixUtil.prependMatrix(mModelViewMatrix, matrix);
         }
         
-        /** Prepends translation, scale and rotation of an object to the modelview matrix. */
+		/** 根据对象的坐标变换，缩放和旋转生成模型视图矩阵. */
         public function transformMatrix(object:DisplayObject):void
         {
             MatrixUtil.prependMatrix(mModelViewMatrix, object.transformationMatrix);
         }
         
-        /** Pushes the current modelview matrix to a stack from which it can be restored later. */
+		/** 把当前模型视图矩阵推入堆中以便随后访问. */
         public function pushMatrix():void
         {
             if (mMatrixStack.length < mMatrixStackSize + 1)
@@ -145,27 +143,27 @@ package starling.core
             mMatrixStack[int(mMatrixStackSize++)].copyFrom(mModelViewMatrix);
         }
         
-        /** Restores the modelview matrix that was last pushed to the stack. */
+		/** 访问保存在堆中的模型视图矩阵. */
         public function popMatrix():void
         {
             mModelViewMatrix.copyFrom(mMatrixStack[int(--mMatrixStackSize)]);
         }
         
-        /** Empties the matrix stack, resets the modelview matrix to the identity matrix. */
+		/** 置空矩阵堆, 把模型视图矩阵重设为单位矩阵. */
         public function resetMatrix():void
         {
             mMatrixStackSize = 0;
             loadIdentity();
         }
         
-        /** Prepends translation, scale and rotation of an object to a custom matrix. */
+		/** 把一个对象的位移，缩放和旋转转化为自定义矩阵. */
         public static function transformMatrixForObject(matrix:Matrix, object:DisplayObject):void
         {
             MatrixUtil.prependMatrix(matrix, object.transformationMatrix);
         }
         
-        /** Calculates the product of modelview and projection matrix. 
-         *  CAUTION: Don't save a reference to this object! Each call returns the same instance. */
+		/** 计算模型视图矩阵和映射矩阵的商. 
+		 *  注意：不要保存这个对象的引用！每次调用实际返回的是同一实例。 */
         public function get mvpMatrix():Matrix
         {
 			mMvpMatrix.copyFrom(mModelViewMatrix);
@@ -173,39 +171,39 @@ package starling.core
             return mMvpMatrix;
         }
         
-        /** Calculates the product of modelview and projection matrix and saves it in a 3D matrix. 
-         *  CAUTION: Don't save a reference to this object! Each call returns the same instance. */
+		/** 计算模型视图矩阵和映射矩阵的商保存到一个三维矩阵中. 
+		 *  注意：不要保存这个对象的引用！每次调用实际返回的是同一实例。 */
         public function get mvpMatrix3D():Matrix3D
         {
             return MatrixUtil.convertTo3D(mvpMatrix, mMvpMatrix3D);
         }
         
-        /** Returns the current modelview matrix. CAUTION: not a copy -- use with care! */
+		/** 返回当前模型视图矩阵. 注意：不是拷贝 - 小心使用! */
         public function get modelViewMatrix():Matrix { return mModelViewMatrix; }
         
-        /** Returns the current projection matrix. CAUTION: not a copy -- use with care! */
+		/** 返回当前映射矩阵. 注意：不是拷贝 - 小心使用! */
         public function get projectionMatrix():Matrix { return mProjectionMatrix; }
         
         // blending
         
-        /** Activates the current blend mode on the active rendering context. */
+		/** 在当前的渲染内容中使用合适的混合因数. */
         public function applyBlendMode(premultipliedAlpha:Boolean):void
         {
             setBlendFactors(premultipliedAlpha, mBlendMode);
         }
         
-        /** The blend mode to be used on rendering. To apply the factor, you have to manually call
-         *  'applyBlendMode' (because the actual blend factors depend on the PMA mode). */
+		/**
+		 * 在渲染中将要使用的混合模式.要应用这个设置，您必须手工调用"applyBlendMode"方法(因为实际的混合因素依赖于对PMA模式)。
+		 */		
         public function get blendMode():String { return mBlendMode; }
         public function set blendMode(value:String):void
         {
             if (value != BlendMode.AUTO) mBlendMode = value;
         }
         
-        // render targets
+        // 渲染目标
         
-        /** The texture that is currently being rendered into, or 'null' to render into the 
-         *  back buffer. If you set a new target, it is immediately activated. */
+		/**当前即将被渲染的纹理，如果是'null'将渲染到后台缓冲区。如果您设置一个新对象，则它马上就会被启动。*/
         public function get renderTarget():Texture { return mRenderTarget; }
         public function set renderTarget(target:Texture):void 
         {
@@ -215,10 +213,15 @@ package starling.core
             else        Starling.context.setRenderToBackBuffer();
         }
         
-        /** Configures the back buffer on the current context3D. By using this method, Starling
-         *  can store the size of the back buffer and utilize this information in other methods
-         *  (e.g. the scissor rectangle property). Back buffer width and height can later be
-         *  accessed using the properties with the same name. */
+		/**
+		 * 配置当前Context3D对象的后台缓冲区。
+		 * 通过使用这个方法，Starling可以存储后台缓冲区的大小，并且在其它方法(比如矩形区域的裁切)中使用这个信息。
+		 * 后台缓冲区的宽度和高度，可以在以后通过相同的属性名称来访问。
+		 * @param width 宽度
+		 * @param height 高度
+		 * @param antiAlias 抗锯齿级别
+		 * @param enableDepthAndStencil 是否开启深度和印模缓冲区
+		 */        
         public function configureBackBuffer(width:int, height:int, antiAlias:int, 
                                             enableDepthAndStencil:Boolean):void
         {
@@ -227,34 +230,26 @@ package starling.core
             Starling.context.configureBackBuffer(width, height, antiAlias, enableDepthAndStencil);
         }
         
-        /** The width of the back buffer, as it was configured in the last call to 
-         *  'RenderSupport.configureBackBuffer()'. Beware: changing this value does not actually
-         *  resize the back buffer; the setter should only be used to inform Starling about the
-         *  size of a back buffer it can't control (shared context situations).
+        /** 后台缓冲区的宽度，它是被最后一次调用'RenderSupport.configureBackBuffer()'时确定的。
+		 * 请注意：更改此值实际上并不会修改后台缓冲区的尺寸；setter方法只是用来通知Starling后台缓冲区的尺寸（它无法控制的情况，比如共享上下文的情况下）。
          */
         public function get backBufferWidth():int { return mBackBufferWidth; }
         public function set backBufferWidth(value:int):void { mBackBufferWidth = value; }
         
-        /** The height of the back buffer, as it was configured in the last call to 
-         *  'RenderSupport.configureBackBuffer()'. Beware: changing this value does not actually
-         *  resize the back buffer; the setter should only be used to inform Starling about the
-         *  size of a back buffer it can't control (shared context situations).
-         */
+		/** 后台缓冲区的高度，它是被最后一次调用'RenderSupport.configureBackBuffer()'时确定的。
+		 * 请注意：更改此值实际上并不会修改后台缓冲区的尺寸；setter方法只是用来通知Starling后台缓冲区的尺寸（它无法控制的情况，比如共享上下文的情况下）。
+		 */
         public function get backBufferHeight():int { return mBackBufferHeight; }
         public function set backBufferHeight(value:int):void { mBackBufferHeight = value; }
         
         // scissor rect
         
-        /** The scissor rectangle can be used to limit rendering in the current render target to
-         *  a certain area. This method expects the rectangle in stage coordinates
-         *  (different to the context3D method with the same name, which expects pixels).
-         *  Pass <code>null</code> to turn off scissoring.
-         *  CAUTION: not a copy -- use with care! */ 
+        /** 裁切矩形可以被用于限制当前渲染目标到一个指定的区域。
+		 * 这个方法需要stage坐标系中的一个矩形(和Context3D的同名方法不同，它使用的是像素)。传递null将关闭裁剪。注意：这不是一个副本，小心使用！*/ 
         public function get scissorRectangle():Rectangle 
         { 
             return mScissorRectangle.isEmpty() ? null : mScissorRectangle; 
         }
-        
         public function set scissorRectangle(value:Rectangle):void
         {
             if (value)
@@ -283,8 +278,7 @@ package starling.core
         
         // optimized quad rendering
         
-        /** Adds a quad to the current batch of unrendered quads. If there is a state change,
-         *  all previous quads are rendered at once, and the batch is reset. */
+		/** 在当前未渲染的四角面组中添加一个四角面. 如果当前状态改变则立即渲染之前组中四角面,然后重置当前组。 */
         public function batchQuad(quad:Quad, parentAlpha:Number, 
                                   texture:Texture=null, smoothing:String=null):void
         {
@@ -298,7 +292,7 @@ package starling.core
                                                       mModelViewMatrix, mBlendMode);
         }
         
-        /** Renders the current quad batch and resets it. */
+		/** 渲染当前四角面组然后重置. */
         public function finishQuadBatch():void
         {
             var currentBatch:QuadBatch = mQuadBatches[mCurrentQuadBatchID];
@@ -316,7 +310,7 @@ package starling.core
             }
         }
         
-        /** Resets matrix stack, blend mode, quad batch index, and draw count. */
+		/** 重置矩阵和混合模式堆，四角面组索引,和绘画计数。*/
         public function nextFrame():void
         {
             resetMatrix();
@@ -327,20 +321,26 @@ package starling.core
         
         // other helper methods
         
-        /** Deprecated. Call 'setBlendFactors' instead. */
+		/** 不再使用。调用'setBlendFactors'方法. */
         public static function setDefaultBlendFactors(premultipliedAlpha:Boolean):void
         {
             setBlendFactors(premultipliedAlpha);
         }
         
-        /** Sets up the blending factors that correspond with a certain blend mode. */
+		/** 设置相应混合模式的混合参数. 
+		 * @param premultipliedAlpha 是否预乘透明度
+		 * @param blendMode 混合模式，默认是normal
+		 **/
         public static function setBlendFactors(premultipliedAlpha:Boolean, blendMode:String="normal"):void
         {
             var blendFactors:Array = BlendMode.getBlendFactors(blendMode, premultipliedAlpha); 
             Starling.context.setBlendFactors(blendFactors[0], blendFactors[1]);
         }
         
-        /** Clears the render context with a certain color and alpha value. */
+		/** 以特定颜色和透明度清除渲染内容. 
+		 * @param rgb RGB色值
+		 * @param alpha 透明度
+		 **/
         public static function clear(rgb:uint=0, alpha:Number=0.0):void
         {
             Starling.context.clear(
@@ -350,15 +350,23 @@ package starling.core
                 alpha);
         }
         
-        /** Clears the render context with a certain color and alpha value. */
+        /** 以特定颜色和透明度清除渲染内容. 
+		 * @param rgb RGB色值
+		 * @param alpha 透明度
+		 **/
         public function clear(rgb:uint=0, alpha:Number=0.0):void
         {
             RenderSupport.clear(rgb, alpha);
         }
         
-        /** Assembles fragment- and vertex-shaders, passed as Strings, to a Program3D. If you
-         *  pass a 'resultProgram', it will be uploaded to that program; otherwise, a new program
-         *  will be created on the current Stage3D context. */ 
+		/**
+		 * 汇编通过字符串传递的片段和顶点着色器到Program3D中。如果您传递了一个'resultProgram'参数，那么结果就会上传到传入的这个Program3D对象中。
+		 * 否则，将从当前的Stage3D上下文中，创建一个新的Program3D对象。
+		 * @param vertexShader 顶点着色器源码
+		 * @param fragmentShader 片段着色器源码
+		 * @param resultProgram Program3D对象
+		 * @return Program3D对象
+		 */		
         public static function assembleAgal(vertexShader:String, fragmentShader:String,
                                             resultProgram:Program3D=null):Program3D
         {
@@ -378,11 +386,10 @@ package starling.core
         
         // statistics
         
-        /** Raises the draw count by a specific value. Call this method in custom render methods
-         *  to keep the statistics display in sync. */
+		/** 提升绘制计数特定的数值.在调用自定义渲染方法时调用这个方法来保持渲染数据的同步 */
         public function raiseDrawCount(value:uint=1):void { mDrawCount += value; }
         
-        /** Indicates the number of stage3D draw calls. */
+		/** 指出stage3D绘制调用次数. */
         public function get drawCount():int { return mDrawCount; }
         
     }
