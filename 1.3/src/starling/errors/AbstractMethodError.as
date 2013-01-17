@@ -10,10 +10,10 @@
 
 package starling.errors
 {
-    /** An AbstractMethodError is thrown when you attempt to call an abstract method. */
+	/** 当您尝试调用一个抽象方法，就会抛出一个AbstractMethodError。 */
     public class AbstractMethodError extends Error
     {
-        /** Creates a new AbstractMethodError object. */
+		/** 创建一个新的AbstractMethodError对象。 */
         public function AbstractMethodError(message:*="", id:*=0)
         {
             super(message, id);

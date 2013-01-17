@@ -12,33 +12,30 @@ package starling.events
 {
     import flash.geom.Point;
     
-    /** A ResizeEvent is dispatched by the stage when the size of the Flash container changes.
-     *  Use it to update the Starling viewport and the stage size.
-     *  
-     *  <p>The event contains properties containing the updated width and height of the Flash 
-     *  player. If you want to scale the contents of your stage to fill the screen, update the 
-     *  <code>Starling.current.viewPort</code> rectangle accordingly. If you want to make use of
-     *  the additional screen estate, update the values of <code>stage.stageWidth</code> and 
-     *  <code>stage.stageHeight</code> as well.</p>
-     *  
-     *  @see starling.display.Stage
-     *  @see starling.core.Starling
-     */
+	/** 当Flash容器的尺寸改变后，stage会派发一个ResizeEvent。用这个值可以更新Starling的视口和stage的尺寸。
+	 *  
+	 *  <p>事件的属性包含了更新后的Flash Player的宽度和高度。如果您希望缩放stage上的内容来充满屏幕， 请更新 
+	 *  <code>Starling.current.viewPort</code> 矩形区域。如果您希望使用额外的屏幕区域，
+	 *  请更新 <code>stage.stageWidth</code> 和 <code>stage.stageHeight</code></p>
+	 *
+	 *  @see starling.display.Stage
+	 *  @see starling.core.Starling
+	 */
     public class ResizeEvent extends Event
     {
-        /** Event type for a resized Flash player. */
-        public static const RESIZE:String = "resize";
+		/** 事件类型：Flash Player尺寸改变。 */
+		public static const RESIZE:String = "resize";
         
-        /** Creates a new ResizeEvent. */
+		/** 创建一个新的ResizeEvent实例。 */
         public function ResizeEvent(type:String, width:int, height:int, bubbles:Boolean=false)
         {
         	super(type, bubbles, new Point(width, height));
         }
         
-        /** The updated width of the player. */
+		/** 播放器更新后的宽度。 */
         public function get width():int { return (data as Point).x; }
         
-        /** The updated height of the player. */
+		/** 播放器更新后的高度。 */
         public function get height():int { return (data as Point).y; }
 	}
 }

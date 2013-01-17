@@ -17,62 +17,59 @@ package starling.events
     
     use namespace starling_internal;
 
-    /** Event objects are passed as parameters to event listeners when an event occurs.  
-     *  This is Starling's version of the Flash Event class. 
-     *
-     *  <p>EventDispatchers create instances of this class and send them to registered listeners. 
-     *  An event object contains information that characterizes an event, most importantly the 
-     *  event type and if the event bubbles. The target of an event is the object that 
-     *  dispatched it.</p>
-     * 
-     *  <p>For some event types, this information is sufficient; other events may need additional 
-     *  information to be carried to the listener. In that case, you can subclass "Event" and add 
-     *  properties with all the information you require. The "EnterFrameEvent" is an example for 
-     *  this practice; it adds a property about the time that has passed since the last frame.</p>
-     * 
-     *  <p>Furthermore, the event class contains methods that can stop the event from being 
-     *  processed by other listeners - either completely or at the next bubble stage.</p>
-     * 
-     *  @see EventDispatcher
-     */
+	/** 当事件派发时，事件对象会作为参数传递给事件侦听器。这是Flash Event类的Starling版本。
+	 *
+	 *  <p>EventDispatcher对象会创建这个类的实例并将它派发到一个已注册的事件侦听器。 
+	 *  一个事件对象包含了作为这个事件特征的信息，其中非常重要的是事件类型，如果事件冒泡的话。
+	 *  事件的目标(target)是派发这个事件的对象。</p>
+	 * 
+	 *  <p>对于某些类型的事件，这些信息就足够了，其他事件可能需要更多的信息来传递给侦听器。 
+	 *  在这种情况下，您可以创建“事件”的子类，并添加您所需要的所有信息作为事件的属性。 
+	 *  “EnterFrameEvent”是这种做法的一个例子，它增加了一个属性用来表示已经执行的时间值。</p>
+	 * 
+	 *  <p>此外，事件类包含的方法可以中断事件的派发，阻止事件被其它的侦听器接受。（ 包括完全阻止
+	 *  或只是阻止进入下一个冒泡阶段）</p>
+	 * 
+	 *  @see EventDispatcher
+	 */
     public class Event
     {
-        /** Event type for a display object that is added to a parent. */
-        public static const ADDED:String = "added";
-        /** Event type for a display object that is added to the stage */
-        public static const ADDED_TO_STAGE:String = "addedToStage";
-        /** Event type for a display object that is entering a new frame. */
-        public static const ENTER_FRAME:String = "enterFrame";
-        /** Event type for a display object that is removed from its parent. */
-        public static const REMOVED:String = "removed";
-        /** Event type for a display object that is removed from the stage. */
-        public static const REMOVED_FROM_STAGE:String = "removedFromStage";
-        /** Event type for a triggered button. */
-        public static const TRIGGERED:String = "triggered";
-        /** Event type for a display object that is being flattened. */
-        public static const FLATTEN:String = "flatten";
-        /** Event type for a resized Flash Player. */
-        public static const RESIZE:String = "resize";
-        /** Event type that may be used whenever something finishes. */
-        public static const COMPLETE:String = "complete";
-        /** Event type for a (re)created stage3D rendering context. */
-        public static const CONTEXT3D_CREATE:String = "context3DCreate";
-        /** Event type that indicates that the root DisplayObject has been created. */
-        public static const ROOT_CREATED:String = "rootCreated";
-        /** Event type for an animated object that requests to be removed from the juggler. */
-        public static const REMOVE_FROM_JUGGLER:String = "removeFromJuggler";
+		/** 事件类型：一个显示对象被添加到了它的父级容器上。 */
+		public static const ADDED:String = "added";
+		/** 事件类型：一个显示对象被添加到了舞台上。 */
+		public static const ADDED_TO_STAGE:String = "addedToStage";
+		/** 事件类型：一个显示对象进入了新的一帧。 */
+		public static const ENTER_FRAME:String = "enterFrame";
+		/** 事件类型：一个显示对象从它的父级删除 */
+		public static const REMOVED:String = "removed";
+		/** 事件类型：一个显示对象从舞台上删除。 */
+		public static const REMOVED_FROM_STAGE:String = "removedFromStage";
+		/** 事件类型：按钮点击。 */
+		public static const TRIGGERED:String = "triggered";
+		/** 事件类型：一个即将被扁平化的对象派发。 */
+		public static const FLATTEN:String = "flatten";
+		/** 事件类型：Flash Player尺寸改变。 */
+		public static const RESIZE:String = "resize";
+		/** 事件类型：可以用在一些表示“完成”的场合。 */
+		public static const COMPLETE:String = "complete";
+		/** 事件类型：表示创建(或重建)了Context3D实例。 */
+		public static const CONTEXT3D_CREATE:String = "context3DCreate";
+		/** 事件类型：表示最顶层的显示对象已被创建。 */
+		public static const ROOT_CREATED:String = "rootCreated";
+		/** 事件类型：当一个动画对象需要被Juggler删除的时候派发 */
+		public static const REMOVE_FROM_JUGGLER:String = "removeFromJuggler";
         
-        /** An event type to be utilized in custom events. Not used by Starling right now. */
+        /** 自定义事件需要的一个事件类型. 在现在的Starling版本中没有使用. */
         public static const CHANGE:String = "change";
-        /** An event type to be utilized in custom events. Not used by Starling right now. */
+		/** 自定义事件需要的一个事件类型. 在现在的Starling版本中没有使用. */
         public static const CANCEL:String = "cancel";
-        /** An event type to be utilized in custom events. Not used by Starling right now. */
+		/** 自定义事件需要的一个事件类型. 在现在的Starling版本中没有使用. */
         public static const SCROLL:String = "scroll";
-        /** An event type to be utilized in custom events. Not used by Starling right now. */
+		/** 自定义事件需要的一个事件类型. 在现在的Starling版本中没有使用. */
         public static const OPEN:String = "open";
-        /** An event type to be utilized in custom events. Not used by Starling right now. */
+		/** 自定义事件需要的一个事件类型. 在现在的Starling版本中没有使用. */
         public static const CLOSE:String = "close";
-        /** An event type to be utilized in custom events. Not used by Starling right now. */
+		/** 自定义事件需要的一个事件类型. 在现在的Starling版本中没有使用. */
         public static const SELECT:String = "select";
         
         private static var sEventPool:Vector.<Event> = new <Event>[];
@@ -85,7 +82,12 @@ package starling.events
         private var mStopsImmediatePropagation:Boolean;
         private var mData:Object;
         
-        /** Creates an event object that can be passed to listeners. */
+		/**
+		 * 创建一个作为参数传递给事件侦听器的 Event 对象。 
+		 * @param type 事件类型
+		 * @param bubbles 是否冒泡，默认false	
+		 * @param data 附加数据，默认是null
+		 */		
         public function Event(type:String, bubbles:Boolean=false, data:Object=null)
         {
             mType = type;
@@ -93,38 +95,39 @@ package starling.events
             mData = data;
         }
         
-        /** Prevents listeners at the next bubble stage from receiving the event. */
+		/** 阻止事件进入下一个冒泡阶段，从而阻止它被下一个对象接收。 */
         public function stopPropagation():void
         {
             mStopsPropagation = true;            
         }
         
-        /** Prevents any other listeners from receiving the event. */
+		/** 阻止其他任何侦听器接收事件。 */
         public function stopImmediatePropagation():void
         {
             mStopsPropagation = mStopsImmediatePropagation = true;
         }
         
-        /** Returns a description of the event, containing type and bubble information. */
+		/** 返回事件的描述，包括类型及是否冒泡。 */
         public function toString():String
         {
             return formatString("[{0} type=\"{1}\" bubbles={2}]", 
                 getQualifiedClassName(this).split("::").pop(), mType, mBubbles);
         }
         
-        /** Indicates if event will bubble. */
+		/** 表示事件是否冒泡 */
         public function get bubbles():Boolean { return mBubbles; }
         
-        /** The object that dispatched the event. */
+		/** 派发这个事件的对象。 */
         public function get target():EventDispatcher { return mTarget; }
         
-        /** The object the event is currently bubbling at. */
+		/** 当前事件已经冒泡到的对象。 */
         public function get currentTarget():EventDispatcher { return mCurrentTarget; }
         
-        /** A string that identifies the event. */
+		/** 这个事件的字符串类型。 */
         public function get type():String { return mType; }
         
-        /** Arbitrary data that is attached to the event. */
+		/** 被添加到事件上的任意数据对象 
+		 *  @version 1.3 */
         public function get data():Object { return mData; }
         
         // properties for internal use

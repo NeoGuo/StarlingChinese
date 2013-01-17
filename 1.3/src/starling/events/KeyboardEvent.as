@@ -10,24 +10,22 @@
 
 package starling.events
 {
-    /** A KeyboardEvent is dispatched in response to user input through a keyboard.
-     * 
-     *  <p>This is Starling's version of the Flash KeyboardEvent class. It contains the same 
-     *  properties as the Flash equivalent.</p> 
-     * 
-     *  <p>To be notified of keyboard events, add an event listener to the Starling stage. Children
-     *  of the stage won't be notified of keybaord input. Starling has no concept of a "Focus"
-     *  like native Flash.</p>
-     *  
-     *  @see starling.display.Stage
-     */  
+	/** 一个键盘事件的派发，是对用户使用键盘输入的回应。
+	 * 
+	 *  <p>这个类是Flash的键盘事件的Starling版本。它包含了和Flash的键盘事件相同的属性。</p> 
+	 * 
+	 *  <p>要捕获键盘事件，需要在Starling的stage上添加事件侦听。stage的子节点是不能获取到键盘事件的。 
+	 *  Starling并没有像传统Flash那样的“焦点”的概念。</p>
+	 *  
+	 *  @see starling.display.Stage
+	 */  
     public class KeyboardEvent extends Event
     {
-        /** Event type for a key that was released. */
-        public static const KEY_UP:String = "keyUp";
-        
-        /** Event type for a key that was pressed. */
-        public static const KEY_DOWN:String = "keyDown";
+		/** 事件类型：当一个键被释放。 */
+		public static const KEY_UP:String = "keyUp";
+		
+		/** 事件类型：当一个键被按下。 */
+		public static const KEY_DOWN:String = "keyDown";
         
         private var mCharCode:uint;
         private var mKeyCode:uint;
@@ -36,7 +34,7 @@ package starling.events
         private var mCtrlKey:Boolean;
         private var mShiftKey:Boolean;
         
-        /** Creates a new KeyboardEvent. */
+		/** 创建一个新的KeyboardEvent实例。 */
         public function KeyboardEvent(type:String, charCode:uint=0, keyCode:uint=0, 
                                       keyLocation:uint=0, ctrlKey:Boolean=false, 
                                       altKey:Boolean=false, shiftKey:Boolean=false)
@@ -50,25 +48,22 @@ package starling.events
             mShiftKey = shiftKey;
         }
         
-        /** Contains the character code of the key. */
+		/** 按键的字符代码。 */
         public function get charCode():uint { return mCharCode; }
         
-        /** The key code of the key. */
+		/** 按键的标示符号。 */
         public function get keyCode():uint { return mKeyCode; }
         
-        /** Indicates the location of the key on the keyboard. This is useful for differentiating 
-         *  keys that appear more than once on a keyboard. @see Keylocation */ 
+		/** 按键在键盘上的区域。如果一个按键会在键盘上出现多次，这个属性将非常有用 。 @see Keylocation */ 
         public function get keyLocation():uint { return mKeyLocation; }
         
-        /** Indicates whether the Alt key is active on Windows or Linux; 
-         *  indicates whether the Option key is active on Mac OS. */
+		/** 判断Alt键（Windows或Linux）或Option键（Mac OS）是否被激活。按下为true，松开为false。*/
         public function get altKey():Boolean { return mAltKey; }
         
-        /** Indicates whether the Ctrl key is active on Windows or Linux; 
-         *  indicates whether either the Ctrl or the Command key is active on Mac OS. */
+		/** 判断Ctrl键（Windows或Linux）或Ctrl/Command键（Mac OS）是否被激活，按下为true，松开为false。 */
         public function get ctrlKey():Boolean { return mCtrlKey; }
         
-        /** Indicates whether the Shift key modifier is active (true) or inactive (false). */
+		/**判断Shift键是否被激活，按下为true，松开为false。 */
         public function get shiftKey():Boolean { return mShiftKey; }
     }
 }

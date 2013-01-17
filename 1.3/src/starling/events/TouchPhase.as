@@ -12,42 +12,37 @@ package starling.events
 {
     import starling.errors.AbstractClassError;
 
-    /** A class that provides constant values for the phases of a touch object. 
-     *  
-     *  <p>A touch moves through at least the following phases in its life:</p>
-     *  
-     *  <code>BEGAN -> MOVED -> ENDED</code>
-     *  
-     *  <p>Furthermore, a touch can enter a <code>STATIONARY</code> phase. That phase does not
-     *  trigger a touch event itself, and it can only occur in multitouch environments. Picture a 
-     *  situation where one finger is moving and the other is stationary. A touch event will
-     *  be dispatched only to the object under the <em>moving</em> finger. In the list of touches
-     *  of that event, you will find the second touch in the stationary phase.</p>
-     *  
-     *  <p>Finally, there's the <code>HOVER</code> phase, which is exclusive to mouse input. It is
-     *  the equivalent of a <code>MouseOver</code> event in Flash when the mouse button is
-     *  <em>not</em> pressed.</p> 
-     */
+	/** 这个类提供了描述触碰的各个阶段的常量值。
+	 *  
+	 *  <p>一个触碰，在它的生命周期内会遵循下面的过程：</p>
+	 *  
+	 *  <code>BEGAN(开始) -> MOVED(移动) -> ENDED(结束)</code>
+	 *  
+	 *  <p>此外，一个触碰可能进入一个称之为STATIONARY(静止)的阶段。这一阶段本身不会触发触碰事件，并且它只能发生在多点触控环境。
+	 *  在某些场合下需要一个解决方案，比如一个手指移动，另一个静止。这个时候，一个触碰事件必须由正在移动的手指下方的对象来派发。
+	 *  在这个事件的触碰对象列表中，您将会找到第二个处于静止状态的触碰对象。</p>
+	 *  
+	 *  <p>最后，还有一个称之为HOVER(悬停)的状态，这种情况只会发生在使用鼠标的情况下。
+	 *  它是由Flash的MouseOver事件触发的，并且这个时候鼠标按键<em>没有</em>被按下。</p> 
+	 */
     public final class TouchPhase
     {
         /** @private */
         public function TouchPhase() { throw new AbstractClassError(); }
         
-        /** Only available for mouse input: the cursor hovers over an object <em>without</em> a 
-         *  pressed button. */
+		/**  只有鼠标模式下可用：当光标滑过一个对象，并且没有按下鼠标。 */
         public static const HOVER:String = "hover";
         
-        /** The finger touched the screen just now, or the mouse button was pressed. */
+		/** 当手指刚刚接触屏幕，或者鼠标按下。 */
         public static const BEGAN:String = "began";
         
-        /** The finger moves around on the screen, or the mouse is moved while the button is 
-         *  pressed. */
+		/** 手指在屏幕上滑动，或者鼠标在按下的情况下在屏幕上滑动。 */
         public static const MOVED:String = "moved";
         
-        /** The finger or mouse (with pressed button) has not moved since the last frame. */
+		/** 手指或鼠标(按下) 没有移动。 */
         public static const STATIONARY:String = "stationary";
         
-        /** The finger was lifted from the screen or from the mouse button. */
+		/** 手指离开屏幕或鼠标松开。 */
         public static const ENDED:String = "ended";
     }
 }

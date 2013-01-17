@@ -20,24 +20,19 @@ package starling.events
     
     use namespace starling_internal;
 
-    /** A Touch object contains information about the presence or movement of a finger 
-     *  or the mouse on the screen.
-     *  
-     *  <p>You receive objects of this type from a TouchEvent. When such an event is triggered, you can 
-     *  query it for all touches that are currently present on the screen. One Touch object contains
-     *  information about a single touch. A touch object always moves through a series of
-     *  TouchPhases. Have a look at the TouchPhase class for more information.</p>
-     *  
-     *  <strong>The position of a touch</strong>
-     *  
-     *  <p>You can get the current and previous position in stage coordinates with the corresponding 
-     *  properties. However, you'll want to have the position in a different coordinate system 
-     *  most of the time. For this reason, there are methods that convert the current and previous 
-     *  touches into the local coordinate system of any object.</p>
-     * 
-     *  @see TouchEvent
-     *  @see TouchPhase
-     */  
+	/** 一个Touch对象包含了在屏幕上的一个手指或鼠标的相关信息（出现或移动）。
+	 *  
+	 *  <p>您将从TouchEvent中获取这个对象。当这样的事件被触发，您可以查询目前呈现在屏幕上的所有触碰。
+	 *  一个Touch对象，包含了一个单指触碰的信息。一个Touch对象总是会通过TouchPhases的集合移动。请参阅TouchPhase类来获取更多信息。</p>
+	 *  
+	 *  <strong>触碰的位置</strong>
+	 *  
+	 *  <p>您可以用相应的属性，获取坐标系上的当前的和上一个位置。当然，在大部分情况下您希望能获取在一个不同的坐标系上的位置。 
+	 *  基于这个原因，这里有一些方法可以转换当前的和上一个位置到任何对象的局部坐标系。</p>
+	 * 
+	 *  @see TouchEvent
+	 *  @see TouchPhase
+	 */  
     public class Touch
     {
         private var mID:int;
@@ -57,7 +52,14 @@ package starling.events
         /** Helper object. */
         private static var sHelperMatrix:Matrix = new Matrix();
         
-        /** Creates a new Touch object. */
+		/**
+		 * 创建一个新的Touch对象。
+		 * @param id ID
+		 * @param globalX 全局X坐标
+		 * @param globalY 全局Y坐标
+		 * @param phase 触碰阶段
+		 * @param target 目标对象
+		 */        
         public function Touch(id:int, globalX:Number, globalY:Number, phase:String, target:DisplayObject)
         {
             mID = id;
@@ -71,9 +73,11 @@ package starling.events
             updateBubbleChain();
         }
         
-        /** Converts the current location of a touch to the local coordinate system of a display 
-         *  object. If you pass a 'resultPoint', the result will be stored in this point instead 
-         *  of creating a new object.*/
+		/** 转换当前touch的位置到一个显示对象的局部坐标系。
+		 *  如果你传递一个 resultPoint ，此方法的返回值会存储于这个Point对象中，而不是创建一个新的对象。
+		 *  @param space 坐标系对象
+		 *  @param resultPoint 可选Point值
+		 */
         public function getLocation(space:DisplayObject, resultPoint:Point=null):Point
         {
             if (resultPoint == null) resultPoint = new Point();
@@ -81,9 +85,11 @@ package starling.events
             return MatrixUtil.transformCoords(sHelperMatrix, mGlobalX, mGlobalY, resultPoint); 
         }
         
-        /** Converts the previous location of a touch to the local coordinate system of a display 
-         *  object. If you pass a 'resultPoint', the result will be stored in this point instead 
-         *  of creating a new object.*/
+		/** 转换touch的上一个位置到一个显示对象的局部坐标系。 
+		 *  如果你传递一个 resultPoint ，此方法的返回值会存储于这个Point对象中，而不是创建一个新的对象。
+		 *  @param space 坐标系对象
+		 *  @param resultPoint 可选Point值
+		 **/
         public function getPreviousLocation(space:DisplayObject, resultPoint:Point=null):Point
         {
             if (resultPoint == null) resultPoint = new Point();
@@ -91,9 +97,11 @@ package starling.events
             return MatrixUtil.transformCoords(sHelperMatrix, mPreviousGlobalX, mPreviousGlobalY, resultPoint);
         }
         
-        /** Returns the movement of the touch between the current and previous location. 
-         *  If you pass a 'resultPoint', the result will be stored in this point instead 
-         *  of creating a new object. */ 
+		/** 返回从上一个位置到当前位置移动的距离。 
+		 *  如果你传递一个 resultPoint ，此方法的返回值会存储于这个Point对象中，而不是创建一个新的对象。
+		 *  @param space 坐标系对象
+		 *  @param resultPoint 可选Point值
+		 **/ 
         public function getMovement(space:DisplayObject, resultPoint:Point=null):Point
         {
             if (resultPoint == null) resultPoint = new Point();
@@ -105,20 +113,22 @@ package starling.events
             return resultPoint;
         }
         
-        /** Indicates if the target or one of its children is touched. */ 
+        /** 判断一个对象或它的子级显示对象是否被触碰了。 
+		 * @param target 目标对象
+		 **/ 
         public function isTouching(target:DisplayObject):Boolean
         {
             return mBubbleChain.indexOf(target) != -1;
         }
         
-        /** Returns a description of the object. */
+		/** 返回这个对象的描述。 */
         public function toString():String
         {
             return formatString("Touch {0}: globalX={1}, globalY={2}, phase={3}",
                                 mID, mGlobalX, mGlobalY, mPhase);
         }
         
-        /** Creates a clone of the Touch object. */
+		/** 创建这个一个Touch对象的副本 */
         public function clone():Touch
         {
             var clone:Touch = new Touch(mID, mGlobalX, mGlobalY, mPhase, mTarget);
@@ -155,44 +165,40 @@ package starling.events
         
         // properties
         
-        /** The identifier of a touch. '0' for mouse events, an increasing number for touches. */
+		/**一个Touch对象的唯一标示. '0' 代表鼠标事件, 正数用于touch事件。 */
         public function get id():int { return mID; }
         
-        /** The x-position of the touch in stage coordinates. */
+		/**  touch对象在stage坐标系的X坐标值。 */
         public function get globalX():Number { return mGlobalX; }
 
-        /** The y-position of the touch in stage coordinates. */
+		/**  touch对象在stage坐标系的Y坐标值。 */
         public function get globalY():Number { return mGlobalY; }
         
-        /** The previous x-position of the touch in stage coordinates. */
+		/**touch对象的上一个位置在stage坐标系的X坐标值。 */
         public function get previousGlobalX():Number { return mPreviousGlobalX; }
         
-        /** The previous y-position of the touch in stage coordinates. */
+		/** touch对象的上一个位置在stage坐标系的Y坐标值。 */
         public function get previousGlobalY():Number { return mPreviousGlobalY; }
         
-        /** The number of taps the finger made in a short amount of time. Use this to detect 
-         *  double-taps / double-clicks, etc. */ 
+		/**手指在很短的时间内触碰屏幕的次数。可以用来判断双击等情况。 */ 
         public function get tapCount():int { return mTapCount; }
         
-        /** The current phase the touch is in. @see TouchPhase */
+		/** 当前触碰所处的阶段。 @see TouchPhase */
         public function get phase():String { return mPhase; }
         
-        /** The display object at which the touch occurred. */
+		/** 发生触碰的显示对象。 */
         public function get target():DisplayObject { return mTarget; }
         
-        /** The moment the touch occurred (in seconds since application start). */
+		/** 触碰发生时的时间（以秒为单位，自应用程序启动时算起）。 */
         public function get timestamp():Number { return mTimestamp; }
         
-        /** A value between 0.0 and 1.0 indicating force of the contact with the device. 
-         *  If the device does not support detecting the pressure, the value is 1.0. */ 
+		/**触摸在设备上的压力值（从0.0到1.0）。如果设备不支持压力，则这个值永远是1.0*/
         public function get pressure():Number { return mPressure; }
         
-        /** Width of the contact area. 
-         *  If the device does not support detecting the pressure, the value is 1.0. */
+        /** 压力区域的宽度。如果设备不支持压力，则这个值永远是1.0.  */
         public function get width():Number { return mWidth; }
         
-        /** Height of the contact area. 
-         *  If the device does not support detecting the pressure, the value is 1.0. */
+		/** 压力区域的高度。如果设备不支持压力，则这个值永远是1.0.  */
         public function get height():Number { return mHeight; }
         
         // internal methods
