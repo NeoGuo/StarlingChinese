@@ -17,36 +17,40 @@ package starling.display
     import starling.core.RenderSupport;
     import starling.utils.VertexData;
     
-    /** A Quad represents a rectangle with a uniform color or a color gradient.
-     *  
-     *  <p>You can set one color per vertex. The colors will smoothly fade into each other over the area
-     *  of the quad. To display a simple linear color gradient, assign one color to vertices 0 and 1 and 
-     *  another color to vertices 2 and 3. </p> 
-     *
-     *  <p>The indices of the vertices are arranged like this:</p>
-     *  
-     *  <pre>
-     *  0 - 1
-     *  | / |
-     *  2 - 3
-     *  </pre>
-     * 
-     *  @see Image
-     */
+	/** 一个四边形代表了由单一颜色或者渐变颜色填充的矩形。
+	 *  
+	 *  <p>你可以设置每一个顶点的颜色。不同顶点的颜色会在颜色交汇的地方平滑的过度。
+	 * 要让四边形显示一个线性的渐变颜色，需要给顶点0,1设置一个颜色，然后给顶点2,3设置另一个颜色。 </p> 
+	 *
+	 *  <p>四边形的四个顶点的位置是这样排列的:</p>
+	 *  
+	 *  <pre>
+	 *  0 - 1
+	 *  | / |
+	 *  2 - 3
+	 *  </pre>
+	 * 
+	 *  @see Image
+	 */
     public class Quad extends DisplayObject
     {
         private var mTinted:Boolean;
         
-        /** The raw vertex data of the quad. */
+		/** 四边形的原始顶点数据。 */
         protected var mVertexData:VertexData;
         
         /** Helper objects. */
         private static var sHelperPoint:Point = new Point();
         private static var sHelperMatrix:Matrix = new Matrix();
         
-        /** Creates a quad with a certain size and color. The last parameter controls if the 
-         *  alpha value should be premultiplied into the color values on rendering, which can
-         *  influence blending output. You can use the default value in most cases.  */
+		/**
+		 * 根据指定的尺寸和颜色创建一个四边形。
+		 * 最后一个参数决定是否在渲染的时候预乘透明度值，从而影响混合输出的颜色值，大多数情况下可以使用默认值。
+		 * @param width		宽度
+		 * @param height	高度
+		 * @param color		填充颜色
+		 * @param premultipliedAlpha	否在渲染的时候预乘透明度值，从而影响混合输出的颜色值，大多数情况下可以使用默认值。
+		 */
         public function Quad(width:Number, height:Number, color:uint=0xffffff,
                              premultipliedAlpha:Boolean=true)
         {
@@ -62,7 +66,7 @@ package starling.display
             onVertexDataChanged();
         }
         
-        /** Call this method after manually changing the contents of 'mVertexData'. */
+		/** 在手动改变'mVertexData'的内容后调用此方法。 */
         protected function onVertexDataChanged():void
         {
             // override in subclasses, if necessary
@@ -97,13 +101,21 @@ package starling.display
             return resultRect;
         }
         
-        /** Returns the color of a vertex at a certain index. */
+		/**
+		 * 返回指定索引的顶点的颜色。
+		 * @param vertexID	顶点索引
+		 * @return 顶点的颜色
+		 */
         public function getVertexColor(vertexID:int):uint
         {
             return mVertexData.getColor(vertexID);
         }
         
-        /** Sets the color of a vertex at a certain index. */
+		/**
+		 * 设置指定索引的顶点的颜色。
+		 * @param vertexID	顶点索引
+		 * @param color		颜色
+		 */
         public function setVertexColor(vertexID:int, color:uint):void
         {
             mVertexData.setColor(vertexID, color);
@@ -113,13 +125,21 @@ package starling.display
             else mTinted = mVertexData.tinted;
         }
         
-        /** Returns the alpha value of a vertex at a certain index. */
+		/**
+		 * 返回指定索引的顶点的透明度。
+		 * @param vertexID	顶点索引
+		 * @return 			顶点的透明度
+		 */
         public function getVertexAlpha(vertexID:int):Number
         {
             return mVertexData.getAlpha(vertexID);
         }
         
-        /** Sets the alpha value of a vertex at a certain index. */
+		/**
+		 * 设置指定索引的顶点的透明度。
+		 * @param vertexID	顶点索引
+		 * @param alpha		透明度
+		 */
         public function setVertexAlpha(vertexID:int, alpha:Number):void
         {
             mVertexData.setAlpha(vertexID, alpha);
@@ -129,13 +149,13 @@ package starling.display
             else mTinted = mVertexData.tinted;
         }
         
-        /** Returns the color of the quad, or of vertex 0 if vertices have different colors. */
+		/** 返回四边形的颜色，如果四边形存在多个颜色，返回第一个顶点的颜色。 */
         public function get color():uint 
         { 
             return mVertexData.getColor(0); 
         }
         
-        /** Sets the colors of all vertices to a certain value. */
+		/** 设置所有顶点的颜色为指定的一种颜色。*/
         public function set color(value:uint):void 
         {
             for (var i:int=0; i<4; ++i)
@@ -154,7 +174,7 @@ package starling.display
             else mTinted = mVertexData.tinted;
         }
         
-        /** Copies the raw vertex data to a VertexData instance. */
+		/** 拷贝四边形的顶点数据到一个新的顶点数据实例。*/
         public function copyVertexDataTo(targetData:VertexData, targetVertexID:int=0):void
         {
             mVertexData.copyTo(targetData, targetVertexID);
@@ -166,7 +186,7 @@ package starling.display
             support.batchQuad(this, parentAlpha);
         }
         
-        /** Returns true if the quad (or any of its vertices) is non-white or non-opaque. */
+		/** 一个布尔值，如果四边形（或者它的任意顶点）是非白色或者是透明的，返回true，否则返回 false。 */
         public function get tinted():Boolean { return mTinted; }
     }
 }

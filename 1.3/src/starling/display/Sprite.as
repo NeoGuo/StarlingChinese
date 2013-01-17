@@ -15,33 +15,30 @@ package starling.display
     import starling.core.RenderSupport;
     import starling.events.Event;
 
-    /** Dispatched on all children when the object is flattened. */
+	/** 当"平面化"这个对象时，向对象的所有子级派发此事件。 */
     [Event(name="flatten", type="starling.events.Event")]
     
-    /** A Sprite is the most lightweight, non-abstract container class.
-     *  <p>Use it as a simple means of grouping objects together in one coordinate system, or
-     *  as the base class for custom display objects.</p>
-     *
-     *  <strong>Flattened Sprites</strong>
-     * 
-     *  <p>The <code>flatten</code>-method allows you to optimize the rendering of static parts of 
-     *  your display list.</p>
-     *
-     *  <p>It analyzes the tree of children attached to the sprite and optimizes the rendering calls 
-     *  in a way that makes rendering extremely fast. The speed-up comes at a price, though: you 
-     *  will no longer see any changes in the properties of the children (position, rotation, 
-     *  alpha, etc.). To update the object after changes have happened, simply call 
-     *  <code>flatten</code> again, or <code>unflatten</code> the object.</p>
-     * 
-     *  @see DisplayObject
-     *  @see DisplayObjectContainer
-     */
+	/** Sprite是一个极其轻量，非抽象的容器类。
+	 * 
+	 *  <p>通常把Sprite作为一种把一组显示对象集中到一个坐标系内的简单手段，也可以把它用做自定义显示对象的基类。</p>
+	 *
+	 *  <strong>"平面化" Sprite对象</strong>
+	 * 
+	 *  <p><code>flatten</code>方法允许你在渲染时优化显示列表中的静态部分。</p>
+	 *
+	 *  <p><code>flatten</code> 分析了添加到这个Sprite的显示列表的子对象，优化了渲染调用，极大的提高了渲染速度。
+	 * 但是速度的大幅提升是要付出代价的：你将再也看不见子对象属性的任何变化（位置，旋转，透明等等）。
+	 * 要更新这个sprite对象的显示，只需再一次调用<code>flatten</code>，或者<code>unflatten</code>这个对象。</p>
+	 * 
+	 *  @see DisplayObject
+	 *  @see DisplayObjectContainer
+	 */  
     public class Sprite extends DisplayObjectContainer
     {
         private var mFlattenedContents:Vector.<QuadBatch>;
         private var mFlattenRequested:Boolean;
         
-        /** Creates an empty sprite. */
+		/** 创建一个空的Sprite实例。 */
         public function Sprite()
         {
             super();
@@ -65,26 +62,25 @@ package starling.display
             }
         }
         
-        /** Optimizes the sprite for optimal rendering performance. Changes in the
-         *  children of a flattened sprite will not be displayed any longer. For this to happen,
-         *  either call <code>flatten</code> again, or <code>unflatten</code> the sprite. 
-         *  Beware that the actual flattening will not happen right away, but right before the
-         *  next rendering. */
+		/** 优化Sprite对象得到最佳渲染性能。
+		 *  对于被"平面化"的Sprite，子对象的改变是不会有任何显示更新的。
+		 *  要更新这个Sprite对象的显示，只需再一次调用<code>flatten</code>，或者对它进行<code>unflatten</code>。
+		 **/
         public function flatten():void
         {
             mFlattenRequested = true;
             broadcastEventWith(Event.FLATTEN);
         }
         
-        /** Removes the rendering optimizations that were created when flattening the sprite.
-         *  Changes to the sprite's children will immediately become visible again. */ 
+		/** 取消对这个Sprite的"平面化"渲染优化操作。
+		 *  此时子对象的改变会使Sprite对象立即更新显示。 */ 
         public function unflatten():void
         {
             mFlattenRequested = false;
             disposeFlattenedContents();
         }
         
-        /** Indicates if the sprite was flattened. */
+		/** 判断这个对象是否经过"平面化"处理。 */
         public function get isFlattened():Boolean 
         { 
             return (mFlattenedContents != null) || mFlattenRequested; 

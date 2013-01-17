@@ -17,30 +17,25 @@ package starling.display
     import starling.events.Event;
     import starling.textures.Texture;
     
-    /** Dispatched whenever the movie has displayed its last frame. */
+	/** 当影片剪辑播放完最后一帧时进行派发。 */
     [Event(name="complete", type="starling.events.Event")]
     
-    /** A MovieClip is a simple way to display an animation depicted by a list of textures.
-     *  
-     *  <p>Pass the frames of the movie in a vector of textures to the constructor. The movie clip 
-     *  will have the width and height of the first frame. If you group your frames with the help 
-     *  of a texture atlas (which is recommended), use the <code>getTextures</code>-method of the 
-     *  atlas to receive the textures in the correct (alphabetic) order.</p> 
-     *  
-     *  <p>You can specify the desired framerate via the constructor. You can, however, manually 
-     *  give each frame a custom duration. You can also play a sound whenever a certain frame 
-     *  appears.</p>
-     *  
-     *  <p>The methods <code>play</code> and <code>pause</code> control playback of the movie. You
-     *  will receive an event of type <code>Event.MovieCompleted</code> when the movie finished
-     *  playback. If the movie is looping, the event is dispatched once per loop.</p>
-     *  
-     *  <p>As any animated object, a movie clip has to be added to a juggler (or have its 
-     *  <code>advanceTime</code> method called regularly) to run. The movie will dispatch 
-     *  an event of type "Event.COMPLETE" whenever it has displayed its last frame.</p>
-     *  
-     *  @see starling.textures.TextureAtlas
-     */    
+	/** 一个影片剪辑(MovieClip)根据一个纹理集合来显示动画。
+	 *  
+	 *  <p>传入包含纹理的集合给MovieClip的构造函数作为影片剪辑的帧。影片剪辑会根据第一帧的纹理来确定影片的宽度和高度。
+	 * 如果你使用纹理图集<code>TextureAtlas</code>（推荐使用此方法）来组织你的帧，请使用纹理图集的<code>getTextures</code>方法
+	 * 获取正确(按字母次序的)的纹理顺序。</p> 
+	 *  
+	 *  <p>你可以在构造函数中指定一个特定的帧频，如果需要，你还可以设置每一帧的执行时间，或者在某一帧执行时播放一个声音。</p>
+	 *  
+	 *  <p><code>play</code> 和 <code>pause</code> 方法可以控制影片的播放，当影片播放完毕时，你会接收到一个<code>Event.MovieCompleted</code>
+	 * 事件。如果影片是循环播放的，这个事件会在每一次循环都派发。</p>
+	 *  
+	 *  <p>同其他动画对象一样，一个影片剪辑必须添加到一个juggler（或者是一个拥有自己的定时执行的<code>advanceTime</code>方法的对象）里来运行。
+	 * 当影片剪辑播放完最后一帧时，会派发"Event.COMPLETE"事件。</p>
+	 *  
+	 *  @see starling.textures.TextureAtlas
+	 */
     public class MovieClip extends Image implements IAnimatable
     {
         private var mTextures:Vector.<Texture>;
@@ -55,8 +50,13 @@ package starling.display
         private var mLoop:Boolean;
         private var mPlaying:Boolean;
         
-        /** Creates a movie clip from the provided textures and with the specified default framerate.
-         *  The movie will have the size of the first frame. */  
+		/**
+		 * 根据传入的纹理集合和帧频来创建一个影片剪辑。
+		 * 影片剪辑会根据传入的第一帧纹理来确定自己的尺寸。
+		 * @param textures		纹理集合
+		 * @param fps			帧频，默认为：12
+		 * @throws ArgumentError
+		 */
         public function MovieClip(textures:Vector.<Texture>, fps:Number=12)
         {
             if (textures.length > 0)
@@ -95,14 +95,26 @@ package starling.display
         
         // frame manipulation
         
-        /** Adds an additional frame, optionally with a sound and a custom duration. If the 
-         *  duration is omitted, the default framerate is used (as specified in the constructor). */   
+		/**
+		 * 为影片剪辑添加一帧，可以传递声音和执行时间（可选）。
+		 * 如果没有指定执行时间或者执行时间为负值，则使用默认帧频（构造函数里确定的帧频）。
+		 * @param texture	纹理
+		 * @param sound		声音
+		 * @param duration	执行时间
+		 */  
         public function addFrame(texture:Texture, sound:Sound=null, duration:Number=-1):void
         {
             addFrameAt(numFrames, texture, sound, duration);
         }
         
-        /** Adds a frame at a certain index, optionally with a sound and a custom duration. */
+		/**
+		 * 根据指定的索引添加一帧，可以传递声音和执行时间（可选）。
+		 * @param frameID	索引
+		 * @param texture	纹理
+		 * @param sound		声音
+		 * @param duration	执行时间
+		 * @throws ArgumentError
+		 */
         public function addFrameAt(frameID:int, texture:Texture, sound:Sound=null, 
                                    duration:Number=-1):void
         {
@@ -120,7 +132,12 @@ package starling.display
                 updateStartTimes();
         }
         
-        /** Removes the frame at a certain ID. The successors will move down. */
+		/**
+		 * 从指定的索引处删除一帧。此帧后面的所有帧将前移。
+		 * @param frameID	索引
+		 * @throws ArgumentError
+		 * @throws IllegalOperationError
+		 */
         public function removeFrameAt(frameID:int):void
         {
             if (frameID < 0 || frameID >= numFrames) throw new ArgumentError("Invalid frame id");
@@ -134,43 +151,72 @@ package starling.display
             updateStartTimes();
         }
         
-        /** Returns the texture of a certain frame. */
+		/**
+		 * 根据帧索引返回其相对应的纹理。
+		 * @param frameID	索引
+		 * @return Texture
+		 * @throws ArgumentError
+		 */
         public function getFrameTexture(frameID:int):Texture
         {
             if (frameID < 0 || frameID >= numFrames) throw new ArgumentError("Invalid frame id");
             return mTextures[frameID];
         }
         
-        /** Sets the texture of a certain frame. */
+		/**
+		 * 设置指定索引的帧的纹理。
+		 * @param frameID	索引
+		 * @param texture	纹理
+		 * @throws ArgumentError
+		 */
         public function setFrameTexture(frameID:int, texture:Texture):void
         {
             if (frameID < 0 || frameID >= numFrames) throw new ArgumentError("Invalid frame id");
             mTextures[frameID] = texture;
         }
         
-        /** Returns the sound of a certain frame. */
+		/**
+		 * 根据帧索引返回其相对应的声音。
+		 * @param frameID	索引
+		 * @return Sound
+		 * @throws ArgumentError
+		 */
         public function getFrameSound(frameID:int):Sound
         {
             if (frameID < 0 || frameID >= numFrames) throw new ArgumentError("Invalid frame id");
             return mSounds[frameID];
         }
         
-        /** Sets the sound of a certain frame. The sound will be played whenever the frame 
-         *  is displayed. */
+		/**
+		 * 设置指定索引的帧的声音，当此帧显示时，声音就会播放。
+		 * @param frameID	索引
+		 * @param sound		声音
+		 * @throws ArgumentError
+		 */
         public function setFrameSound(frameID:int, sound:Sound):void
         {
             if (frameID < 0 || frameID >= numFrames) throw new ArgumentError("Invalid frame id");
             mSounds[frameID] = sound;
         }
         
-        /** Returns the duration of a certain frame (in seconds). */
+		/**
+		 * 返回指定索引的帧的执行时间（单位：秒）。
+		 * @param frameID	索引
+		 * @return Number
+		 * @throws ArgumentError
+		 */
         public function getFrameDuration(frameID:int):Number
         {
             if (frameID < 0 || frameID >= numFrames) throw new ArgumentError("Invalid frame id");
             return mDurations[frameID];
         }
         
-        /** Sets the duration of a certain frame (in seconds). */
+		/**
+		 * 设置指定索引的帧的执行时间（单位：秒）。
+		 * @param frameID	索引
+		 * @param duration	执行时间
+		 * @throws ArgumentError
+		 */
         public function setFrameDuration(frameID:int, duration:Number):void
         {
             if (frameID < 0 || frameID >= numFrames) throw new ArgumentError("Invalid frame id");
@@ -182,19 +228,19 @@ package starling.display
         
         // playback methods
         
-        /** Starts playback. Beware that the clip has to be added to a juggler, too! */
+		/** 开始播放影片剪辑， 请确保影片已被添加到了juggler！ */
         public function play():void
         {
             mPlaying = true;
         }
         
-        /** Pauses playback. */
+		/** 暂停播放。 */
         public function pause():void
         {
             mPlaying = false;
         }
         
-        /** Stops playback, resetting "currentFrame" to zero. */
+		/** 停止播放, 重置 "currentFrame" 为0。 */
         public function stop():void
         {
             mPlaying = false;
@@ -279,7 +325,7 @@ package starling.display
                 advanceTime(restTime);
         }
         
-        /** Indicates if a (non-looping) movie has come to its end. */
+		/** 判断一个不循环的影片剪辑是否已经播完最后一帧。 */
         public function get isComplete():Boolean 
         {
             return !mLoop && mCurrentTime >= mTotalTime;
@@ -287,17 +333,17 @@ package starling.display
         
         // properties  
         
-        /** The total duration of the clip in seconds. */
+		/** 影片剪辑总共需要播放的秒数。 */
         public function get totalTime():Number { return mTotalTime; }
         
-        /** The total number of frames. */
+		/** 影片剪辑的总帧数。 */
         public function get numFrames():int { return mTextures.length; }
         
-        /** Indicates if the clip should loop. */
+		/** 影片剪辑是否可以循环播放。 */
         public function get loop():Boolean { return mLoop; }
         public function set loop(value:Boolean):void { mLoop = value; }
         
-        /** The index of the frame that is currently displayed. */
+		/** 当前正在播放的帧的索引。 */
         public function get currentFrame():int { return mCurrentFrame; }
         public function set currentFrame(value:int):void
         {
@@ -311,9 +357,8 @@ package starling.display
             if (mSounds[mCurrentFrame]) mSounds[mCurrentFrame].play();
         }
         
-        /** The default number of frames per second. Individual frames can have different 
-         *  durations. If you change the fps, the durations of all frames will be scaled 
-         *  relatively to the previous value. */
+		/** 每秒播放的帧的默认数量。 不同的帧可以有不同的执行时间。
+		 * 如果你改变fps,所有帧的执行时间将会相对于原来的值增加或减少。*/
         public function get fps():Number { return 1.0 / mDefaultFrameDuration; }
         public function set fps(value:Number):void
         {
@@ -334,8 +379,7 @@ package starling.display
             updateStartTimes();
         }
         
-        /** Indicates if the clip is still playing. Returns <code>false</code> when the end 
-         *  is reached. */
+		/** 判断影片剪辑是否正在播放。播放完毕时返回<code>false</code>。 */
         public function get isPlaying():Boolean 
         {
             if (mPlaying)

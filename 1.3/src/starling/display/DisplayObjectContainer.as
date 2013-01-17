@@ -25,43 +25,39 @@ package starling.display
     
     use namespace starling_internal;
     
-    /**
-     *  A DisplayObjectContainer represents a collection of display objects.
-     *  It is the base class of all display objects that act as a container for other objects. By 
-     *  maintaining an ordered list of children, it defines the back-to-front positioning of the 
-     *  children within the display tree.
-     *  
-     *  <p>A container does not a have size in itself. The width and height properties represent the 
-     *  extents of its children. Changing those properties will scale all children accordingly.</p>
-     *  
-     *  <p>As this is an abstract class, you can't instantiate it directly, but have to 
-     *  use a subclass instead. The most lightweight container class is "Sprite".</p>
-     *  
-     *  <strong>Adding and removing children</strong>
-     *  
-     *  <p>The class defines methods that allow you to add or remove children. When you add a child, 
-     *  it will be added at the frontmost position, possibly occluding a child that was added 
-     *  before. You can access the children via an index. The first child will have index 0, the 
-     *  second child index 1, etc.</p> 
-     *  
-     *  Adding and removing objects from a container triggers non-bubbling events.
-     *  
-     *  <ul>
-     *   <li><code>Event.ADDED</code>: the object was added to a parent.</li>
-     *   <li><code>Event.ADDED_TO_STAGE</code>: the object was added to a parent that is 
-     *       connected to the stage, thus becoming visible now.</li>
-     *   <li><code>Event.REMOVED</code>: the object was removed from a parent.</li>
-     *   <li><code>Event.REMOVED_FROM_STAGE</code>: the object was removed from a parent that 
-     *       is connected to the stage, thus becoming invisible now.</li>
-     *  </ul>
-     *  
-     *  Especially the <code>ADDED_TO_STAGE</code> event is very helpful, as it allows you to 
-     *  automatically execute some logic (e.g. start an animation) when an object is rendered the 
-     *  first time.
-     *  
-     *  @see Sprite
-     *  @see DisplayObject
-     */
+	/**
+	 * 一个显示对象容器是一个包含了各种显示对象的集合。
+	 * 这是所有容器类（包含其他显示对象的容器）的基类。它拥有一个有序列表来管理子级对象，并在显示对象树立定义了
+	 * 所有子级的显示顺序。
+	 *  
+	 *  <p>一个容器本身是没有尺寸的，它的宽度和高度代表了子级的范围，改变这些属性会缩放它的所有子级。</p>
+	 *  
+	 *  <p>由于DisplayObjectContainer是一个抽象类，你不能直接实例化它，而是应该使用它的子类。
+	 * 其中最轻量级的容器子类是"Sprite"。</p>
+	 *  
+	 *  <strong>添加和删除子级</strong>
+	 *  
+	 *  <p>这个类包含了一些允许你添加和删除子级的方法。
+	 * 当你添加一个子级，它会被添加到列表的最顶层，有可能会遮挡住前一个添加的子级。
+	 * 你可以通过索引访问子级，第一个子级索引为0，第二个子级索引为1，以此类推。</p> 
+	 *  
+	 * 向容器添加或者删对象会派发一些不冒泡的事件。
+	 *  
+	 *  <ul>
+	 *   <li><code>Event.ADDED</code>: 对象被添加到了它的父级。</li>
+	 *   <li><code>Event.ADDED_TO_STAGE</code>: 对象被添加到了它的父级，并且父级已经被添加
+	 * 到stage上，因此对象立即显示。</li>
+	 *   <li><code>Event.REMOVED</code>: 从对象的父级删除该对象。</li>
+	 *   <li><code>Event.REMOVED_FROM_STAGE</code>: 从对象的父级删除该对象，并且父级已经被添加
+	 * 到stage上，因此对象立即不显示。</li>
+	 *  </ul>
+	 * 
+	 *  
+	 * 尤其是<code>ADDED_TO_STAGE</code>事件是非常有用的，因为它可以让你在一个对象第一次被渲染时自动执行一些逻辑（比如开始播放一段动画）。
+	 *  
+	 *  @see Sprite
+	 *  @see DisplayObject
+	 */
     public class DisplayObjectContainer extends DisplayObject
     {
         // members
@@ -87,7 +83,7 @@ package starling.display
             mChildren = new <DisplayObject>[];
         }
         
-        /** Disposes the resources of all children. */
+		/** 释放所有子级的资源。 */
         public override function dispose():void
         {
             for (var i:int=mChildren.length-1; i>=0; --i)
@@ -98,14 +94,24 @@ package starling.display
         
         // child management
         
-        /** Adds a child to the container. It will be at the frontmost position. */
+		/**
+		 * 添加一个显示对象到容器，它将被添加到顶层。
+		 * @param child	子级显示对象
+		 * @return DisplayObject
+		 */
         public function addChild(child:DisplayObject):DisplayObject
         {
             addChildAt(child, numChildren);
             return child;
         }
         
-        /** Adds a child to the container at a certain index. */
+		/**
+		 * 根据一个索引值添加一个显示对象到容器。
+		 * @param child	子级显示对象
+		 * @param index	索引
+		 * @return DisplayObject
+		 * @throws RangeError
+		 */
         public function addChildAt(child:DisplayObject, index:int):DisplayObject
         {
             var numChildren:int = mChildren.length; 
@@ -136,8 +142,13 @@ package starling.display
             }
         }
         
-        /** Removes a child from the container. If the object is not a child, nothing happens. 
-         *  If requested, the child will be disposed right away. */
+		/**
+		 * 从容器内删除一个显示对象，如果这个对象不是容器的子级，则什么都不会发生。
+		 * 如果需要，可以销毁这个对象。
+		 * @param child		子级显示对象
+		 * @param dispose	是否释放子级对象的资源
+		 * @return DisplayObject
+		 */
         public function removeChild(child:DisplayObject, dispose:Boolean=false):DisplayObject
         {
             var childIndex:int = getChildIndex(child);
@@ -145,8 +156,14 @@ package starling.display
             return child;
         }
         
-        /** Removes a child at a certain index. Children above the child will move down. If
-         *  requested, the child will be disposed right away. */
+		/**
+		 * 根据指定的索引值删除一个子级显示对象。
+		 * 列表中这个对象上层的对象将往下移，如果需要，可以销毁这个对象。
+		 * @param index	索引
+		 * @param dispose	是否释放子级对象的资源
+		 * @return DisplayObject
+		 * @throws RangeError	抛出无效索引的错误。
+		 */
         public function removeChildAt(index:int, dispose:Boolean=false):DisplayObject
         {
             if (index >= 0 && index < numChildren)
@@ -174,8 +191,13 @@ package starling.display
             }
         }
         
-        /** Removes a range of children from the container (endIndex included). 
-         *  If no arguments are given, all children will be removed. */
+		/**
+		 * 根据指定的范围删除容器内的一组对象（包括结束索引）。
+		 * 如果没有传入参数，所有的子对象将被删除。
+		 * @param beginIndex	起始索引
+		 * @param endIndex		结束索引
+		 * @param dispose		是否释放子级对象的资源
+		 */
         public function removeChildren(beginIndex:int=0, endIndex:int=-1, dispose:Boolean=false):void
         {
             if (endIndex < 0 || endIndex >= numChildren) 
@@ -185,7 +207,12 @@ package starling.display
                 removeChildAt(beginIndex, dispose);
         }
         
-        /** Returns a child object at a certain index. */
+		/**
+		 * 根据指定的索引返回对应的子级对象。
+		 * @param index	索引
+		 * @return DisplayObject
+		 * @throws RangeError	抛出无效索引的错误。
+		 */
         public function getChildAt(index:int):DisplayObject
         {
             if (index >= 0 && index < numChildren)
@@ -194,7 +221,11 @@ package starling.display
                 throw new RangeError("Invalid child index");
         }
         
-        /** Returns a child object with a certain name (non-recursively). */
+		/**
+		 * 根据指定的名称返回对应的子级对象（非递归，只遍历容器本身的子对象）。
+		 * @param name	名称
+		 * @return DisplayObject
+		 */
         public function getChildByName(name:String):DisplayObject
         {
             var numChildren:int = mChildren.length;
@@ -204,13 +235,22 @@ package starling.display
             return null;
         }
         
-        /** Returns the index of a child within the container, or "-1" if it is not found. */
+		/**
+		 * 获取指定子级对象在容器中的索引。如果没有找到，返回"-1"。 
+		 * @param child	子级显示对象
+		 * @return 索引
+		 */
         public function getChildIndex(child:DisplayObject):int
         {
             return mChildren.indexOf(child);
         }
         
-        /** Moves a child to a certain index. Children at and after the replaced position move up.*/
+		/**
+		 * 移动一个子级到指定的索引，在它后面的子级将向后移动。
+		 * @param child	子级显示对象
+		 * @param index	索引
+		 * @throws ArgumentError	
+		 */
         public function setChildIndex(child:DisplayObject, index:int):void
         {
             var oldIndex:int = getChildIndex(child);
@@ -219,7 +259,12 @@ package starling.display
             mChildren.splice(index, 0, child);
         }
         
-        /** Swaps the indexes of two children. */
+		/**
+		 * 互换两个子级的索引。
+		 * @param child1	子级显示对象1
+		 * @param child2	子级显示对象2
+		 * @throws ArgumentError
+		 */
         public function swapChildren(child1:DisplayObject, child2:DisplayObject):void
         {
             var index1:int = getChildIndex(child1);
@@ -228,7 +273,11 @@ package starling.display
             swapChildrenAt(index1, index2);
         }
         
-        /** Swaps the indexes of two children. */
+		/**
+		 * 互换两个子级的索引。
+		 * @param index1	索引1
+		 * @param index2	索引2
+		 */
         public function swapChildrenAt(index1:int, index2:int):void
         {
             var child1:DisplayObject = getChildAt(index1);
@@ -237,14 +286,20 @@ package starling.display
             mChildren[index2] = child1;
         }
         
-        /** Sorts the children according to a given function (that works just like the sort function
-         *  of the Vector class). */
+		/**
+		 * 根据指定的排序方法对所有子级进行排序（就像Vector类的排序功能一样）。
+		 * @param compareFunction	排序方法
+		 */
         public function sortChildren(compareFunction:Function):void
         {
             mChildren = mChildren.sort(compareFunction);
         }
         
-        /** Determines if a certain object is a child of the container (recursively). */
+		/**
+		 * 通过递归的方法，判断一个指定的显示对象是否为容器的子级（直接或者间接的）。
+		 * @param child	子级显示对象
+		 * @return Boolean
+		 */
         public function contains(child:DisplayObject):Boolean
         {
             while (child)
@@ -344,7 +399,11 @@ package starling.display
             }
         }
         
-        /** Dispatches an event on all children (recursively). The event must not bubble. */
+		/**
+		 * 通过递归的方法，对所有的子级派发一个指定事件，此事件必须是非冒泡事件。
+		 * @param event	事件
+		 * @throws ArgumentError
+		 */
         public function broadcastEvent(event:Event):void
         {
             if (event.bubbles)
@@ -365,8 +424,12 @@ package starling.display
             sBroadcastListeners.length = fromIndex;
         }
         
-        /** Dispatches an event with the given parameters on all children (recursively). 
-         *  The method uses an internal pool of event objects to avoid allocations. */
+		/**
+		 * 通过递归的方法，对所有的子级派发一个包含数据的事件。
+		 * 为了避免新的内存分配开销，此方法使用了内部的事件对象池。
+		 * @param type	事件类型
+		 * @param data	事件传递的数据
+		 */
         public function broadcastEventWith(type:String, data:Object=null):void
         {
             var event:Event = Event.fromPool(type, false, data);
@@ -392,7 +455,7 @@ package starling.display
             }
         }
         
-        /** The number of children of this container. */
+		/** 容器包含的子级数量。 */
         public function get numChildren():int { return mChildren.length; }        
     }
 }

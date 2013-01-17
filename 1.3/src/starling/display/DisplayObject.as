@@ -314,9 +314,7 @@ package starling.display
             throw new AbstractMethodError("Method needs to be implemented in subclass");
         }
         
-        /** Indicates if an object occupies any visible area. (Which is the case when its 'alpha', 
-         *  'scaleX' and 'scaleY' values are not zero, and its 'visible' property is enabled.) */
-		
+		/**判断这个显示对象是否具备可显示的区域。(导致不可见的原因可能是'alpha'，或'scaleX'和'scaleY'设置为0，或者'visible'设置为false)*/
         public function get hasVisibleArea():Boolean
         {
             return mAlpha != 0.0 && mVisible && mScaleX != 0.0 && mScaleY != 0.0;
@@ -356,15 +354,9 @@ package starling.display
         
         // properties
  
-        /** The transformation matrix of the object relative to its parent.
-         * 
-         *  <p>If you assign a custom transformation matrix, Starling will try to figure out  
-         *  suitable values for <code>x, y, scaleX, scaleY,</code> and <code>rotation</code>.
-         *  However, if the matrix was created in a different way, this might not be possible. 
-         *  In that case, Starling will apply the matrix, but not update the corresponding 
-         *  properties.</p>
-         * 
-         *  @returns CAUTION: not a copy, but the actual object! */
+		/** 返回显示对象相对于父级对象坐标系的变换矩阵。
+		 *  如果你指定一个变换矩阵，Starling会为（<code>x, y, scaleX/Y, rotation</code> 等）自动计算出合适的值。
+		 *  警告：返回的是显示对象本身的变换矩阵，并不是副本。*/
         public function get transformationMatrix():Matrix
         {
             if (mOrientationChanged)
@@ -427,8 +419,8 @@ package starling.display
             }
         }
         
-        /** Indicates if the mouse cursor should transform into a hand while it's over the sprite. 
-         *  @default false */
+		/**一个布尔值，表示当鼠标滑过显示对象时是否显示手指形（手形光标），默认为 false。
+		 *  @default false */
         public function get useHandCursor():Boolean { return mUseHandCursor; }
         public function set useHandCursor(value:Boolean):void
         {
@@ -446,13 +438,13 @@ package starling.display
             Mouse.cursor = event.interactsWith(this) ? MouseCursor.BUTTON : MouseCursor.AUTO;
         }
         
-        /** The bounds of the object relative to the local coordinates of the parent. */
+		/** 返回显示对象相对于父级对象坐标系的矩形区域。 */
         public function get bounds():Rectangle
         {
             return getBounds(mParent);
         }
         
-        /** The width of the object in pixels. */
+		/** 显示对象的宽度。 */
         public function get width():Number { return getBounds(mParent, sHelperRect).width; }
         public function set width(value:Number):void
         {
@@ -464,7 +456,7 @@ package starling.display
             if (actualWidth != 0.0) scaleX = value / actualWidth;
         }
         
-        /** The height of the object in pixels. */
+		/** 显示对象的高度。 */
         public function get height():Number { return getBounds(mParent, sHelperRect).height; }
         public function set height(value:Number):void
         {
@@ -473,7 +465,7 @@ package starling.display
             if (actualHeight != 0.0) scaleY = value / actualHeight;
         }
         
-        /** The x coordinate of the object relative to the local coordinates of the parent. */
+		/** 显示对象相对于父级对象的局部坐标系的x坐标。  */
         public function get x():Number { return mX; }
         public function set x(value:Number):void 
         { 
@@ -484,7 +476,7 @@ package starling.display
             }
         }
         
-        /** The y coordinate of the object relative to the local coordinates of the parent. */
+		/** 显示对象相对于父级对象的局部坐标系的y坐标。  */
         public function get y():Number { return mY; }
         public function set y(value:Number):void 
         {
@@ -495,7 +487,7 @@ package starling.display
             }
         }
         
-        /** The x coordinate of the object's origin in its own coordinate space (default: 0). */
+		/** 显示对象在自己的坐标系的起始x坐标（默认：0）*/
         public function get pivotX():Number { return mPivotX; }
         public function set pivotX(value:Number):void 
         {
@@ -506,7 +498,7 @@ package starling.display
             }
         }
         
-        /** The y coordinate of the object's origin in its own coordinate space (default: 0). */
+		/** 显示对象在自己的坐标系的起始y坐标（默认：0）*/
         public function get pivotY():Number { return mPivotY; }
         public function set pivotY(value:Number):void 
         { 
@@ -517,7 +509,7 @@ package starling.display
             }
         }
         
-        /** The horizontal scale factor. '1' means no scale, negative values flip the object. */
+		/** 显示对象水平方向的缩放参数。 '1' 表示没有缩放, 负值在缩放的同时会翻转对象。 */
         public function get scaleX():Number { return mScaleX; }
         public function set scaleX(value:Number):void 
         { 
@@ -528,7 +520,7 @@ package starling.display
             }
         }
         
-        /** The vertical scale factor. '1' means no scale, negative values flip the object. */
+		/** 显示对象垂直方向的缩放参数。 '1' 表示没有缩放, 负值在缩放的同时会翻转对象。 */
         public function get scaleY():Number { return mScaleY; }
         public function set scaleY(value:Number):void 
         { 
@@ -539,7 +531,7 @@ package starling.display
             }
         }
         
-        /** The horizontal skew angle in radians. */
+		/** 显示对象水平方向的倾斜弧度。 */
         public function get skewX():Number { return mSkewX; }
         public function set skewX(value:Number):void 
         {
@@ -552,7 +544,7 @@ package starling.display
             }
         }
         
-        /** The vertical skew angle in radians. */
+		/** 显示对象垂直方向的倾斜弧度。 */
         public function get skewY():Number { return mSkewY; }
         public function set skewY(value:Number):void 
         {
@@ -565,8 +557,7 @@ package starling.display
             }
         }
         
-        /** The rotation of the object in radians. (In Starling, all angles are measured 
-         *  in radians.) */
+		/** 显示对象的旋转弧度。 (在Starling里，所有的角度值都是用弧度值来表示的) */
         public function get rotation():Number { return mRotation; }
         public function set rotation(value:Number):void 
         {
@@ -579,43 +570,45 @@ package starling.display
             }
         }
         
-        /** The opacity of the object. 0 = transparent, 1 = opaque. */
+		/** 显示对象的不透明度。 0 = 透明, 1 = 不透明。 */
         public function get alpha():Number { return mAlpha; }
         public function set alpha(value:Number):void 
         { 
             mAlpha = value < 0.0 ? 0.0 : (value > 1.0 ? 1.0 : value); 
         }
         
-        /** The visibility of the object. An invisible object will be untouchable. */
+		/** 显示对象是否可见。不可见的显示对象不能够被触碰。 */
         public function get visible():Boolean { return mVisible; }
         public function set visible(value:Boolean):void { mVisible = value; }
         
-        /** Indicates if this object (and its children) will receive touch events. */
+		/** 是否禁止该对象和它的子对象响应触碰事件。 */
         public function get touchable():Boolean { return mTouchable; }
         public function set touchable(value:Boolean):void { mTouchable = value; }
         
-        /** The blend mode determines how the object is blended with the objects underneath. 
-         *   @default auto
-         *   @see starling.display.BlendMode */ 
+		/**混合模式决定该对象和其之下的对象如何混合显示，默认为 auto。 
+		 * @default auto
+		 * @see starling.display.BlendMode */ 
         public function get blendMode():String { return mBlendMode; }
         public function set blendMode(value:String):void { mBlendMode = value; }
         
-        /** The name of the display object (default: null). Used by 'getChildByName()' of 
-         *  display object containers. */
+		/**
+		 * 显示对象的名称(默认：null)。
+		 * 显示对象容器的<code>getChildByName</code>方法调用的参数就是child显示对象的名称。 
+		 */
         public function get name():String { return mName; }
         public function set name(value:String):void { mName = value; }
         
-        /** The filter or filter group that is attached to the display object. The starling.filters 
-         *  package contains several classes that define specific filters you can use. 
-         *  Beware that you should NOT use the same filter on more than one object (for 
-         *  performance reasons). */ 
+		/** 
+		 * 添加到该显示对象的滤镜或者滤镜集合。
+		 * <code>starling.filters</code>包提供了几个方便使用的特定滤镜。
+		 * 鉴于性能方面的考虑，注意不要将同一个滤镜添加到多于一个显示对象上。*/ 
         public function get filter():FragmentFilter { return mFilter; }
         public function set filter(value:FragmentFilter):void { mFilter = value; }
         
-        /** The display object container that contains this display object. */
+		/** 包含该显示对象的显示对象容器。 */
         public function get parent():DisplayObjectContainer { return mParent; }
         
-        /** The topmost object in the display tree the object is part of. */
+		/** 包含该显示对象的显示列表树的顶级显示对象。对于在显示列表中的对象，其实就是Stage。*/
         public function get base():DisplayObject
         {
             var currentObject:DisplayObject = this;
@@ -623,9 +616,10 @@ package starling.display
             return currentObject;
         }
         
-        /** The root object the display object is connected to (i.e. an instance of the class 
-         *  that was passed to the Starling constructor), or null if the object is not connected
-         *  to the stage. */
+		/** 
+		 * 包含该显示对象的显示列表树的最顶级的对象（非stage, 例如:Starling构造函数里的rootClass对象），
+		 * 如果显示对象尚未添加到显示列表，则root 属性为null。
+		 */
         public function get root():DisplayObject
         {
             var currentObject:DisplayObject = this;
@@ -638,8 +632,9 @@ package starling.display
             return null;
         }
         
-        /** The stage the display object is connected to, or null if it is not connected 
-         *  to the stage. */
+		/**
+		 * 与该显示对象关联的stage对象，如果还没有被添加到stage则为空。
+		 */
         public function get stage():Stage { return this.base as Stage; }
     }
 }
