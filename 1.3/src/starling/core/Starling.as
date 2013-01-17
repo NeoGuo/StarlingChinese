@@ -648,11 +648,10 @@ package starling.core
         /** 这个实例的渲染上下文. */
         public function get context():Context3D { return mContext; }
         
-        /** A dictionary that can be used to save custom data related to the current context. 
-         *  If you need to share data that is bound to a specific stage3D instance
-         *  (e.g. textures), use this dictionary instead of creating a static class variable.
-         *  The Dictionary is actually bound to the stage3D instance, thus it survives a 
-         *  context loss. */
+		/**
+		 * 一个字典对象，用于保存当前上下文相关的自定义数据。如果您需要把共享数据绑定到一个特定的Stage3D实例（比如纹理），可用使用这个字典来代替创建一个静态变量。
+		 * 这个字典实际上是绑定到一个Stage3D的实例上，所以它的生命周期取决于这个Stage3D实例是否丢失。
+		 */		
         public function get contextData():Dictionary
         {
             return sContextData[mStage3D] as Dictionary;
@@ -667,8 +666,8 @@ package starling.core
             if (mContext) mTouchProcessor.simulateMultitouch = value;
         }
         
-        /** Indicates if Stage3D render methods will report errors. Activate only when needed,
-         *  as this has a negative impact on performance. @default false */
+		/** Stage3D 渲染方法是否报告发生的错误. 需要时启用,
+		 *  这个功能对性能有负面影响. @default false */
         public function get enableErrorChecking():Boolean { return mEnableErrorChecking; }
         public function set enableErrorChecking(value:Boolean):void 
         { 
@@ -676,7 +675,7 @@ package starling.core
             if (mContext) mContext.enableErrorChecking = value; 
         }
         
-        /** The antialiasing level. 0 - no antialasing, 16 - maximum antialiasing. @default 0 */
+		/** 抗锯齿层级. 0 - 没有抗锯齿, 16 - 最大程度的抗锯齿. @default 0 */
         public function get antiAliasing():int { return mAntiAliasing; }
         public function set antiAliasing(value:int):void
         {
@@ -687,22 +686,20 @@ package starling.core
             }
         }
         
-        /** The viewport into which Starling contents will be rendered. */
+		/** Starling 内容渲染的区域. */
         public function get viewPort():Rectangle { return mViewPort; }
         public function set viewPort(value:Rectangle):void { mViewPort = value.clone(); }
         
-        /** The ratio between viewPort width and stage width. Useful for choosing a different
-         *  set of textures depending on the display resolution. */
+		/** 渲染范围和舞台的比率。在针对不同分辨率选择不同材质时非常有用。 */
         public function get contentScaleFactor():Number
         {
             return mViewPort.width / mStage.stageWidth;
         }
         
-        /** A Flash Sprite placed directly on top of the Starling content. Use it to display native
-         *  Flash components. */ 
+		/** 在Starling 上面的原生Flash Sprite.使用它显示Flash原生组件 */ 
         public function get nativeOverlay():Sprite { return mNativeOverlay; }
         
-        /** Indicates if a small statistics box (with FPS, memory usage and draw count) is displayed. */
+		/** 是否显示数据统计 (FPS, 内存占用 和面数)。 */
         public function get showStats():Boolean { return mStatsDisplay && mStatsDisplay.parent; }
         public function set showStats(value:Boolean):void
         {
@@ -716,7 +713,7 @@ package starling.core
             else mStatsDisplay.removeFromParent();
         }
         
-        /** Displays the statistics box at a certain position. */
+		/** 数据统计显示位置. 默认是左上角.*/
         public function showStatsAt(hAlign:String="left", vAlign:String="top", scale:Number=1):void
         {
             if (mContext == null)
@@ -754,58 +751,55 @@ package starling.core
             }
         }
         
-        /** The Starling stage object, which is the root of the display tree that is rendered. */
+		/**  Starling 舞台对象, 是显示列表的根. */
         public function get stage():Stage
         {
             return mStage;
         }
 
-        /** The Flash Stage3D object Starling renders into. */
+		/**Starling的渲染目标Flash Stage3D 对象 */
         public function get stage3D():Stage3D
         {
             return mStage3D;
         }
         
-        /** The Flash (2D) stage object Starling renders beneath. */
+		/** Flash (2D) 舞台对象,Starling 在其下渲染. */
         public function get nativeStage():flash.display.Stage
         {
             return mNativeStage;
         }
         
-        /** The instance of the root class provided in the constructor. Available as soon as 
-         *  the event 'ROOT_CREATED' has been dispatched. */
+		/** 构造中提供的根类的实例.'ROOT_CREATED'事件派发后可以使用. */
         public function get root():DisplayObject
         {
             return mRoot;
         }
         
-        /** Indicates if the Context3D render calls are managed externally to Starling, 
-         *  to allow other frameworks to share the Stage3D instance. @default false */
+		/** Context3D 渲染调用是否可以被Starling外部使用 , 是否可以让其它框架共享Stage3D对象*/
         public function get shareContext() : Boolean { return mShareContext; }
         public function set shareContext(value : Boolean) : void { mShareContext = value; }
         
-        /** The Context3D profile as requested in the constructor. Beware that if you are 
-         *  using a shared context, this might not be accurate. */
+        /** 在构造方法中传入的Context3D渲染方式. 注意这可能是不准确的，因为有可能是共享的上下文. */
         public function get profile():String { return mProfile; }
         
         // static properties
         
-        /** The currently active Starling instance. */
+		/** 现在激活的 Starling 实例. */
         public static function get current():Starling { return sCurrent; }
         
-        /** The render context of the currently active Starling instance. */
+		/**	当前激活的 Context3D 实例的内容. */
         public static function get context():Context3D { return sCurrent ? sCurrent.context : null; }
         
-        /** The default juggler of the currently active Starling instance. */
+		/** 当前激活的 Starling 的默认juggler对象. */
         public static function get juggler():Juggler { return sCurrent ? sCurrent.juggler : null; }
         
-        /** The contentScaleFactor of the currently active Starling instance. */
+		/** 当前激活的 Starling 的默认缩放参数. */
         public static function get contentScaleFactor():Number 
         {
             return sCurrent ? sCurrent.contentScaleFactor : 1.0;
         }
         
-        /** Indicates if multitouch input should be supported. */
+        /** 是否支持多点触摸. */
         public static function get multitouchEnabled():Boolean 
         { 
             return Multitouch.inputMode == MultitouchInputMode.TOUCH_POINT;
@@ -820,12 +814,9 @@ package starling.core
                                                MultitouchInputMode.NONE;
         }
         
-        /** Indicates if Starling should automatically recover from a lost device context.
-         *  On some systems, an upcoming screensaver or entering sleep mode may 
-         *  invalidate the render context. This setting indicates if Starling should recover from 
-         *  such incidents. Beware that this has a huge impact on memory consumption!
-         *  It is recommended to enable this setting on Android and Windows, but to deactivate it
-         *  on iOS and Mac OS X. @default false */
+		/** 是否启用 “丢失内容修复功能 ”.在某些系统中，在进入屏保或者进入睡眠会禁用渲染，这个设置指示Starling是否
+		 *  要解决这个问题。注意这项功能会消耗大量内存！建议在Android和Windows下启动，在Mac OS X和iOS中禁用。
+		 *  @default false */
         public static function get handleLostContext():Boolean { return sHandleLostContext; }
         public static function set handleLostContext(value:Boolean):void 
         {

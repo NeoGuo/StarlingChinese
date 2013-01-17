@@ -22,8 +22,7 @@ package starling.core
     import starling.utils.HAlign;
     import starling.utils.VAlign;
     
-    /** A small, lightweight box that displays the current framerate, memory consumption and
-     *  the number of draw calls per frame. */
+	/** 一个很小的，轻量级的状态显示工具，它显示了当前的帧速率，内存消耗和每帧绘制调用次数 */
     internal class StatsDisplay extends Sprite
     {
         private var mBackground:Quad;
@@ -33,7 +32,7 @@ package starling.core
         private var mDrawCount:int  = 0;
         private var mTotalTime:Number = 0;
         
-        /** Creates a new Statistics Box. */
+		/** 创建一个数据统计显示. */
         public function StatsDisplay()
         {
             mBackground = new Quad(50, 25, 0x0);
@@ -74,7 +73,7 @@ package starling.core
             }
         }
         
-        /** The number of Stage3D draw calls per second. */
+		/** Stage3D每秒绘制调用次数. */
         public function get drawCount():int { return mDrawCount; }
         public function set drawCount(value:int):void { mDrawCount = value; }
     }

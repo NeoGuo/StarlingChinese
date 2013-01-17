@@ -18,12 +18,14 @@ package starling.core
     import starling.display.Sprite;
     import starling.textures.Texture;
     
-    /** The TouchMarker is used internally to mark touches created through "simulateMultitouch". */
+	/** TouchMarker在内部使用，当开启"simulateMultitouch"，会使用这个类作为模拟触摸时的提示效果显示. */
     internal class TouchMarker extends Sprite
     {
         private var mCenter:Point;
         private var mTexture:Texture;
-        
+		/**
+		 * 创建一个TouchMarker对象
+		 */        
         public function TouchMarker()
         {
             mCenter = new Point();
@@ -44,7 +46,12 @@ package starling.core
             mTexture.dispose();
             super.dispose();
         }
-        
+		/**
+		 * 移动这个提示点
+		 * @param x X坐标
+		 * @param y Y坐标
+		 * @param withCenter 是否居中
+		 */        
         public function moveMarker(x:Number, y:Number, withCenter:Boolean=false):void
         {
             if (withCenter)
@@ -59,6 +66,7 @@ package starling.core
             mockMarker.y = 2*mCenter.y - y;
         }
         
+		/**居中显示*/
         public function moveCenter(x:Number, y:Number):void
         {
             mCenter.x = x;

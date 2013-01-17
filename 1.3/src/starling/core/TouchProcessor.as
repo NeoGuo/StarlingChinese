@@ -21,9 +21,7 @@ package starling.core
 
     use namespace starling_internal;
     
-    /** @private
-     *  The TouchProcessor is used internally to convert mouse and touch events of the conventional
-     *  Flash stage to Starling's TouchEvents. */
+	/** TouchProcessor 仅包内部使用，转化普通的鼠标事件为Starling的触摸事件 . */
     internal class TouchProcessor
     {
         private static const MULTITAP_TIME:Number = 0.3;
