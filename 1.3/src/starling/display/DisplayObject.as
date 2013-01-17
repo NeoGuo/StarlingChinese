@@ -136,23 +136,32 @@ package starling.display
             mOrientationChanged = mUseHandCursor = false;
         }
         
-        /** Disposes all resources of the display object. 
-          * GPU buffers are released, event listeners are removed, filters are disposed. */
+		/**
+		 * 销毁掉该对象的所有资源。 
+		 * 释放GPU缓存，移除监听的事件，清除添加的滤镜。
+		 */
         public function dispose():void
         {
             if (mFilter) mFilter.dispose();
             removeEventListeners();
         }
         
-        /** Removes the object from its parent, if it has one. */
+		/**
+		 * 如果对象已经添加进显示列表，则从父容器中删除此对象。
+		 * @param dispose 值为true时清除掉此对象的所有资源，值为false时不清除。
+		 */
         public function removeFromParent(dispose:Boolean=false):void
         {
             if (mParent) mParent.removeChild(this, dispose);
         }
         
-        /** Creates a matrix that represents the transformation from the local coordinate system 
-         *  to another. If you pass a 'resultMatrix', the result will be stored in this matrix
-         *  instead of creating a new object. */ 
+        /**
+         * 返回一个矩阵，该矩阵表示从一个局部坐标系到另一个坐标系的转换。
+         * @param targetSpace	定义要使用的坐标系的显示对象。
+         * @param resultMatrix	如果传入一个resultMatrix, 计算的结果将保存在这个矩阵里，而不是重新创建一个<code>Matrix</code>对象。
+         * @return Matrix
+         * @throws ArgumentError
+         */
         public function getTransformationMatrix(targetSpace:DisplayObject, 
                                                 resultMatrix:Matrix=null):Matrix
         {
@@ -243,18 +252,25 @@ package starling.display
             return resultMatrix;
         }        
         
-        /** Returns a rectangle that completely encloses the object as it appears in another 
-         *  coordinate system. If you pass a 'resultRectangle', the result will be stored in this 
-         *  rectangle instead of creating a new object. */ 
+		/**
+		 * 返回一个矩形，该矩形定义相对于 targetSpace 对象坐标系的显示对象区域。
+		 * @param targetSpace	定义要使用的坐标系的显示对象。
+		 * @param resultRect	如果传入一个resultRect参数, 计算的结果将保存在这个矩形里，而不是重新创建一个<code>Rectangle</code>对象。
+		 * @return Rectangle
+		 * @throws AbstractMethodError
+		 */
         public function getBounds(targetSpace:DisplayObject, resultRect:Rectangle=null):Rectangle
         {
             throw new AbstractMethodError("Method needs to be implemented in subclass");
             return null;
         }
         
-        /** Returns the object that is found topmost beneath a point in local coordinates, or nil if 
-         *  the test fails. If "forTouch" is true, untouchable and invisible objects will cause
-         *  the test to fail. */
+		/**
+		 * 返回舞台坐标系某个点下方的最顶层的显示对象，如果没有找到任何对象，则返回null。
+		 * @param localPoint	局部坐标系的某点
+		 * @param forTouch		是否只检测能够触碰到的对象。如果为ture，检测会忽略掉不可见和不可触碰的对象。
+		 * @return DisplayObject
+		 */
         public function hitTest(localPoint:Point, forTouch:Boolean=false):DisplayObject
         {
             // on a touch test, invisible or untouchable objects cause the test to fail
@@ -265,18 +281,24 @@ package starling.display
             else return null;
         }
         
-        /** Transforms a point from the local coordinate system to global (stage) coordinates.
-         *  If you pass a 'resultPoint', the result will be stored in this point instead of 
-         *  creating a new object. */
+		/**
+		 * 将一个点坐标从局部坐标系转换成全局(stage)坐标系坐标 。
+		 * @param localPoint    需要转换成全局坐标的局部坐标点。
+		 * @param resultPoint	如果传入一个resultPoint, 计算的结果将保存在这个点里，而不是重新创建一个<code>Point</code>对象。
+		 * @return Point
+		 */
         public function localToGlobal(localPoint:Point, resultPoint:Point=null):Point
         {
             getTransformationMatrix(base, sHelperMatrix);
             return MatrixUtil.transformCoords(sHelperMatrix, localPoint.x, localPoint.y, resultPoint);
         }
         
-        /** Transforms a point from global (stage) coordinates to the local coordinate system.
-         *  If you pass a 'resultPoint', the result will be stored in this point instead of 
-         *  creating a new object. */
+		/**
+		 * 将一个点坐标从全局(stage)坐标系转换成为局部坐标系坐标 。
+		 * @param globalPoint	需要转换成局部坐标的全局坐标点。
+		 * @param resultPoint	如果传入一个resultPoint, 计算的结果将保存在这个点里，而不是重新创建一个<code>Point</code>对象。
+		 * @return Point
+		 */
         public function globalToLocal(globalPoint:Point, resultPoint:Point=null):Point
         {
             getTransformationMatrix(base, sHelperMatrix);
@@ -284,10 +306,9 @@ package starling.display
             return MatrixUtil.transformCoords(sHelperMatrix, globalPoint.x, globalPoint.y, resultPoint);
         }
         
-        /** Renders the display object with the help of a support object. Never call this method
-         *  directly, except from within another render method.
-         *  @param support Provides utility functions for rendering.
-         *  @param parentAlpha The accumulated alpha value from the object's parent up to the stage. */
+		/** 使用辅助对象来渲染显示对象，永远不要直接调用这个方法，除非在另外一个渲染方法里调用。 
+		 *  @param support 为渲染显示对象提供一些实用方法。
+		 *  @param parentAlpha 从显示对象的父级到stage的alpha值的累加值。*/
         public function render(support:RenderSupport, parentAlpha:Number):void
         {
             throw new AbstractMethodError("Method needs to be implemented in subclass");
@@ -295,6 +316,7 @@ package starling.display
         
         /** Indicates if an object occupies any visible area. (Which is the case when its 'alpha', 
          *  'scaleX' and 'scaleY' values are not zero, and its 'visible' property is enabled.) */
+		
         public function get hasVisibleArea():Boolean
         {
             return mAlpha != 0.0 && mVisible && mScaleX != 0.0 && mScaleY != 0.0;
