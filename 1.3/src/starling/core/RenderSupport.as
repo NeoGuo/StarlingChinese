@@ -193,7 +193,7 @@ package starling.core
         }
         
 		/**
-		 * 在渲染中将要使用的混合模式.要应用这个设置，您必须手工调用"applyBlendMode"方法(因为实际的混合因素依赖于对PMA模式)。
+		 * 在渲染中将要使用的混合模式.要应用这个设置，你必须手工调用"applyBlendMode"方法(因为实际的混合因素依赖于对PMA模式)。
 		 */		
         public function get blendMode():String { return mBlendMode; }
         public function set blendMode(value:String):void
@@ -203,7 +203,7 @@ package starling.core
         
         // 渲染目标
         
-		/**当前即将被渲染的纹理，如果是'null'将渲染到后台缓冲区。如果您设置一个新对象，则它马上就会被启动。*/
+		/**当前即将被渲染的纹理，如果是'null'将渲染到后台缓冲区。如果你设置一个新对象，则它马上就会被启动。*/
         public function get renderTarget():Texture { return mRenderTarget; }
         public function set renderTarget(target:Texture):void 
         {
@@ -360,7 +360,7 @@ package starling.core
         }
         
 		/**
-		 * 汇编通过字符串传递的片段和顶点着色器到Program3D中。如果您传递了一个'resultProgram'参数，那么结果就会上传到传入的这个Program3D对象中。
+		 * 汇编通过字符串传递的片段和顶点着色器到Program3D中。如果你传递了一个'resultProgram'参数，那么结果就会上传到传入的这个Program3D对象中。
 		 * 否则，将从当前的Stage3D上下文中，创建一个新的Program3D对象。
 		 * @param vertexShader 顶点着色器源码
 		 * @param fragmentShader 片段着色器源码

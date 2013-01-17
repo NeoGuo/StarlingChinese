@@ -13,8 +13,8 @@ package starling.animation
     import starling.events.Event;
     import starling.events.EventDispatcher;
 
-	/** DelayedCall类允许您在一定的时间间隔之后去执行某个方法(和setTimeout有些类似)。由于这个类实现了IAnimatable接口，您可以把一个DelayedCall实例添加到juggler中。
-	 *  在大部分情况下，您不需要直接使用这个类；Juggler类包含了一个方法来直接实现延迟调用这个功能。
+	/** DelayedCall类允许你在一定的时间间隔之后去执行某个方法(和setTimeout有些类似)。由于这个类实现了IAnimatable接口，你可以把一个DelayedCall实例添加到juggler中。
+	 *  在大部分情况下，你不需要直接使用这个类；Juggler类包含了一个方法来直接实现延迟调用这个功能。
 	 *  <p>当方法调用完毕之后，DelayedCall对象会派发一个类型是“Event.REMOVE_FROM_JUGGLER”的事件，然后如果不再需要它了，Juggler会自动将它删除。</p>
 	 *  @see Juggler
 	 */ 

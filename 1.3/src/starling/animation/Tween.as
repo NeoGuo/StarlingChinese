@@ -17,7 +17,7 @@ package starling.animation
 
 	/** 一个Tween实例，将使用补间动画的方式，"运动"某个对象的属性(比如改变x坐标值，从1,2,3...一直到N，从而形成视觉上的动画效果)。 它可以使用不同的过渡方法，来实现不同的动画方式。
 	 *  
-	 *  <p>这个类的主要用途是实现标准的动画，比如移动，透明度渐变，旋转等等。但是"动画"的范围远远不止于此。只要您想"运动"的对象的属性值是数字 (int, uint, Number), Tween就能搞定它。
+	 *  <p>这个类的主要用途是实现标准的动画，比如移动，透明度渐变，旋转等等。但是"动画"的范围远远不止于此。只要你想"运动"的对象的属性值是数字 (int, uint, Number), Tween就能搞定它。
 	 *  要了解Tween可以使用的过渡方法的列表，请参阅"Transitions"类。</p> 
 	 *  
 	 *  <p>下面是一个实例，展示了tween移动一个对象到右侧，旋转它，然后让它透明度逐渐降低而消失:</p>
@@ -26,12 +26,12 @@ package starling.animation
 	 *  var tween:Tween = new Tween(object, 2.0, Transitions.EASE_IN_OUT);
 	 *  tween.animate("x", object.x + 50);
 	 *  tween.animate("rotation", deg2rad(45));
-	 *  tween.fadeTo(0);    // 您也可以使用'animate("alpha", 0)'来代替
+	 *  tween.fadeTo(0);    // 你也可以使用'animate("alpha", 0)'来代替
 	 *  Starling.juggler.add(tween); 
 	 *  </pre> 
 	 *  
 	 *  <p>注意在上面的代码的最后，tween的实例被添加到了juggler。这是因为，只有tween自己的"advanceTime"方法被实际执行的时候，tween才会起作用。
-	 *  这个工作juggler会帮您做的，而且它会自动在tween执行完毕的时候删除它。</p>
+	 *  这个工作juggler会帮你做的，而且它会自动在tween执行完毕的时候删除它。</p>
 	 *  
 	 *  @see Juggler
 	 *  @see Transitions
@@ -111,7 +111,7 @@ package starling.animation
         }
         
 		/**
-		 * "运动"某个对象的属性到目标值。您可以在一个tween上多次调用这个方法。
+		 * "运动"某个对象的属性到目标值。你可以在一个tween上多次调用这个方法。
 		 * @param property 属性值
 		 * @param targetValue 目标值
 		 */  

@@ -649,7 +649,7 @@ package starling.core
         public function get context():Context3D { return mContext; }
         
 		/**
-		 * 一个字典对象，用于保存当前上下文相关的自定义数据。如果您需要把共享数据绑定到一个特定的Stage3D实例（比如纹理），可用使用这个字典来代替创建一个静态变量。
+		 * 一个字典对象，用于保存当前上下文相关的自定义数据。如果你需要把共享数据绑定到一个特定的Stage3D实例（比如纹理），可用使用这个字典来代替创建一个静态变量。
 		 * 这个字典实际上是绑定到一个Stage3D的实例上，所以它的生命周期取决于这个Stage3D实例是否丢失。
 		 */		
         public function get contextData():Dictionary

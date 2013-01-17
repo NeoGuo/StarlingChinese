@@ -23,7 +23,7 @@ package starling.animation
 	 *  <p>关于transitions这里有一张很直观的图片描述：</p> 
 	 *  <img src="http://gamua.com/img/blog/2010/sparrow-transitions.png"/>
 	 *  
-	 *  <p>您可以使用"registerTransition" 方法来自定义过渡方式. 一个过渡的实现方法必须遵循下面的语法, 其中 ratio 的取值范围是 0-1:</p>
+	 *  <p>你可以使用"registerTransition" 方法来自定义过渡方式. 一个过渡的实现方法必须遵循下面的语法, 其中 ratio 的取值范围是 0-1:</p>
 	 *  
 	 *  <pre>function myTransition(ratio:Number):Number</pre>
 	 */

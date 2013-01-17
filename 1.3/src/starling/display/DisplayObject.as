@@ -26,87 +26,70 @@ package starling.display
     import starling.filters.FragmentFilter;
     import starling.utils.MatrixUtil;
     
-    /** Dispatched when an object is added to a parent. */
-    [Event(name="added", type="starling.events.Event")]
-    /** Dispatched when an object is connected to the stage (directly or indirectly). */
-    [Event(name="addedToStage", type="starling.events.Event")]
-    /** Dispatched when an object is removed from its parent. */
-    [Event(name="removed", type="starling.events.Event")]
-    /** Dispatched when an object is removed from the stage and won't be rendered any longer. */ 
-    [Event(name="removedFromStage", type="starling.events.Event")]
-    /** Dispatched once every frame on every object that is connected to the stage. */ 
-    [Event(name="enterFrame", type="starling.events.EnterFrameEvent")]
-    /** Dispatched when an object is touched. Bubbles. */
-    [Event(name="touch", type="starling.events.TouchEvent")]
+	/** 当一个显示对象被添加到父级的时候派发。 */
+	[Event(name="added", type="starling.events.Event")]
+	/** 当一个显示对象被添加到stage(直接的或者间接的)的时候派发。 */
+	[Event(name="addedToStage", type="starling.events.Event")]
+	/** 当一个显示对象从父级删除的时候派发。 */
+	[Event(name="removed", type="starling.events.Event")]
+	/** 当一个显示对象从stage删除(直接的或者间接的)的时候派发，此对象不再会被渲染。 */ 
+	[Event(name="removedFromStage", type="starling.events.Event")]
+	/** 在每一帧派发给stage上的所有显示对象。 */ 
+	[Event(name="enterFrame", type="starling.events.EnterFrameEvent")]
+	/** 当显示对象被触碰时派发，冒泡事件。 */
+	[Event(name="touch", type="starling.events.TouchEvent")]
     
-    /**
-     *  The DisplayObject class is the base class for all objects that are rendered on the 
-     *  screen.
-     *  
-     *  <p><strong>The Display Tree</strong></p> 
-     *  
-     *  <p>In Starling, all displayable objects are organized in a display tree. Only objects that
-     *  are part of the display tree will be displayed (rendered).</p> 
-     *   
-     *  <p>The display tree consists of leaf nodes (Image, Quad) that will be rendered directly to
-     *  the screen, and of container nodes (subclasses of "DisplayObjectContainer", like "Sprite").
-     *  A container is simply a display object that has child nodes - which can, again, be either
-     *  leaf nodes or other containers.</p> 
-     *  
-     *  <p>At the base of the display tree, there is the Stage, which is a container, too. To create
-     *  a Starling application, you create a custom Sprite subclass, and Starling will add an
-     *  instance of this class to the stage.</p>
-     *  
-     *  <p>A display object has properties that define its position in relation to its parent
-     *  (x, y), as well as its rotation and scaling factors (scaleX, scaleY). Use the 
-     *  <code>alpha</code> and <code>visible</code> properties to make an object translucent or 
-     *  invisible.</p>
-     *  
-     *  <p>Every display object may be the target of touch events. If you don't want an object to be
-     *  touchable, you can disable the "touchable" property. When it's disabled, neither the object
-     *  nor its children will receive any more touch events.</p>
-     *    
-     *  <strong>Transforming coordinates</strong>
-     *  
-     *  <p>Within the display tree, each object has its own local coordinate system. If you rotate
-     *  a container, you rotate that coordinate system - and thus all the children of the 
-     *  container.</p>
-     *  
-     *  <p>Sometimes you need to know where a certain point lies relative to another coordinate 
-     *  system. That's the purpose of the method <code>getTransformationMatrix</code>. It will  
-     *  create a matrix that represents the transformation of a point in one coordinate system to 
-     *  another.</p> 
-     *  
-     *  <strong>Subclassing</strong>
-     *  
-     *  <p>Since DisplayObject is an abstract class, you cannot instantiate it directly, but have 
-     *  to use one of its subclasses instead. There are already a lot of them available, and most 
-     *  of the time they will suffice.</p> 
-     *  
-     *  <p>However, you can create custom subclasses as well. That way, you can create an object
-     *  with a custom render function. You will need to implement the following methods when you 
-     *  subclass DisplayObject:</p>
-     *  
-     *  <ul>
-     *    <li><code>function render(support:RenderSupport, parentAlpha:Number):void</code></li>
-     *    <li><code>function getBounds(targetSpace:DisplayObject, 
-     *                                 resultRect:Rectangle=null):Rectangle</code></li>
-     *  </ul>
-     *  
-     *  <p>Have a look at the Quad class for a sample implementation of the 'getBounds' method.
-     *  For a sample on how to write a custom render function, you can have a look at this
-     *  <a href="http://wiki.starling-framework.org/manual/custom_display_objects">article</a>
-     *  in the Starling Wiki.</p> 
-     * 
-     *  <p>When you override the render method, it is important that you call the method
-     *  'finishQuadBatch' of the support object. This forces Starling to render all quads that 
-     *  were accumulated before by different render methods (for performance reasons). Otherwise, 
-     *  the z-ordering will be incorrect.</p> 
-     * 
-     *  @see DisplayObjectContainer
-     *  @see Sprite
-     *  @see Stage 
-     */
+	/**
+	 *  DisplayObject 类是所有可放在显示列表中，在屏幕上可以被渲染的对象的基类。
+	 *  
+	 *  <p><strong>显示列表树</strong></p> 
+	 *  
+	 *  <p>在Starling中，所有可显示对象都处于显示列表树中，只有属于显示列表树的成员才可以在屏幕上显示和渲染。</p> 
+	 *   
+	 *  <p>显示列表树由可以直接渲染到屏幕的叶子节点（Image, Quad）和容器节点（<code>DisplayObjectContainer</code>的子类，比如 <code>Sprite</code>）组成。
+	 * 	   容器是一个包含子节点（子节点可以是叶子节点或者其他容器）的显示对象。</p> 
+	 *  
+	 *  <p>Stage处于显示列表树的顶级节点，同样也是一个容器。
+	 *  要创建一个Starling应用，你需要创建一个自定义的Sprite的子类，Starling会添加一个该子类的实例对象到stage上。</p>
+	 *  
+	 *  <p>一个显示对象有定义它自身相对于它的父级的位置的属性（x，y），有旋转和缩放参数（scaleX，scaleY），
+	 * 可以使用<code>alpha</code> 和 <code>visible</code>属性分别控制显示对象的透明度和可见性。</p>
+	 *  
+	 *  <p>每个显示对象都有可能是触碰事件的目标，你可以设置"touchable"属性来禁止对象被触碰。
+	 * 当它被设置为禁止触碰，对象本身和它的子对象都不会再响应触碰事件。</p>
+	 *    
+	 *  <strong>坐标转换</strong>
+	 *  
+	 *  <p>在显示坐标树里，每个对象都有自己的局部坐标系统，如果你旋转一个容器，意味着你旋转了整个容器的坐标
+	 * 系统，并且影响到了容器的所有子对象。</p>
+	 *  
+	 *  <p>有时候你需要知道某个点相对于其他坐标系的坐标，<code>getTransformationMatrix</code>函数实现了这个功能。
+	 * 它将创建一个矩阵，该矩阵表示从一个局部坐标系到另一个坐标系的转换。</p> 
+	 *  
+	 *  <strong>子类</strong>
+	 *  
+	 *  <p>由于DisplayObject是抽象类,所以你不能直接实例化它，只能用某个它的子类。目前已经有很多这样的子类了，
+	 * 大部分情况下它们应该能够满足你的需要了。</p> 
+	 *  
+	 *  <p>然而，你也可以自定义你自己的子类，要实现自定义的子类，你需要实现自定义的渲染方法，在你自定义的子类中
+	 * 需要实现下面的方法：</p>
+	 *  
+	 *  <ul>
+	 *    <li><code>function render(support:RenderSupport, parentAlpha:Number):void</code></li>
+	 *    <li><code>function getBounds(targetSpace:DisplayObject, 
+	 *                                 resultRect:Rectangle=null):Rectangle</code></li>
+	 *  </ul>
+	 *  
+	 *  <p>请参阅Quad类，它对于"getBounds"方法有一个简单的实现。
+	 * 一个简单的例子阐述如何创建自定义的渲染方法，你可以参考这个在Starling Wiki上的<a href="http://wiki.starling-framework.org/manual/custom_display_objects">自定义显示对象</a></p> 
+	 * 
+	 *  <p>当你重载render方法时，请注意调用辅助对象(一个RenderSupport对象)的'finishQuadBatch'方法。
+	 * 这将促使Starling使用不同的渲染方法来渲染之前累计的所有四边形（鉴于性能考虑），否则，z-ordering将会出错。</p> 
+	 * 
+	 *  @see DisplayObjectContainer
+	 *  @see Sprite
+	 *  @see Stage 
+	 */
     public class DisplayObject extends EventDispatcher
     {
         // members

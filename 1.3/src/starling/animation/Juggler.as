@@ -24,9 +24,9 @@ package starling.animation
 	 *  var juggler:Juggler = Starling.juggler;
 	 *  </pre>
 	 *  
-	 *  <p>您可以创建您自己的juggler对象，如果需要的话。这样，您就可以组合您的游戏到一些逻辑组件，并独立控制他们的动画。 您需要做的就是，在每一帧都调用您自定义的juggler的advanceTime方法。</p>
+	 *  <p>你可以创建你自己的juggler对象，如果需要的话。这样，你就可以组合你的游戏到一些逻辑组件，并独立控制他们的动画。 你需要做的就是，在每一帧都调用你自定义的juggler的advanceTime方法。</p>
 	 *  
-	 *  <p>juggler另一个很强的特性就是"delayCall"方法。使用它可以延迟执行某个方法。但是和传统的延迟调用(比如setTimeout)不同, 这个方法只有在juggler被时间推送器驱动的时候才会起作用，这可以让您更加完美的控制呼叫的逻辑。</p>
+	 *  <p>juggler另一个很强的特性就是"delayCall"方法。使用它可以延迟执行某个方法。但是和传统的延迟调用(比如setTimeout)不同, 这个方法只有在juggler被时间推送器驱动的时候才会起作用，这可以让你更加完美的控制呼叫的逻辑。</p>
 	 *  <p>下面是delayCall的一些示例：</p>
 	 *  <pre>
 	 *  juggler.delayCall(object.removeFromParent, 1.0);
