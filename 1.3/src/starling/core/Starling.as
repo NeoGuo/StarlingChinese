@@ -251,8 +251,7 @@ package starling.core
             }
         }
         
-        /** Disposes all children of the stage and the render context; removes all registered
-         *  event listeners. */
+		/**销毁stage的所有子级和渲染上下文，删除所有的事件侦听器*/
         public function dispose():void
         {
             stop();
@@ -316,8 +315,8 @@ package starling.core
             }
         }
         
-        /** Calls <code>advanceTime()</code> (with the time that has passed since the last frame)
-         *  and <code>render()</code>. */ 
+		/** 调用 <code>advanceTime()</code> (上一帧到现在的渲染时间)
+		 *  和 <code>render()</code>. */ 
         public function nextFrame():void
         {
             var now:Number = getTimer() / 1000.0;
@@ -328,8 +327,8 @@ package starling.core
             render();
         }
         
-        /** Dispatches ENTER_FRAME events on the display list, advances the Juggler 
-         *  and processes touches. */
+		/** 在显示列表上派发ENTER_FRAME事件, 优化 Juggler 
+		 *  和 处理 触摸事件. */
         public function advanceTime(passedTime:Number):void
         {
             makeCurrent();
@@ -339,8 +338,8 @@ package starling.core
             mJuggler.advanceTime(passedTime);
         }
         
-        /** Renders the complete display list. Before rendering, the context is cleared; afterwards,
-         *  it is presented. This can be avoided by enabling <code>shareContext</code>.*/ 
+		/** 渲染整个显示列表. 在渲染之前, context会被清除; 在这之后,
+		 *  才进行显示. 启用<code>shareContext</code>可以禁用这项功能.*/ 
         public function render():void
         {
             if (!contextValid)
@@ -443,25 +442,25 @@ package starling.core
             nativeOverlay.addChild(textField);
         }
         
-        /** Make this Starling instance the <code>current</code> one. */
+		/** 让Starling实例成为 <code>current</code> 实例. */
         public function makeCurrent():void
         {
             sCurrent = this;
         }
         
-        /** As soon as Starling is started, it will queue input events (keyboard/mouse/touch);   
-         *  furthermore, the method <code>nextFrame</code> will be called once per Flash Player
-         *  frame. (Except when <code>shareContext</code> is enabled: in that case, you have to
-         *  call that method manually.) */
+		/** Starling启动后，它会对输入事件排队处理 (keyboard/mouse/touch);   
+		 *  另外, <code>nextFrame</code>方法 会在Flash Player中每一帧调用。
+		 *  (如果 <code>shareContext</code>启用: 在这种情况, 你必须手动
+		 *  调用这个方法.) */
         public function start():void 
         { 
             mStarted = true; 
             mLastFrameTimestamp = getTimer() / 1000.0;
         }
         
-        /** Stops all logic processing and freezes the game in its current state. The content
-         *  is still being rendered once per frame, though, because otherwise the conventional
-         *  display list would no longer be updated. */
+		/**
+		 * 停止所有的逻辑处理，并冻结游戏的当前状态。但实际上每一帧仍然在渲染内容（只是看起来不更新了），因为如果不这样做的话，传统显示列表就无法更新。
+		 */		
         public function stop():void 
         { 
             mStarted = false; 
@@ -592,8 +591,12 @@ package starling.core
         
         // program management
         
-        /** Registers a vertex- and fragment-program under a certain name. If the name was already
-         *  used, the previous program is overwritten. */
+		/**
+		 * 根据一个指定的名称注册一个顶点和片段着色器程序。如果这个名称已经被使用了，那么上一个使用这个名称的程序将会被覆盖。
+		 * @param name 名称
+		 * @param vertexProgram 顶点着色程序
+		 * @param fragmentProgram 片段着色程序
+		 */		
         public function registerProgram(name:String, vertexProgram:ByteArray, fragmentProgram:ByteArray):void
         {
             deleteProgram(name);
@@ -603,7 +606,7 @@ package starling.core
             programs[name] = program;
         }
         
-        /** Deletes the vertex- and fragment-programs of a certain name. */
+        /** 根据指定的名称，删除一个顶点着色程序和片段着色程序. */
         public function deleteProgram(name:String):void
         {
             var program:Program3D = getProgram(name);            
@@ -614,13 +617,13 @@ package starling.core
             }
         }
         
-        /** Returns the vertex- and fragment-programs registered under a certain name. */
+        /** 根据指定的名称，返回一个已注册的顶点着色程序和片段着色程序. */
         public function getProgram(name:String):Program3D
         {
             return programs[name] as Program3D;
         }
         
-        /** Indicates if a set of vertex- and fragment-programs is registered under a certain name. */
+        /** 根据指定的名称，判断这个顶点着色程序和片段着色程序是否被注册. */
         public function hasProgram(name:String):Boolean
         {
             return name in programs;
@@ -630,19 +633,19 @@ package starling.core
         
         // properties
         
-        /** Indicates if a context is available and non-disposed. */
+        /** 判断上下文是否是可用并且未销毁的. */
         private function get contextValid():Boolean
         {
             return (mContext && mContext.driverInfo != "Disposed");
         }
         
-        /** Indicates if this Starling instance is started. */
+		/** Starling 实例是否启动. */
         public function get isStarted():Boolean { return mStarted; }
         
-        /** The default juggler of this instance. Will be advanced once per frame. */
+        /** 这个实例上的默认juggler对象. 这个对象将会在每一帧被调用. */
         public function get juggler():Juggler { return mJuggler; }
         
-        /** The render context of this instance. */
+        /** 这个实例的渲染上下文. */
         public function get context():Context3D { return mContext; }
         
         /** A dictionary that can be used to save custom data related to the current context. 
@@ -655,8 +658,8 @@ package starling.core
             return sContextData[mStage3D] as Dictionary;
         }
         
-        /** Indicates if multitouch simulation with "Shift" and "Ctrl"/"Cmd"-keys is enabled. 
-         *  @default false */
+		/** 多点触摸模拟 "Shift" 和 "Ctrl"/"Cmd"-是否启用. 
+		 *  @default false */
         public function get simulateMultitouch():Boolean { return mSimulateMultitouch; }
         public function set simulateMultitouch(value:Boolean):void
         {
