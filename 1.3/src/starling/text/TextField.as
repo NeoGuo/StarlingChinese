@@ -31,36 +31,29 @@ package starling.text
     import starling.utils.HAlign;
     import starling.utils.VAlign;
 
-    /** A TextField displays text, either using standard true type fonts or custom bitmap fonts.
-     *  
-     *  <p>You can set all properties you are used to, like the font name and size, a color, the 
-     *  horizontal and vertical alignment, etc. The border property is helpful during development, 
-     *  because it lets you see the bounds of the textfield.</p>
-     *  
-     *  <p>There are two types of fonts that can be displayed:</p>
-     *  
-     *  <ul>
-     *    <li>Standard true type fonts. This renders the text just like a conventional Flash
-     *        TextField. It is recommended to embed the font, since you cannot be sure which fonts
-     *        are available on the client system, and since this enhances rendering quality. 
-     *        Simply pass the font name to the corresponding property.</li>
-     *    <li>Bitmap fonts. If you need speed or fancy font effects, use a bitmap font instead. 
-     *        That is a font that has its glyphs rendered to a texture atlas. To use it, first 
-     *        register the font with the method <code>registerBitmapFont</code>, and then pass 
-     *        the font name to the corresponding property of the text field.</li>
-     *  </ul> 
-     *    
-     *  For bitmap fonts, we recommend one of the following tools:
-     * 
-     *  <ul>
-     *    <li>Windows: <a href="http://www.angelcode.com/products/bmfont">Bitmap Font Generator</a>
-     *       from Angel Code (free). Export the font data as an XML file and the texture as a png 
-     *       with white characters on a transparent background (32 bit).</li>
-     *    <li>Mac OS: <a href="http://glyphdesigner.71squared.com">Glyph Designer</a> from 
-     *        71squared or <a href="http://http://www.bmglyph.com">bmGlyph</a> (both commercial). 
-     *        They support Starling natively.</li>
-     *  </ul> 
-     */
+	/** TextField类用来显示文本，使用标准的True Type字体或自定义位图字体。
+	 *  
+	 *  <p>您可以设置你用到的所有属性，比如字体名称和字号，颜色，横向和垂直对齐方式，等等。边框属性对于开发是非常有帮助的，因为这样可以让您看到文本的边界。</p>
+	 *  
+	 *  <p>有两种类型的字体可以被显示:</p>
+	 *  
+	 *  <ul>
+	 *    <li>标准的true type字体. 渲染这种类型的字体就像传统的Flash的文本框一样。建议您使用嵌入字体，
+	 * 因为您无法确保客户端有哪些字体可用， 而且嵌入字体具有更好的渲染质量。只需要给相应的属性传入字体名称即可。</li>
+	 *    <li>位图字体. 如果您需要加速显示或希望使用很酷的样式，请使用位图字体。这是一种将字型渲染到纹理地图集的格式。 
+	 * 要使用位图字体，需要首先通过registerBitmapFont注册这个字体，然后传递字体名称到文本框相应的属性上。</li>
+	 *  </ul> 
+	 *    
+	 *  对于位图字体来说，我们推荐下面的工具:
+	 * 
+	 *  <ul>
+	 *    <li>Windows: <a href="http://www.angelcode.com/products/bmfont">位图字体生成器</a>来自 Angel Code (免费). 导出字体数据为一个XML文件，
+	 * 纹理导出为一个PNG图片，将白色的文字放在透明背景上(32位)。</li>
+	 *    <li>Mac OS: <a href="http://glyphdesigner.71squared.com">Glyph Designer</a> 
+	 * 来自 71squared 或者 <a href="http://http://www.bmglyph.com">bmGlyph</a>
+	 *  (都是商业软件). 他们本身都支持Starling。</li>
+	 *  </ul> 
+	 */
     public class TextField extends DisplayObjectContainer
     {
         // the name container with the registered bitmap fonts
