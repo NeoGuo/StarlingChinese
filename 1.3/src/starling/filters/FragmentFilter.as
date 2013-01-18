@@ -46,34 +46,24 @@ package starling.filters
      *    <li>应用滤镜的对象会被渲染到一个纹理上 (在全局坐标系下).</li>
      *    <li>然后这个纹理会被传递给第一个滤镜处理通道。</li>
      *    <li>每一个通道使用片段着色器(或者额外再加一个顶点着色器)来处理纹理，实现特定的效果。</li>
-     *    <li>。</li>
-     *    <li>The output of each pass is used as the input for the next pass; if it's the 
-     *        final pass, it will be rendered directly to the back buffer.</li>  
+     *    <li>每一个通道的输出，将会作为下一个通道的输入。如果它是最终的通道，就会把它直接渲染到后台缓冲区。</li>
      *  </ol>
-     * 
-     *  <p>All of this is set up by the abstract FragmentFilter class. Concrete subclasses
-     *  just need to override the protected methods 'createPrograms', 'activate' and 
-     *  (optionally) 'deactivate' to create and execute its custom shader code. Each filter
-     *  can be configured to either replace the original object, or be drawn below or above it.
-     *  This can be done through the 'mode' property, which accepts one of the Strings defined
-     *  in the 'FragmentFilterMode' class.</p>
-     * 
-     *  <p>Beware that each filter should be used only on one object at a time. Otherwise, it
-     *  will get slower and require more resources; and caching will lead to undefined
-     *  results.</p>
+     *  <p>所有的这些过程，都被抽象类FragmentFilter定义了。所有的子类只需要覆盖这几个方法：
+	 *  'createPrograms', 'activate' 和 (可选) 'deactivate'，来创建和执行它的自定义着色代码。
+	 *  每一个滤镜可以设置为取代原来的显示对象，或在显示对象的上层或下层绘制。这取决于'mode'属性的设置，可选值定义在'FragmentFilterMode'这个类中。</p>
+     * 	<p>需要注意的是，在同一时刻，每一个滤镜只能应用于一个显示对象。否则，它就会变的很慢，需要更多的资源和缓存，并导致无法预料的后果。</p>
      */ 
     public class FragmentFilter
     {
-        /** All filter processing is expected to be done with premultiplied alpha. */
+        /** 所有的滤镜处理预计都会使用预乘透明度*/
         protected const PMA:Boolean = true;
         
-        /** The standard vertex shader code. It will be used automatically if you don't create
-         *  a custom vertex shader yourself. */
+		/**标准的顶点着色代码。如果你没有创建自定义的顶点着色器，就会自动使用这个标准的着色代码。*/
         protected const STD_VERTEX_SHADER:String = 
             "m44 op, va0, vc0 \n" + // 4x4 matrix transform to output space
             "mov v0, va1      \n";  // pass texture coordinates to fragment program
         
-        /** The standard fragment shader code. It just forwards the texture color to the output. */
+        /** 标准的片段着色器代码. 它只是转发纹理颜色到输出端. */
         protected const STD_FRAGMENT_SHADER:String =
             "tex oc, v0, fs0 <2d, clamp, linear, mipnone>"; // just forward texture color
         
@@ -106,8 +96,11 @@ package starling.filters
         private static var sStageBounds:Rectangle = new Rectangle();
         private static var sTransformationMatrix:Matrix = new Matrix();
         
-        /** Creates a new Fragment filter with the specified number of passes and resolution.
-         *  This constructor may only be called by the constructor of a subclass. */
+		/**
+		 * 根据指定的通道数量和分辨率，创建一个新的片段滤镜。只有在子类的构造方法中，才能调用这个构造方法。
+		 * @param numPasses 通道数量
+		 * @param resolution 分辨率
+		 */		
         public function FragmentFilter(numPasses:int=1, resolution:Number=1.0)
         {
             if (Capabilities.isDebugger && 
@@ -141,7 +134,7 @@ package starling.filters
                 onContextCreated, false, 0, true);
         }
         
-        /** Disposes the filter (programs, buffers, textures). */
+        /** 销毁滤镜 (着色程序, 缓冲区, 纹理). */
         public function dispose():void
         {
             Starling.current.stage3D.removeEventListener(Event.CONTEXT3D_CREATE, onContextCreated);
@@ -160,9 +153,12 @@ package starling.filters
             createPrograms();
         }
         
-        /** Applies the filter on a certain display object, rendering the output into the current 
-         *  render target. This method is called automatically by Starling's rendering system 
-         *  for the object the filter is attached to. */
+		/**
+		 * 在指定的显示对象上应用滤镜，渲染输出结果到当前的渲染目标上。当Starling渲染一个附加了滤镜的对象时，会自动调用这个方法。
+		 * @param object 显示对象
+		 * @param support 渲染辅助对象
+		 * @param parentAlpha 父级透明度
+		 */		
         public function render(object:DisplayObject, support:RenderSupport, parentAlpha:Number):void
         {
             // bottom layer
@@ -367,8 +363,7 @@ package starling.filters
             return mPassTextures[pass % 2];
         }
         
-        /** Calculates the bounds of the filter in stage coordinates, while making sure that the 
-         *  according textures will have powers of two. */
+		/**计算滤镜在全局坐标系下的范围，同时确保相应的纹理符合2的幂数的要求。*/
         private function calculateBounds(object:DisplayObject, stage:Stage, 
                                          intersectWithStage:Boolean, resultRect:Rectangle):void
         {
@@ -419,45 +414,48 @@ package starling.filters
         
         // protected methods
 
-        /** Subclasses must override this method and use it to create their 
-         *  fragment- and vertex-programs. */
+		/**子类必须覆盖这个方法，并且使用它来创建他们自己的片段和顶点着色程序*/
         protected function createPrograms():void
         {
             throw new Error("Method has to be implemented in subclass!");
         }
 
-        /** Subclasses must override this method and use it to activate their fragment- and 
-         *  to vertext-programs.
-         *  The 'activate' call directly precedes the call to 'context.drawTriangles'. Set up
-         *  the context the way your filter needs it. The following constants and attributes 
-         *  are set automatically:
-         *  
-         *  <ul><li>vertex constants 0-3: mvpMatrix (3D)</li>
+		/**
+		 * 子类必须覆盖这个方法，并且使用它来实现他们自己的片段和顶点着色程序。
+		 * 'activate'方法的调用先于'context.drawTriangles'方法的调用。根据你的滤镜的需要设置上下文。下面的常量和属性会被自动设置：
+		 * 
+		 * <ul><li>vertex constants 0-3: mvpMatrix (3D)</li>
          *      <li>vertex attribute 0: vertex position (FLOAT_2)</li>
          *      <li>vertex attribute 1: texture coordinates (FLOAT_2)</li>
          *      <li>texture 0: input texture</li>
-         *  </ul>
-         *  
-         *  @param pass: the current render pass, starting with '0'. Multipass filters can
-         *               provide different logic for each pass.
-         *  @param context: the current context3D (the same as in Starling.context, passed
-         *               just for convenience)
-         *  @param texture: the input texture, which is already bound to sampler 0. */
+         * </ul>
+		 * 
+		 * @param pass 当前的渲染通道，从'0'开始。多通道的滤镜可以为每一个通道提供不同的逻辑。
+		 * @param context 上下文 当前的context3D对象(实际上就是Starling.context，这里传递只是为了调用方便)
+		 * @param texture 纹理 输入纹理，已经被绑定到采样器0
+		 */		
         protected function activate(pass:int, context:Context3D, texture:Texture):void
         {
             throw new Error("Method has to be implemented in subclass!");
         }
         
-        /** This method is called directly after 'context.drawTriangles'. 
-         *  If you need to clean up any resources, you can do so in this method. */
+		/**
+		 * 这个方法会在'context.drawTriangles'方法调用之后，被调用。如果你需要做一些诸如清理资源的工作，可以在这个方法里面来做。
+		 * @param pass 当前的渲染通道
+		 * @param context 上下文
+		 * @param texture 纹理
+		 */		
         protected function deactivate(pass:int, context:Context3D, texture:Texture):void
         {
             // clean up resources
         }
         
-        /** Assembles fragment- and vertex-shaders, passed as Strings, to a Program3D. 
-         *  If any argument is  null, it is replaced by the class constants STD_FRAGMENT_SHADER or
-         *  STD_VERTEX_SHADER, respectively. */
+		/**
+		 * 将字符串格式的片段和顶点着色代码汇编到一个Program3D对象。如果有任何参数是null，就会采用默认值（STD_FRAGMENT_SHADER或STD_VERTEX_SHADER）来替代。
+		 * @param fragmentShader 片段着色代码
+		 * @param vertexShader 顶点着色代码
+		 * @return Program3D
+		 */		
         protected function assembleAgal(fragmentShader:String=null, vertexShader:String=null):Program3D
         {
             if (fragmentShader == null) fragmentShader = STD_FRAGMENT_SHADER;
@@ -468,17 +466,15 @@ package starling.filters
         
         // cache
         
-        /** Caches the filter output into a texture. An uncached filter is rendered in every frame;
-         *  a cached filter only once. However, if the filtered object or the filter settings
-         *  change, it has to be updated manually; to do that, call "cache" again. */
+		/**缓存滤镜输出到一个纹理。一个没有缓存的滤镜，会在每一帧进行渲染；而一个缓存的滤镜则只需要渲染一次。
+		 * 当然，如果应用滤镜的对象或滤镜设置改变了，缓存也应该被更新；要做到这一点，可以再次调用'cache'方法。*/
         public function cache():void
         {
             mCacheRequested = true;
             disposeCache();
         }
         
-        /** Clears the cached output of the filter. After calling this method, the filter will
-         *  be executed once per frame again. */ 
+		/**清理滤镜的缓存输出。在这个方法调用后，滤镜将会在每帧执行一次。*/
         public function clearCache():void
         {
             mCacheRequested = false;
@@ -507,13 +503,13 @@ package starling.filters
         
         // properties
         
-        /** Indicates if the filter is cached (via the "cache" method). */
+        /** 判断滤镜是否被缓存了 (通过"cache" 方法). */
         public function get isCached():Boolean { return (mCache != null) || mCacheRequested; }
         
-        /** The resolution of the filter texture. "1" means stage resolution, "0.5" half the
-         *  stage resolution. A lower resolution saves memory and execution time (depending on 
-         *  the GPU), but results in a lower output quality. Values greater than 1 are allowed;
-         *  such values might make sense for a cached filter when it is scaled up. @default 1 */
+		/**
+		 * 滤镜纹理的分辨率。"1"代表stage分辨率，"0.5"代表stage分辨率的一半。一个较小的分辨率，可以节省存储空间和执行时间(取决于GPU)，
+		 * 但是输出质量会降低。如果数值大于1也是允许的；当过滤器缩放时，这样的值可能是有意义的。
+		 */		
         public function get resolution():Number { return mResolution; }
         public function set resolution(value:Number):void 
         {
@@ -521,47 +517,44 @@ package starling.filters
             else mResolution = value; 
         }
         
-        /** The filter mode, which is one of the constants defined in the "FragmentFilterMode" 
-         *  class. @default "replace" */
+        /** 滤镜模式, 由"FragmentFilterMode" 定义。
+         *  @default "replace" */
         public function get mode():String { return mMode; }
         public function set mode(value:String):void { mMode = value; }
         
-        /** Use the x-offset to move the filter output to the right or left. */
+        /** 滤镜的左右偏移量. */
         public function get offsetX():Number { return mOffsetX; }
         public function set offsetX(value:Number):void { mOffsetX = value; }
         
-        /** Use the y-offset to move the filter output to the top or bottom. */
+        /**滤镜的上下偏移量 */
         public function get offsetY():Number { return mOffsetY; }
         public function set offsetY(value:Number):void { mOffsetY = value; }
         
-        /** The x-margin will extend the size of the filter texture along the x-axis.
-         *  Useful when the filter will "grow" the rendered object. */
+        /** x余量将会沿着X的方法扩展滤镜纹理的尺寸，当使用外发光效果时非常有用。 */
         protected function get marginX():Number { return mMarginX; }
         protected function set marginX(value:Number):void { mMarginX = value; }
         
-        /** The y-margin will extend the size of the filter texture along the y-axis.
-         *  Useful when the filter will "grow" the rendered object. */
+        /** y余量将会沿着Y的方法扩展滤镜纹理的尺寸，当使用外发光效果时非常有用。 */
         protected function get marginY():Number { return mMarginY; }
         protected function set marginY(value:Number):void { mMarginY = value; }
         
-        /** The number of passes the filter is applied. The "activate" and "deactivate" methods
-         *  will be called that often. */
+        /** 滤镜应用的通道数量. "activate" 和 "deactivate" 方法会来调用。 */
         protected function set numPasses(value:int):void { mNumPasses = value; }
         protected function get numPasses():int { return mNumPasses; }
         
-        /** The ID of the vertex buffer attribute that stores the vertex position. */ 
+		/**存储了顶点位置的顶点缓冲区属性的ID*/
         protected final function get vertexPosAtID():int { return mVertexPosAtID; }
         protected final function set vertexPosAtID(value:int):void { mVertexPosAtID = value; }
         
-        /** The ID of the vertex buffer attribute that stores the texture coordinates. */
+		/**存储了顶点坐标的顶点缓冲区属性的ID*/
         protected final function get texCoordsAtID():int { return mTexCoordsAtID; }
         protected final function set texCoordsAtID(value:int):void { mTexCoordsAtID = value; }
 
-        /** The ID (sampler) of the input texture (containing the output of the previous pass). */
+        /** 输入纹理的ID(取样器)，包含上一个通道的输出 */
         protected final function get baseTextureID():int { return mBaseTextureID; }
         protected final function set baseTextureID(value:int):void { mBaseTextureID = value; }
         
-        /** The ID of the first register of the modelview-projection constant (a 4x4 matrix). */
+        /** 模型投影常数(4*4矩阵)的第一个寄存器ID*/
         protected final function get mvpConstantID():int { return mMvpConstantID; }
         protected final function set mvpConstantID(value:int):void { mMvpConstantID = value; }
     }
