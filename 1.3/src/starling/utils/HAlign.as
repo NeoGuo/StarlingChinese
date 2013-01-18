@@ -12,22 +12,22 @@ package starling.utils
 {
     import starling.errors.AbstractClassError;
 
-    /** A class that provides constant values for horizontal alignment of objects. */
+	/** 提供物件水平方向上的对齐常量值. */
     public final class HAlign
     {
         /** @private */
         public function HAlign() { throw new AbstractClassError(); }
         
-        /** Left alignment. */
+		/** 左对齐. */
         public static const LEFT:String   = "left";
         
-        /** Centered alignement. */
+		/** 居中对齐. */
         public static const CENTER:String = "center";
         
-        /** Right alignment. */
+		/** 右对齐. */
         public static const RIGHT:String  = "right";
         
-        /** Indicates whether the given alignment string is valid. */
+		/** 指定给出的对齐字符串是否合法. */
         public static function isValid(hAlign:String):Boolean
         {
             return hAlign == LEFT || hAlign == CENTER || hAlign == RIGHT;

@@ -14,44 +14,42 @@ package starling.utils
     import flash.geom.Point;
     import flash.geom.Rectangle;
     
-    /** The VertexData class manages a raw list of vertex information, allowing direct upload
-     *  to Stage3D vertex buffers. <em>You only have to work with this class if you create display 
-     *  objects with a custom render function. If you don't plan to do that, you can safely 
-     *  ignore it.</em>
-     * 
-     *  <p>To render objects with Stage3D, you have to organize vertex data in so-called
-     *  vertex buffers. Those buffers reside in graphics memory and can be accessed very 
-     *  efficiently by the GPU. Before you can move data into vertex buffers, you have to 
-     *  set it up in conventional memory - that is, in a Vector object. The vector contains
-     *  all vertex information (the coordinates, color, and texture coordinates) - one
-     *  vertex after the other.</p>
-     *  
-     *  <p>To simplify creating and working with such a bulky list, the VertexData class was 
-     *  created. It contains methods to specify and modify vertex data. The raw Vector managed 
-     *  by the class can then easily be uploaded to a vertex buffer.</p>
-     * 
-     *  <strong>Premultiplied Alpha</strong>
-     *  
-     *  <p>The color values of the "BitmapData" object contain premultiplied alpha values, which 
-     *  means that the <code>rgb</code> values were multiplied with the <code>alpha</code> value 
-     *  before saving them. Since textures are created from bitmap data, they contain the values in 
-     *  the same style. On rendering, it makes a difference in which way the alpha value is saved; 
-     *  for that reason, the VertexData class mimics this behavior. You can choose how the alpha 
-     *  values should be handled via the <code>premultipliedAlpha</code> property.</p>
-     * 
-     */ 
+	/** 
+	 * 顶点数据类，它管理一个顶点信息的原始数据列表，允许直接上传到Stage3D顶点缓冲池中.
+	 * <em>
+	 * 如果想用自定义渲染函数创建显示对象，则必须使用此类。如果不打算这种做，你可以安全的忽略它。
+	 * </em>
+	 * 
+	 *  <p>
+	 * 要用Stage3D渲染对象，你得组织顶点数据到所谓的顶点缓冲池中。
+	 * 这些缓冲池位于图像内存中，并可以非常高效的被GPU访问。
+	 * 在你把数据放入顶点缓冲池之前，你得把它设置到普通内存中 - 也就是在一个矢量对象中。
+	 * 这个矢量包括所有顶点信息 (坐标，颜色，纹理坐标) - 一个顶点接下一个顶点。</p>
+	 *  
+	 *  <p>
+	 * 为了简化和工作一个如此庞大的列表，需要创建这个顶点数据类。它包括指定和修改顶点数据的方法。
+	 * 这个原始矢量由很容易上传到顶点缓冲池的类管理</p>
+	 * 
+	 *  <strong>自左乘Alpha</strong>
+	 *  
+	 *  <p>
+	 * "BitmapData"对象的颜色值包括自左乘alpha值，这意味着<code>rgb</code>值在保存前，会与<code>alpha</code>相乘。
+	 * 自从纹理从位图数据中被创建，他们包括同样格式的值。当渲染的时候，它会以alpha值被保存的方式产生差异；
+	 * 出于这个原因，顶点数据类模拟了这个行为。你可以选择这个alpha应该通过<code>premultipliedAlpha</code>属性被如何处理。</p>
+	 * 
+	 */ 
     public class VertexData 
     {
-        /** The total number of elements (Numbers) stored per vertex. */
+		/** 存储每个顶点元素的总数量. */
         public static const ELEMENTS_PER_VERTEX:int = 8;
         
-        /** The offset of position data (x, y) within a vertex. */
+		/** 每个顶点内的位置数据 (x, y) 偏移量. */
         public static const POSITION_OFFSET:int = 0;
         
-        /** The offset of color data (r, g, b, a) within a vertex. */ 
+		/** 每个顶点内的颜色数据 (r, g, b, a) 偏移量. */ 
         public static const COLOR_OFFSET:int = 2;
         
-        /** The offset of texture coordinate (u, v) within a vertex. */
+		/** 每个顶点内的坐标数据 (u, v) 偏移量. */
         public static const TEXCOORD_OFFSET:int = 6;
         
         private var mRawData:Vector.<Number>;
@@ -61,7 +59,7 @@ package starling.utils
         /** Helper object. */
         private static var sHelperPoint:Point = new Point();
         
-        /** Create a new VertexData object with a specified number of vertices. */
+		/** 用指定的顶点数创建一个新的顶点数据. */
         public function VertexData(numVertices:int, premultipliedAlpha:Boolean=false)
         {
             mRawData = new <Number>[];
@@ -69,8 +67,8 @@ package starling.utils
             this.numVertices = numVertices;
         }
 
-        /** Creates a duplicate of either the complete vertex data object, or of a subset. 
-         *  To clone all vertices, set 'numVertices' to '-1'. */
+		/** 创建一个完成顶点数据对象或子集的一个副本. 
+		 *  克隆所有顶点，'numVertices'值默认为 '-1'. */
         public function clone(vertexID:int=0, numVertices:int=-1):VertexData
         {
             if (numVertices < 0 || vertexID + numVertices > mNumVertices)
@@ -84,8 +82,8 @@ package starling.utils
             return clone;
         }
         
-        /** Copies the vertex data (or a range of it, defined by 'vertexID' and 'numVertices') 
-         *  of this instance to another vertex data object, starting at a certain index. */
+		/** 拷贝改实例的顶点数据(或者它的一个范围，由'vertexID' 和 'numVertices'定义) 
+		 *  到另一个顶点数据对象，从某个确定索引算起. */
         public function copyTo(targetData:VertexData, targetVertexID:int=0,
                                vertexID:int=0, numVertices:int=-1):void
         {
@@ -103,7 +101,7 @@ package starling.utils
                 targetRawData[int(targetIndex++)] = mRawData[i];
         }
         
-        /** Appends the vertices from another VertexData object. */
+		/** 从另一个顶点数据对象中追加顶点. */
         public function append(data:VertexData):void
         {
             mRawData.fixed = false;
@@ -121,7 +119,7 @@ package starling.utils
         
         // functions
         
-        /** Updates the position values of a vertex. */
+		/** 更新顶点位置. */
         public function setPosition(vertexID:int, x:Number, y:Number):void
         {
             var offset:int = getOffset(vertexID) + POSITION_OFFSET;
@@ -129,7 +127,7 @@ package starling.utils
             mRawData[int(offset+1)] = y;
         }
         
-        /** Returns the position of a vertex. */
+		/** 返回顶点位置. */
         public function getPosition(vertexID:int, position:Point):void
         {
             var offset:int = getOffset(vertexID) + POSITION_OFFSET;
@@ -137,7 +135,7 @@ package starling.utils
             position.y = mRawData[int(offset+1)];
         }
         
-        /** Updates the RGB color values of a vertex. */ 
+		/** 更新顶点RGB值. */ 
         public function setColor(vertexID:int, color:uint):void
         {   
             var offset:int = getOffset(vertexID) + COLOR_OFFSET;
@@ -147,7 +145,7 @@ package starling.utils
             mRawData[int(offset+2)] = ( color        & 0xff) / 255.0 * multiplier;
         }
         
-        /** Returns the RGB color of a vertex (no alpha). */
+		/** 返回顶点RGB值 (无alpha). */
         public function getColor(vertexID:int):uint
         {
             var offset:int = getOffset(vertexID) + COLOR_OFFSET;
@@ -164,7 +162,7 @@ package starling.utils
             }
         }
         
-        /** Updates the alpha value of a vertex (range 0-1). */
+		/** 更新顶点Aplha值 (范围 0-1). */
         public function setAlpha(vertexID:int, alpha:Number):void
         {
             var offset:int = getOffset(vertexID) + COLOR_OFFSET + 3;
@@ -182,14 +180,14 @@ package starling.utils
             }
         }
         
-        /** Returns the alpha value of a vertex in the range 0-1. */
+		/** 返回顶点Aplha值 (范围 0-1). */
         public function getAlpha(vertexID:int):Number
         {
             var offset:int = getOffset(vertexID) + COLOR_OFFSET + 3;
             return mRawData[offset];
         }
         
-        /** Updates the texture coordinates of a vertex (range 0-1). */
+		/** 更新顶点纹理坐标值 (范围 0-1). */
         public function setTexCoords(vertexID:int, u:Number, v:Number):void
         {
             var offset:int = getOffset(vertexID) + TEXCOORD_OFFSET;
@@ -197,7 +195,7 @@ package starling.utils
             mRawData[int(offset+1)] = v;
         }
         
-        /** Returns the texture coordinates of a vertex in the range 0-1. */
+		/** 返回顶点纹理坐标值 (范围 0-1). */
         public function getTexCoords(vertexID:int, texCoords:Point):void
         {
             var offset:int = getOffset(vertexID) + TEXCOORD_OFFSET;
@@ -207,7 +205,7 @@ package starling.utils
         
         // utility functions
         
-        /** Translate the position of a vertex by a certain offset. */
+		/** 以一定偏移量来移动顶点位置. */
         public function translateVertex(vertexID:int, deltaX:Number, deltaY:Number):void
         {
             var offset:int = getOffset(vertexID) + POSITION_OFFSET;
@@ -215,8 +213,7 @@ package starling.utils
             mRawData[int(offset+1)] += deltaY;
         }
 
-        /** Transforms the position of subsequent vertices by multiplication with a 
-         *  transformation matrix. */
+		/** 通过与一个转换矩阵来转换后面的顶点位置. */
         public function transformVertex(vertexID:int, matrix:Matrix, numVertices:int=1):void
         {
             var offset:int = getOffset(vertexID) + POSITION_OFFSET;
@@ -233,21 +230,21 @@ package starling.utils
             }
         }
         
-        /** Sets all vertices of the object to the same color values. */
+		/** 对所有顶点设置相同的颜色值. */
         public function setUniformColor(color:uint):void
         {
             for (var i:int=0; i<mNumVertices; ++i)
                 setColor(i, color);
         }
         
-        /** Sets all vertices of the object to the same alpha values. */
+		/** 对所有顶点设置相同的alpha值. */
         public function setUniformAlpha(alpha:Number):void
         {
             for (var i:int=0; i<mNumVertices; ++i)
                 setAlpha(i, alpha);
         }
         
-        /** Multiplies the alpha value of subsequent vertices with a certain delta. */
+		/** 对指定的顶点alpha值乘以某个delta. */
         public function scaleAlpha(vertexID:int, alpha:Number, numVertices:int=1):void
         {
             if (alpha == 1.0) return;
@@ -274,10 +271,9 @@ package starling.utils
             return vertexID * ELEMENTS_PER_VERTEX;
         }
         
-        /** Calculates the bounds of the vertices, which are optionally transformed by a matrix. 
-         *  If you pass a 'resultRect', the result will be stored in this rectangle 
-         *  instead of creating a new object. To use all vertices for the calculation, set
-         *  'numVertices' to '-1'. */
+		/** 计算顶点范围，可以选择性的通过矩阵进行转换. 
+		 *  如果传递resultRect，结果会保存在这个矩阵中，而不会创建一个新对象.
+		 *  要给所有顶点计算，设置'numVertices' 为 '-1'. */
         public function getBounds(transformationMatrix:Matrix=null, 
                                   vertexID:int=0, numVertices:int=-1,
                                   resultRect:Rectangle=null):Rectangle
@@ -327,7 +323,7 @@ package starling.utils
         
         // properties
         
-        /** Indicates if any vertices have a non-white color or are not fully opaque. */
+		/** 返回所有顶点是否非白或完全透明. */
         public function get tinted():Boolean
         {
             var offset:int = COLOR_OFFSET;
@@ -343,7 +339,7 @@ package starling.utils
             return false;
         }
         
-        /** Changes the way alpha and color values are stored. Updates all exisiting vertices. */
+		/** 改变alpha和颜色值的存储方式. 更新所有存在的顶点. */
         public function setPremultipliedAlpha(value:Boolean, updateData:Boolean=true):void
         {
             if (value == mPremultipliedAlpha) return;
@@ -370,10 +366,10 @@ package starling.utils
             mPremultipliedAlpha = value;
         }
         
-        /** Indicates if the rgb values are stored premultiplied with the alpha value. */
+		/** 返回存储的rgb值是否与此apha值左自乘. */
         public function get premultipliedAlpha():Boolean { return mPremultipliedAlpha; }
         
-        /** The total number of vertices. */
+		/** 顶点总数. */
         public function get numVertices():int { return mNumVertices; }
         public function set numVertices(value:int):void
         {
@@ -392,7 +388,7 @@ package starling.utils
             mRawData.fixed = true;
         }
         
-        /** The raw vertex data; not a copy! */
+		/** 原始顶点数据; 非克隆数据! */
         public function get rawData():Vector.<Number> { return mRawData; }
     }
 }

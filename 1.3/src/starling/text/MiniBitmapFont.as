@@ -16,13 +16,9 @@ package starling.text
     
     import starling.textures.Texture;
     
-    /** @private
-     *  This class contains constants for the 'MINI' bitmap font. It's done that way to avoid
-     *  a dependency on the 'mx.core' library (which is required for the 'Embed' statement).
-     * 
-     *  <p>The font is based on "uni05_53.ttf" from Craig Kroeger (http://www.miniml.com) and was
-     *  converted to a Bitmap Font with "GlyphDesigner" from 71squared (http://www.71squared.com).
-     *  </p> */
+	/** @private
+	 *  这个类包含了名称为 'MINI' 的位图字体. 它不再使用 'mx.core' 库 (需要'Embed'语法).
+	 *  <p>这个字体是基于Craig Kroeger (http://www.miniml.com)的"uni05_53.ttf"做的，并且使用71squared (http://www.71squared.com)的"GlyphDesigner"转换为位图字体</p> */
     internal class MiniBitmapFont
     {
         private static const BITMAP_WIDTH:int = 128;
@@ -273,6 +269,7 @@ package starling.text
           </chars>
         </font>;
         
+		/**获取纹理*/
         public static function get texture():Texture
         {
             var bmpData:BitmapData = new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT);
@@ -288,6 +285,7 @@ package starling.text
             return Texture.fromBitmapData(bmpData, false);
         }
         
+		/**获取字体的XML描述*/
         public static function get xml():XML { return XML_DATA; }
     }
 }

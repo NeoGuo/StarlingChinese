@@ -29,59 +29,49 @@ package starling.textures
     import starling.utils.VertexData;
     import starling.utils.getNextPowerOfTwo;
 
-    /** <p>A texture stores the information that represents an image. It cannot be added to the
-     *  display list directly; instead it has to be mapped onto a display object. In Starling, 
-     *  that display object is the class "Image".</p>
-     * 
-     *  <strong>Texture Formats</strong>
-     *  
-     *  <p>Since textures can be created from a "BitmapData" object, Starling supports any bitmap
-     *  format that is supported by Flash. And since you can render any Flash display object into
-     *  a BitmapData object, you can use this to display non-Starling content in Starling - e.g.
-     *  Shape objects.</p>
-     *  
-     *  <p>Starling also supports ATF textures (Adobe Texture Format), which is a container for
-     *  compressed texture formats that can be rendered very efficiently by the GPU. Refer to 
-     *  the Flash documentation for more information about this format.</p>
-     *  
-     *  <strong>Mip Mapping</strong>
-     *  
-     *  <p>MipMaps are scaled down versions of a texture. When an image is displayed smaller than
-     *  its natural size, the GPU may display the mip maps instead of the original texture. This
-     *  reduces aliasing and accelerates rendering. It does, however, also need additional memory;
-     *  for that reason, you can choose if you want to create them or not.</p>  
-     *  
-     *  <strong>Texture Frame</strong>
-     *  
-     *  <p>The frame property of a texture allows you let a texture appear inside the bounds of an
-     *  image, leaving a transparent space around the texture. The frame rectangle is specified in 
-     *  the coordinate system of the texture (not the image):</p>
-     *  
-     *  <listing>
-     *  var frame:Rectangle = new Rectangle(-10, -10, 30, 30); 
-     *  var texture:Texture = Texture.fromTexture(anotherTexture, null, frame);
-     *  var image:Image = new Image(texture);</listing>
-     *  
-     *  <p>This code would create an image with a size of 30x30, with the texture placed at 
-     *  <code>x=10, y=10</code> within that image (assuming that 'anotherTexture' has a width and 
-     *  height of 10 pixels, it would appear in the middle of the image).</p>
-     *  
-     *  <p>The texture atlas makes use of this feature, as it allows to crop transparent edges
-     *  of a texture and making up for the changed size by specifying the original texture frame.
-     *  Tools like <a href="http://www.texturepacker.com/">TexturePacker</a> use this to  
-     *  optimize the atlas.</p>
-     * 
-     *  <strong>Texture Coordinates</strong>
-     *  
-     *  <p>If, on the other hand, you want to show only a part of the texture in an image
-     *  (i.e. to crop the the texture), you can either create a subtexture (with the method 
-     *  'Texture.fromTexture()' and specifying a rectangle for the region), or you can manipulate 
-     *  the texture coordinates of the image object. The method 'image.setTexCoords' allows you 
-     *  to do that.</p>
-     *  
-     *  @see starling.display.Image
-     *  @see TextureAtlas
-     */ 
+	/**  <p>纹理是用来储存展示图像的信息。它不能直接被添加到显示列表；相应的它必须映射到一个显示对象上。
+	 *  在Staring中那个显示对象就是“Image”类。</p>
+	 *
+	 *  <strong>纹理格式</strong>
+	 *  
+	 *  <p>纹理能够由一个“BitmapData”对象创建，Starling能够支持任何Flash所支持的bitmap格式。
+	 *  并且由于你能够将任何Flash显示对象转换为BitmapData对象，你就能够利用这点在Starling中
+	 *  去显示非Starling内容,比如说Shape对象。</p>
+	 *
+	 *  <p>Starling同时支持ATF纹理（Adobe Texture Format），一个能够通过GPU高效渲染的被压缩纹理的容器。</p>
+	 *  
+	 *  <strong>Mip映射</strong>
+	 *  
+	 *  <p>MipMaps是按比例缩小的纹理类型。当一个图像被显示时小于它本来的尺寸时，
+	 *  GPU可能就会用mip maps去替代原生纹理。这就可以减少走样和加速渲染。当然这也需要额外的内存开销；
+	 *  你可以权衡利弊之后选择是否使用它。</p>  
+	 *  
+	 *  <strong>纹理框架</strong>
+	 *  
+	 *  <p>纹理的frame属性允许你设置纹理在image对象中的界限，在纹理周围留有透明空白区域。
+	 *  frame矩形被指定在纹理的坐标系统中，而不是image:</p>
+	 *  
+	 *  <listing>
+	 *  var frame:Rectangle = new Rectangle(-10, -10, 30, 30); 
+	 *  var texture:Texture = Texture.fromTexture(anotherTexture, null, frame);
+	 *  var image:Image = new Image(texture);
+	 *  </listing>
+	 *  
+	 *  <p>这段代码会创建一个30x30大小的图像，纹理会被放置在图像<code>x=10, y=10</code> 
+	 *  的位置上（假设'anotherTexture'是一个宽高都为10像素的纹理，它将出现在图像的正中位置）。</p>
+	 *  
+	 *  <p>纹理集就采用了这个特性，它允许裁剪一个纹理的透明边缘用来弥补由指定的原始纹理框架改变的尺寸。
+	 *  可以使用<a href="http://www.texturepacker.com/">TexturePacker</a>这样的工具来优化纹理集。</p>
+	 * 
+	 *  <strong>纹理坐标系</strong>
+	 *  
+	 *  <p>假如，从另一方面讲，你只想在图像中显示纹理的一部分（就是说修剪这个纹理），
+	 *  你可以创建一个子纹理（通过方法'Texture.fromTexture()'然后指定一个限定范围的矩形），
+	 *  或者你也可以操作image对象的纹理坐标系。方法'image.setTexCoords'允许你那样做。</p>
+	 *
+	 *  @see starling.display.Image
+	 *  @see TextureAtlas
+	 */ 
     public class Texture
     {
         private var mFrame:Rectangle;
@@ -102,17 +92,21 @@ package starling.textures
             mRepeat = false;
         }
         
-        /** Disposes the underlying texture data. Note that not all textures need to be disposed: 
-         *  SubTextures (created with 'Texture.fromTexture') just reference other textures and
-         *  and do not take up resources themselves; this is also true for textures from an 
-         *  atlas. */
+		/**销毁基本纹理。注意并非所有的纹理都需要销毁：SubTextures(从'Texture.fromTexture'创建的)只是引用其它的纹理，
+		 * 并且并不占用额外的资源空间；它可能是一个纹理图集的一部分。*/		
         public function dispose():void
         { 
             // override in subclasses
         }
         
-        /** Creates a texture object from a bitmap.
-         *  Beware: you must not dispose 'data' if Starling should handle a lost device context. */
+		/** 通过一个bitmap来创建纹理对象。
+		 *  注意：如果Starling需要处理一个丢失的设备上下文，那么不允许你释放纹理数据。
+		 * @param data Bitmap对象
+		 * @param generateMipMaps 生成mip映射
+		 * @param optimizeForRenderToTexture 优化渲染
+		 * @param scale 缩放比例
+		 * @return Texture 
+		 */        
         public static function fromBitmap(data:Bitmap, generateMipMaps:Boolean=true,
                                           optimizeForRenderToTexture:Boolean=false,
                                           scale:Number=1):Texture
@@ -120,8 +114,14 @@ package starling.textures
             return fromBitmapData(data.bitmapData, generateMipMaps, optimizeForRenderToTexture, scale);
         }
         
-        /** Creates a texture from bitmap data. 
-         *  Beware: you must not dispose 'data' if Starling should handle a lost device context. */
+		/** 通过一个BitmapData来创建纹理对象。
+		 *  注意：如果Starling需要处理一个丢失的设备上下文，那么不允许你释放纹理数据。
+		 * @param data BitmapData对象
+		 * @param generateMipMaps 生成mip映射
+		 * @param optimizeForRenderToTexture 优化渲染
+		 * @param scale 缩放比例
+		 * @return Texture
+		 */        
         public static function fromBitmapData(data:BitmapData, generateMipMaps:Boolean=true,
                                               optimizeForRenderToTexture:Boolean=false,
                                               scale:Number=1):Texture
@@ -164,14 +164,16 @@ package starling.textures
                                       true);
         }
         
-        /** Creates a texture from the compressed ATF format. If you don't want to use any embedded
-         *  mipmaps, you can disable them by setting "useMipMaps" to <code>false</code>.
-         *  Beware: you must not dispose 'data' if Starling should handle a lost device context.
-         *  
-         *  <p>If you pass a function for the 'loadAsync' parameter, the method will return
-         *  immediately, while the texture will be created asynchronously. It can be used as soon
-         *  as the callback has been executed. This is the expected function definition:
-         *  <code>function(texture:Texture):void;</code></p> */ 
+		/** 通过压缩的ATF格式来创建纹理对象。如果你不想使用嵌入的mip映射，可以通过设置"useMipMaps" 为 <code>false</code>来禁用。
+		 *  注意：如果Starling需要处理一个丢失的设备上下文，那么不允许你释放纹理数据。
+		 * <p>如果你通过'loadAsync'参数传递了一个方法，这个方法会被立刻返回，然后纹理将会被异步创建。它可以被用来快速执行一个回调。这个方法的定义应该是这个格式：
+		 * <code>function(texture:Texture):void;</code></p>
+		 * @param data 包含压缩纹理的字节数组
+		 * @param scale 缩放比例
+		 * @param useMipMaps 是否使用mip映射
+		 * @param loadAsync 异步加载方法
+		 * @return Texture
+		 */		
         public static function fromAtfData(data:ByteArray, scale:Number=1, useMipMaps:Boolean=true, 
                                            loadAsync:Function=null):Texture
         {
@@ -207,13 +209,12 @@ package starling.textures
             }
         }
         
-        /** Creates a texture with a certain size and color.
-         *  
-         *  @param width:  in points; number of pixels depends on scale parameter
-         *  @param height: in points; number of pixels depends on scale parameter
-         *  @param color:  expected in ARGB format (inlude alpha!)
-         *  @param optimizeForRenderToTexture: indicates if this texture will be used as render target
-         *  @param scale:  if you omit this parameter, 'Starling.contentScaleFactor' will be used.
+        /** 创建某一尺寸、颜色的空纹理。颜色参数需要制定为ARGB格式。
+         *  @param width:  点数，实际像素宽度取决于缩放比例
+         *  @param height: 点数，实际像素高度取决于缩放比例
+         *  @param color:  使用的是ARGB格式 (包含透明度!)
+         *  @param optimizeForRenderToTexture: 表示这个纹理是否会被用来作为渲染目标
+         *  @param scale:  如果省略该参数，"Starling.contentScaleFactor"将被使用。
          */
         public static function fromColor(width:int, height:int, color:uint=0xffffffff,
                                          optimizeForRenderToTexture:Boolean=false, 
@@ -230,15 +231,12 @@ package starling.textures
             return texture;
         }
         
-        /** Creates an empty texture of a certain size. Useful mainly for render textures. 
-         *  Beware that the texture can only be used after you either upload some color data or
-         *  clear the texture while it is an active render target. 
-         *  
-         *  @param width:  in points; number of pixels depends on scale parameter
-         *  @param height: in points; number of pixels depends on scale parameter
-         *  @param premultipliedAlpha: the PMA format you will use the texture with
-         *  @param optimizeForRenderToTexture: indicates if this texture will be used as render target
-         *  @param scale:  if you omit this parameter, 'Starling.contentScaleFactor' will be used.
+         /** 根据指定的尺寸创建一个空纹理。主要用于渲染纹理的时候。注意纹理只能在你上传一些颜色数据或清除纹理才能被使用，尽管它实际上是一个渲染目标。
+         *  @param width:  点数，实际像素宽度取决于缩放比例
+         *  @param height: 点数，实际像素高度取决于缩放比例
+         *  @param premultipliedAlpha: 预乘透明度
+         *  @param optimizeForRenderToTexture: 表示这个纹理是否会被用来作为渲染目标
+         *  @param scale:  如果省略该参数，"Starling.contentScaleFactor"将被使用。
          */
         public static function empty(width:int=64, height:int=64, premultipliedAlpha:Boolean=false,
                                      optimizeForRenderToTexture:Boolean=true,
@@ -267,8 +265,13 @@ package starling.textures
                 return new SubTexture(concreteTexture, new Rectangle(0, 0, width, height), true);
         }
         
-        /** Creates a texture that contains a region (in pixels) of another texture. The new
-         *  texture will reference the base texture; no data is duplicated. */
+		/** 从另一个纹理创建一个限定范围的纹理（以像素为单位）。
+		 *  这个新的纹理将会引用基础纹理；没有复制数据。
+		 * @param texture 原纹理对象
+		 * @param region 区域
+		 * @param frame 外框
+		 * @return Texture
+		 */        
         public static function fromTexture(texture:Texture, region:Rectangle=null, frame:Rectangle=null):Texture
         {
             var subTexture:Texture = new SubTexture(texture, region);   
@@ -276,8 +279,12 @@ package starling.textures
             return subTexture;
         }
         
-        /** Converts texture coordinates and vertex positions of raw vertex data into the format 
-         *  required for rendering. */
+		/**
+		 * 转换纹理的坐标系和原始顶点位置数据为渲染所需要的格式。
+		 * @param vertexData 顶点数据
+		 * @param vertexID 顶点ID
+		 * @param count 计数器
+		 */        
         public function adjustVertexData(vertexData:VertexData, vertexID:int, count:int):void
         {
             if (mFrame)
@@ -295,7 +302,7 @@ package starling.textures
             }
         }
         
-        /** @private Uploads the bitmap data to the native texture, optionally creating mipmaps. */
+		/** @private 向原生纹理上载BitmapData数据，可选择创建MIP映射。 */
         internal static function uploadBitmapData(nativeTexture:flash.display3D.textures.Texture,
                                                   data:BitmapData, generateMipmaps:Boolean):void
         {
@@ -325,7 +332,7 @@ package starling.textures
             }
         }
         
-        /** @private Uploads ATF data from a ByteArray to a native texture. */
+        /** @private 通过ByteArray上传ATF数据给原生纹理。*/
         internal static function uploadAtfData(nativeTexture:flash.display3D.textures.Texture, 
                                                data:ByteArray, offset:int=0, 
                                                async:Boolean=false):void
@@ -335,7 +342,7 @@ package starling.textures
         
         // properties
         
-        /** The texture frame (see class description). */
+		/** 纹理框架（参阅类描述）*/
         public function get frame():Rectangle 
         { 
             return mFrame ? mFrame.clone() : new Rectangle(0, 0, width, height);
@@ -346,40 +353,39 @@ package starling.textures
             // anyway).
         }
         
-        /** Indicates if the texture should repeat like a wallpaper or stretch the outermost pixels.
-         *  Note: this only works in textures with sidelengths that are powers of two and 
-         *  that are not loaded from a texture atlas (i.e. no subtextures). @default false */
+		/** 确定纹理是否应该像墙纸一样平铺或者拉伸最外面的像素点。
+		 *  注意：只有当纹理边长是2的幂数并且不是从一个纹理集（即无子纹理）中加载的才有效。*/
         public function get repeat():Boolean { return mRepeat; }
         public function set repeat(value:Boolean):void { mRepeat = value; }
         
-        /** The width of the texture in points. */
+		/** 以像素为单位的纹理宽度。 */
         public function get width():Number { return 0; }
         
-        /** The height of the texture in points. */
+		/** 以像素为单位的纹理高度。 */
         public function get height():Number { return 0; }
 
-        /** The width of the texture in pixels (without scale adjustment). */
+        /** 纹理的像素宽度(忽略缩放参数). */
         public function get nativeWidth():Number { return 0; }
         
-        /** The height of the texture in pixels (without scale adjustment). */
+        /** 纹理的像素高度(忽略缩放参数). */
         public function get nativeHeight():Number { return 0; }
         
-        /** The scale factor, which influences width and height properties. */
+		/** 缩放比例因素,影响宽度和高度。 */
         public function get scale():Number { return 1.0; }
         
-        /** The Stage3D texture object the texture is based on. */
+		/** 纹理所基于的Stage3D纹理对象。 */
         public function get base():TextureBase { return null; }
         
-        /** The concrete (power-of-two) texture the texture is based on. */
+        /** 作为基本(根节点)的那个符合2的幂数要求的纹理对象 */
         public function get root():ConcreteTexture { return null; }
         
-        /** The <code>Context3DTextureFormat</code> of the underlying texture data. */
+		/** 基本纹理数据的<code>Context3DTextureFormat</code>。 */
         public function get format():String { return Context3DTextureFormat.BGRA; }
         
-        /** Indicates if the texture contains mip maps. */ 
+		/** 表明纹理是否包含mip映射集。 */ 
         public function get mipMapping():Boolean { return false; }
         
-        /** Indicates if the alpha values are premultiplied into the RGB values. */
+		/** 表明透明值是否被预乘到了RGB值中。 */
         public function get premultipliedAlpha():Boolean { return false; }
     }
 }

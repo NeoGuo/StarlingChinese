@@ -2,26 +2,22 @@ package starling.utils
 {
     import starling.errors.AbstractClassError;
 
-    /** A class that provides constant values for the 'RectangleUtil.fit' method. */
+    /** 用于'RectangleUtil.fit' 方法的缩放模式常量值. */
     public class ScaleMode
     {
         /** @private */
         public function ScaleMode() { throw new AbstractClassError(); }
         
-        /** Specifies that the rectangle is not scaled, but simply centered within the 
-         *  specified area. */
+        /** 不缩放矩形，但是在整个区域中居中 */
         public static const NONE:String = "none";
         
-        /** Specifies that the rectangle fills the specified area without distortion 
-         *  but possibly with some cropping, while maintaining the original aspect ratio. */
+        /** 等比缩放，填充整体区域，不留空白区域，有可能会对显示内容进行裁剪 */
         public static const NO_BORDER:String = "noBorder";
         
-        /** Specifies that the entire rectangle will be scaled to fit into the specified 
-         *  area, while maintaining the original aspect ratio. This might leave empty bars at
-         *  either the top and bottom, or left and right. */
+        /** 等比缩放，保持显示区域完整可见，可能会在上下或左右两侧留下空白区域 */
         public static const SHOW_ALL:String = "showAll";
         
-        /** Indicates whether the given scale mode string is valid. */
+        /** 判断缩放模式是否合法 */
         public static function isValid(scaleMode:String):Boolean
         {
             return scaleMode == NONE || scaleMode == NO_BORDER || scaleMode == SHOW_ALL;

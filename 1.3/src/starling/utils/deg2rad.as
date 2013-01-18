@@ -10,7 +10,7 @@
 
 package starling.utils
 {
-    /** Converts an angle from degrees into radians. */
+	/** 角度转换为弧度. */
     public function deg2rad(deg:Number):Number
     {
         return deg / 180.0 * Math.PI;   

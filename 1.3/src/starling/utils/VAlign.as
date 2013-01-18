@@ -12,22 +12,22 @@ package starling.utils
 {
     import starling.errors.AbstractClassError;
 
-    /** A class that provides constant values for vertical alignment of objects. */
+	/** 提供物件垂直方向上的对齐常量值. */
     public final class VAlign
     {
         /** @private */
         public function VAlign() { throw new AbstractClassError(); }
         
-        /** Top alignment. */
+		/** 顶部对齐. */
         public static const TOP:String    = "top";
         
-        /** Centered alignment. */
+		/** 居中对齐. */
         public static const CENTER:String = "center";
         
-        /** Bottom alignment. */
+		/** 底对齐. */
         public static const BOTTOM:String = "bottom";
         
-        /** Indicates whether the given alignment string is valid. */
+		/** 指定给出的对齐字符串是否合法. */
         public static function isValid(vAlign:String):Boolean
         {
             return vAlign == TOP || vAlign == CENTER || vAlign == BOTTOM;
