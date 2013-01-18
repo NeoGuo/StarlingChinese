@@ -39,16 +39,14 @@ package starling.filters
     import starling.utils.VertexData;
     import starling.utils.getNextPowerOfTwo;
 
-    /** The FragmentFilter class is the base class for all filter effects in Starling.
-     *  All other filters of this package extend this class. You can attach them to any display
-     *  object through the 'filter' property.
-     * 
-     *  <p>A fragment filter works in the following way:</p>
+    /** FragmentFilter(片段滤镜)类是Starling中所有滤镜效果的基类。这个包中所有的其它滤镜都是扩展自这个类。
+	 *  你可以通过使用属性'filter'，将这些滤镜附加到任何显示对象上。
+     *  <p>一个片段滤镜是通过如下的方式工作的:</p>
      *  <ol>
-     *    <li>The object that is filtered is rendered into a texture (in stage coordinates).</li>
-     *    <li>That texture is passed to the first filter pass.</li>
-     *    <li>Each pass processes the texture using a fragment shader (and optionally a vertex 
-     *        shader) to achieve a certain effect.</li>
+     *    <li>应用滤镜的对象会被渲染到一个纹理上 (在全局坐标系下).</li>
+     *    <li>然后这个纹理会被传递给第一个滤镜处理通道。</li>
+     *    <li>每一个通道使用片段着色器(或者额外再加一个顶点着色器)来处理纹理，实现特定的效果。</li>
+     *    <li>。</li>
      *    <li>The output of each pass is used as the input for the next pass; if it's the 
      *        final pass, it will be rendered directly to the back buffer.</li>  
      *  </ol>
