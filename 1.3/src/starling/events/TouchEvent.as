@@ -89,7 +89,7 @@ package starling.events
 		 * @param target 目标对象
 		 * @param phase 阶段
 		 * @param result 传递数组
-		 * @return Vector.<Touch>
+		 * @return Touch数组
 		 */		
         public function getTouches(target:DisplayObject, phase:String=null,
                                    result:Vector.<Touch>=null):Vector.<Touch>
