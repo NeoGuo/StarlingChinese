@@ -10,7 +10,7 @@
 
 package starling.utils
 {
-	/** 返回大于或等于这个指定的数，这个数为紧接着的2的倍数.
+	/** 返回大于或等于这个指定的数，这个数为紧接着的2的幂数.
 	 *  <br>比如，getNextPowerOfTwo(3)返回4；getNextPowerOfTwo(8)返回8；getNextPowerOfTwo(9)返回16 */
     public function getNextPowerOfTwo(number:int):int
     {
