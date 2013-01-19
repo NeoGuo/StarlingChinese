@@ -19,25 +19,17 @@ package starling.filters
     
     import starling.textures.Texture;
     
-    /** The ColorMatrixFilter class lets you apply a 4x5 matrix transformation on the RGBA color 
-     *  and alpha values of every pixel in the input image to produce a result with a new set 
-     *  of RGBA color and alpha values. It allows saturation changes, hue rotation, 
-     *  luminance to alpha, and various other effects.
-     * 
-     *  <p>The class contains several convenience methods for frequently used color 
-     *  adjustments. All those methods change the current matrix, which means you can easily 
-     *  combine them in one filter:</p>
-     *  
+    /** ColorMatrixFilter(颜色矩阵滤镜)允许你为输入图片的每个像素的RGBA颜色值和透明度，应用一个4*5的矩阵变换，来产生一个新的包含RGBA颜色和透明度的数据集。
+	 *  它允许你调整色相变化，饱和度，亮度调整，以及其它各种效果。
+     *  <p>这个类包含了一些用于颜色调整的简便方法。所有这些方法都会改变当前的矩阵，这就意味着你可以很容易的把它们组合在一个滤镜里面:</p>
      *  <listing>
-     *  // create an inverted filter with 50% saturation and 180° hue rotation
+     *  //用50%的饱和度和180度的色相旋转创建一个翻转滤镜
      *  var filter:ColorMatrixFilter = new ColorMatrixFilter();
      *  filter.invert();
      *  filter.adjustSaturation(-0.5);
-     *  filter.adjustHue(1.0);</listing>
-     *  
-     *  <p>If you want to gradually animate one of the predefined color adjustments, either reset
-     *  the matrix after each step, or use an identical adjustment value for each step; the 
-     *  changes will add up.</p>
+     *  filter.adjustHue(1.0);
+	 *  </listing>
+     *  <p>如果你希望让颜色的变化产生动画效果，就在每一步重置滤镜，或者在每一步使用相同的调整值；这个改变就会逐渐累加。</p>
      */
     public class ColorMatrixFilter extends FragmentFilter
     {
@@ -56,9 +48,10 @@ package starling.filters
         private static var sTmpMatrix1:Vector.<Number> = new Vector.<Number>(20, true);
         private static var sTmpMatrix2:Vector.<Number> = new <Number>[];
         
-        /** Creates a new ColorMatrixFilter instance with the specified matrix. 
-         *  @param matrix: a vector of 20 items arranged as a 4x5 matrix.   
-         */
+		/**
+		 * 根据传入的矩阵创建一个新的ColorMatrixFilter实例。
+		 * @param matrix 包含20个项的4*5的矩阵
+		 */		
         public function ColorMatrixFilter(matrix:Vector.<Number>=null)
         {
             mUserMatrix   = new <Number>[];
@@ -103,7 +96,7 @@ package starling.filters
         
         // color manipulation
         
-        /** Inverts the colors of the filtered objects. */
+        /** 翻转颜色 */
         public function invert():void
         {
             concatValues(-1,  0,  0,  0, 255,
@@ -112,9 +105,10 @@ package starling.filters
                           0,  0,  0,  1,   0);
         }
         
-        /** Changes the saturation. Typical values are in the range (-1, 1).
-         *  Values above zero will raise, values below zero will reduce the saturation.
-         *  '-1' will produce a grayscale image. */ 
+		/**
+		 * 改变饱和度。可选区间是(-1,1)。大于0的值会提高饱和度，小于0的值会降低饱和度。'-1'会产生一个灰度图像。
+		 * @param sat 数值
+		 */		
         public function adjustSaturation(sat:Number):void
         {
             sat += 1;
@@ -130,8 +124,10 @@ package starling.filters
                          0, 0, 0, 1, 0);
         }
         
-        /** Changes the contrast. Typical values are in the range (-1, 1).
-         *  Values above zero will raise, values below zero will reduce the contrast. */
+		/**
+		 * 改变对比度。可选区间是(-1,1)。大于0的值会提高对比度，小于0的值会降低对比度。
+		 * @param value 数值
+		 */		
         public function adjustContrast(value:Number):void
         {
             var s:Number = value + 1;
@@ -143,8 +139,10 @@ package starling.filters
                          0, 0, 0, 1, 0);
         }
         
-        /** Changes the brightness. Typical values are in the range (-1, 1).
-         *  Values above zero will make the image brighter, values below zero will make it darker.*/ 
+		/**
+		 * 改变亮度。可选区间是(-1,1)。大于0的值会提高亮度，小于0的值会降低亮度。
+		 * @param value 数值
+		 */		
         public function adjustBrightness(value:Number):void
         {
             value *= 255;
@@ -155,7 +153,7 @@ package starling.filters
                          0, 0, 0, 1, 0);
         }
         
-        /** Changes the hue of the image. Typical values are in the range (-1, 1). */
+        /** 改变图像的色调. 可选区间是(-1,1)。 */
         public function adjustHue(value:Number):void
         {
             value *= Math.PI;
@@ -172,13 +170,13 @@ package starling.filters
         
         // matrix manipulation
         
-        /** Changes the filter matrix back to the identity matrix. */
+        /** 重置矩阵 */
         public function reset():void
         {
             matrix = null;
         }
         
-        /** Concatenates the current matrix with another one. */
+        /** 将当前矩阵和另一个矩阵合并。 */
         public function concat(matrix:Vector.<Number>):void
         {
             var i:int = 0;
@@ -240,7 +238,7 @@ package starling.filters
         
         // properties
         
-        /** A vector of 20 items arranged as a 4x5 matrix. */
+        /** 拥有20个项的 4x5 矩阵. */
         public function get matrix():Vector.<Number> { return mUserMatrix; }
         public function set matrix(value:Vector.<Number>):void
         {
