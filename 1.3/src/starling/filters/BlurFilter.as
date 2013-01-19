@@ -17,10 +17,8 @@ package starling.filters
     import starling.textures.Texture;
     import starling.utils.Color;
 
-    /** The BlurFilter applies a Gaussian blur to an object. The strength of the blur can be
-     *  set for x- and y-axis separately (always relative to the stage).
-     *  A blur filter can also be set up as a drop shadow or glow filter. Use the respective
-     *  static methods to create such a filter.
+    /** BlurFilter用于在一个对象上创建高斯模糊效果。可以分别在x轴和y轴的方向上设置模糊的强度（全局坐标系）。
+	 *  也可以设置为一个阴影或外发光滤镜。使用特定的静态方法来创建特定的滤镜。
      */
     public class BlurFilter extends FragmentFilter
     {
@@ -40,20 +38,19 @@ package starling.filters
         /** helper object */
         private var sTmpWeights:Vector.<Number> = new Vector.<Number>(5, true);
         
-        /** Create a new BlurFilter. For each blur direction, the number of required passes is
-         *  <code>Math.ceil(blur)</code>. 
-         *  
-         *  <ul><li>blur = 0.5: 1 pass</li>  
+		/**
+		 * 创建一个新的BlurFilter对象。对每个模糊的方向，所需的通道数量是<code>Math.ceil(blur)</code>。
+		 * <ul><li>blur = 0.5: 1 pass</li>  
          *      <li>blur = 1.0: 1 pass</li>
          *      <li>blur = 1.5: 2 passes</li>
          *      <li>blur = 2.0: 2 passes</li>
          *      <li>etc.</li>
          *  </ul>
-         *  
-         *  <p>Instead of raising the number of passes, you should consider lowering the resolution.
-         *  A lower resolution will result in a blurrier image, while reducing the rendering
-         *  cost.</p>
-         */
+		 * <p>你应该考虑降低分辨率，来代替提高通道的数量。较低的分辨率也会产生虚化的图像，并且这样可以同时降低渲染的成本。</p>
+		 * @param blurX x强度
+		 * @param blurY y强度
+		 * @param resolution 分辨率
+		 */		
         public function BlurFilter(blurX:Number=1, blurY:Number=1, resolution:Number=1)
         {
             super(1, resolution);
@@ -62,7 +59,16 @@ package starling.filters
             updateMarginsAndPasses();
         }
         
-        /** Creates a blur filter that is set up for a drop shadow effect. */
+		/**
+		 * 创建一个模糊滤镜，并设置为阴影的效果。
+		 * @param distance 距离
+		 * @param angle 角度
+		 * @param color 颜色
+		 * @param alpha 透明度
+		 * @param blur 模糊参数
+		 * @param resolution 分辨率
+		 * @return BlurFilter
+		 */		
         public static function createDropShadow(distance:Number=4.0, angle:Number=0.785, 
                                                 color:uint=0x0, alpha:Number=0.5, blur:Number=1.0, 
                                                 resolution:Number=0.5):BlurFilter
@@ -75,7 +81,14 @@ package starling.filters
             return dropShadow;
         }
         
-        /** Creates a blur filter that is set up for a glow effect. */
+		/**
+		 * 创建一个模糊滤镜，并设置为外发光的效果。
+		 * @param color 颜色
+		 * @param alpha 透明度
+		 * @param blur 模糊参数
+		 * @param resolution 分辨率
+		 * @return BlurFilter
+		 */		
         public static function createGlow(color:uint=0xffff00, alpha:Number=1.0, blur:Number=1.0,
                                           resolution:Number=0.5):BlurFilter
         {
@@ -256,9 +269,13 @@ package starling.filters
             marginY = 4 + Math.ceil(mBlurY); 
         }
         
-        /** A uniform color will replace the RGB values of the input color, while the alpha
-         *  value will be multiplied with the given factor. Pass <code>false</code> as the
-         *  first parameter to deactivate the uniform color. */
+		/**
+		 * 使用同一颜色，将替换输入颜色的RGB值，并且透明度值将和指定的系数相乘。
+		 * 在第一个参数上传递false，就可以取消同一颜色的效果。
+		 * @param enable 激活还是取消
+		 * @param color 颜色值
+		 * @param alpha 透明度
+		 */		
         public function setUniformColor(enable:Boolean, color:uint=0x0, alpha:Number=1.0):void
         {
             mColor[0] = Color.getRed(color)   / 255.0;
@@ -268,8 +285,7 @@ package starling.filters
             mUniformColor = enable;
         }
         
-        /** The blur factor in x-direction (stage coordinates). 
-         *  The number of required passes will be <code>Math.ceil(value)</code>. */
+		/**在x轴方向上的模糊系数(全局坐标系)。所需的通道数量将会是<code>Math.ceil(value)</code>。*/
         public function get blurX():Number { return mBlurX; }
         public function set blurX(value:Number):void 
         { 
@@ -277,8 +293,7 @@ package starling.filters
             updateMarginsAndPasses(); 
         }
         
-        /** The blur factor in y-direction (stage coordinates). 
-         *  The number of required passes will be <code>Math.ceil(value)</code>. */
+		/**在y轴方向上的模糊系数(全局坐标系)。所需的通道数量将会是<code>Math.ceil(value)</code>。*/
         public function get blurY():Number { return mBlurY; }
         public function set blurY(value:Number):void 
         { 
